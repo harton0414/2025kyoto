@@ -3,20 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>我的旅遊手札 Demo</title>
+    <title>雙寶探險京都手札</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://unpkg.com/vue-router@4/dist/vue-router.global.js"></script>
     <style>
-        /* CSS 樣式 - 簡單的手機風格 */
+        /* CSS 樣式 - 保持不變 */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
             color: #333;
+            background-image: url('kyoto-winter-bg.jpg'); /* 請確認檔名正確 */
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #f4f4f9;
         }
         header {
-            background-color: #007bff;
+            background-color: rgba(211, 47, 47, 0.95);
             color: white;
             padding: 15px;
             text-align: center;
@@ -24,13 +29,16 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
         }
         .container {
             padding: 15px;
+            min-height: 100vh;
         }
         /* 卡片樣式 */
         .card {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin-bottom: 15px;
@@ -43,11 +51,32 @@
         }
         .card h3 {
             margin: 0 0 10px;
-            color: #007bff;
+            color: #d32f2f;
         }
         .card p {
             margin: 5px 0;
             color: #666;
+        }
+        /* --- 修改：美食卡片樣式 (改為櫻花粉色) --- */
+        .food-card {
+            background: #fff0f5; /* 櫻花粉背景 (LavenderBlush) */
+            border-left: 5px solid #ec407a; /* 桃紅色邊條 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            margin-bottom: -1px; /* 讓卡片緊貼 */
+            transition: transform 0.1s;
+        }
+        .food-card h3 {
+            color: #ad1457; /* 深粉紅色文字 */
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        .food-card .food-icon {
+            font-size: 1.5rem;
+            margin-right: 12px;
+            filter: hue-rotate(320deg); /* 稍微調整 emoji 的色調使其協調 */
         }
         /* 行程表樣式 */
         .itinerary-day {
@@ -56,54 +85,672 @@
         .itinerary-day h4 {
             margin-bottom: 10px;
             padding-left: 10px;
-            border-left: 4px solid #007bff;
+            border-left: 4px solid #d32f2f;
+            background-color: rgba(255, 243, 243, 0.9);
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .activity-list {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .activity-item {
             display: flex;
             align-items: center;
-            padding: 10px;
+            padding: 12px 15px; /* 稍微增加內距 */
             border-bottom: 1px solid #eee;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+        .activity-item:last-child {
+            border-bottom: none;
         }
         .activity-time {
             font-weight: bold;
             margin-right: 15px;
-            color: #007bff;
-            min-width: 50px;
+            color: #d32f2f;
+            min-width: 45px;
+            font-size: 0.9rem;
         }
         .activity-info {
             flex-grow: 1;
         }
-        .activity-type {
-            font-size: 0.8rem;
-            color: #999;
-            text-transform: uppercase;
-            margin-bottom: 2px;
+        .activity-title {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .activity-note {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 4px;
         }
         /* 詳情頁樣式 */
+        .detail-page {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+        }
         .detail-page img {
             width: 100%;
             border-radius: 8px;
             margin-bottom: 15px;
+            object-fit: cover;
+            height: 200px;
+            background-color: #eee;
         }
         .map-link {
             display: block;
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background-color: #28a745;
             color: white;
             text-align: center;
             text-decoration: none;
             border-radius: 5px;
             margin-top: 20px;
+            font-weight: bold;
+            box-sizing: border-box;
         }
         .back-btn {
             display: inline-block;
             margin-bottom: 15px;
-            color: #007bff;
+            color: #d32f2f;
             text-decoration: none;
             font-weight: bold;
+            padding: 5px 10px;
+            border: 1px solid #d32f2f;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
         }
+        .info-section {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .info-section h3 {
+            color: #d32f2f;
+            margin-top: 0;
+        }
+        .info-item {
+            margin-bottom: 10px;
+        }
+        .info-label {
+            font-weight: bold;
+            display: block;
+        }
+        /* 美食列表樣式 */
+        .food-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .food-list-item:last-child {
+            border-bottom: none;
+        }
+        .food-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        .food-note {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        /* --- 新增：機票卡片專用樣式 --- */
+        .flight-card-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+        .flight-segment {
+            padding: 15px;
+            position: relative;
+        }
+        .flight-segment:not(:last-child) {
+            border-bottom: 1px dashed #ccc; /* 去回程中間的分隔線 */
+        }
+        .flight-badge {
+            display: inline-block;
+            background-color: #d32f2f;
+            color: white;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .flight-badge.inbound {
+            background-color: #1976d2; /* 回程用藍色區分 */
+        }
+        .flight-date {
+            font-weight: bold;
+            color: #333;
+            vertical-align: middle;
+        }
+        .flight-body {
+            display: flex;
+            margin-top: 12px;
+            align-items: center;
+        }
+        .flight-time-box {
+            text-align: center;
+            padding-right: 15px;
+            border-right: 2px solid #f0f0f0;
+            min-width: 90px;
+        }
+        .flight-time {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        .flight-duration {
+            font-size: 0.8rem;
+            color: #888;
+        }
+        .flight-details {
+            padding-left: 15px;
+            flex-grow: 1;
+        }
+        .flight-number {
+            font-weight: bold;
+            color: #d32f2f;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        .flight-route {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.4;
+        }
+        .ticket-footer {
+            background-color: #f9f9f9;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            color: #666;
+            text-align: right;
+            border-top: 1px solid #eee;
+        }
+        /* --- 新增：住宿卡片專用樣式 --- */
+        .hotel-header {
+            background-color: #e3f2fd; /* 淺藍色背景 */
+            padding: 15px;
+            border-bottom: 1px solid #bbdefb;
+        }
+        .hotel-header h3 {
+            margin: 0;
+            color: #1565c0; /* 深藍色文字 */
+            font-size: 1.15rem;
+        }
+        .hotel-body {
+            padding: 15px;
+        }
+        .hotel-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .hotel-row:last-child {
+            margin-bottom: 0;
+        }
+        .hotel-icon {
+            font-size: 1.2rem;
+            margin-right: 12px;
+            width: 25px;
+            text-align: center;
+            flex-shrink: 0; /* 防止圖示被壓縮 */
+        }
+        .hotel-content {
+            flex-grow: 1;
+            line-height: 1.5;
+            color: #444;
+        }
+        .hotel-label {
+            display: block;
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 2px;
+        }
+        .price-tag {
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        /* --- 新增：地點詳情頁專用樣式 --- */
+        .detail-row {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            display: block;
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+        .detail-content {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.5;
+        }
+        .tag-cash-only {
+            display: inline-block;
+            background-color: #ffeb3b;
+            color: #333;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .tag-fee {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        /* --- 修改：地點詳情頁圖片樣式 --- */
+        /* 確保景點詳情大圖填滿容器，並加上圓角 */
+        .detail-image {
+            width: 100%;
+            height: auto; /* 高度自動 */
+            max-height: 400px; /* 限制最大高度，避免預設圖太長 */
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        /* 樣式 A: 交通/移動 (低調灰) */
+        .transport-item {
+            background-color: #f5f5f5; /* 淺灰背景 */
+            border-left: 5px solid #b0bec5; /* 灰色左邊條 */
+        }
+        .transport-item .activity-title {
+            color: #607d8b;
+            font-size: 0.95rem;
+        }
+        .transport-item .activity-time {
+            color: #90a4ae;
+            font-weight: normal;
+        }
+
+        /* 樣式 B: 景點/活動 (亮眼橘) */
+        .attraction-item {
+            background-color: #fff;
+            border-left: 5px solid #ff7043; /* 橘紅色左邊條 */
+        }
+        .attraction-item .activity-title {
+            color: #d84315;
+            font-weight: bold;
+            font-size: 1.1rem; /* 字體加大 */
+        }
+        .attraction-item .activity-time {
+            color: #e64a19;
+            font-weight: bold;
+        }
+
+        /* 圖示專用區塊 */
+        .activity-icon {
+            font-size: 1.4rem;
+            margin-right: 15px;
+            width: 35px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        /* --- 新增：交通資訊專用樣式 --- */
+        .transport-badge {
+            display: inline-block;
+            background-color: #607d8b;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .station-flow {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        .station-arrow {
+            margin: 0 10px;
+            color: #ccc;
+        }
+        .cost-highlight {
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        /* --- 新增：美食評分與價格樣式 --- */
+        .rating-badge {
+            color: #fbc02d; /* 金黃色 */
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-right: 15px;
+        }
+        .price-badge {
+            color: #388e3c; /* 綠色 */
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        /* --- 新增：日文手札專用樣式 --- */
+        .phrase-category {
+            margin-bottom: 25px;
+        }
+        .phrase-category h3 {
+            background-color: #fff3e0; /* 淺橘色背景 */
+            padding: 10px;
+            border-left: 5px solid #ff9800;
+            color: #e65100;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .phrase-list {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .phrase-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .phrase-item:last-child {
+            border-bottom: none;
+        }
+        .phrase-content {
+            flex-grow: 1;
+        }
+        .phrase-jp {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .phrase-kana {
+            font-size: 0.85rem;
+            color: #d32f2f; /* 紅色顯示拼音/唸法 */
+            margin-bottom: 4px;
+            display: block;
+        }
+        .phrase-cn {
+            font-size: 0.95rem;
+            color: #666;
+        }
+        .phrase-icon {
+            font-size: 1.5rem;
+            margin-left: 15px;
+            opacity: 0.3;
+        }
+        /* --- 修改：寶可夢專屬樣式 (維持亮黃色，但增強對比) --- */
+        .pokemon-item {
+            background-color: #fffde7; /* 淺黃色背景 */
+            border-left: 5px solid #ffd600; /* 更鮮豔的黃色邊條 */
+        }
+        .pokemon-item .activity-title {
+            color: #f57f17; /* 深橘黃色文字 */
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .pokemon-item .activity-time {
+            color: #f9a825;
+            font-weight: bold;
+        }
+        .pokemon-item .activity-note {
+            color: #5d4037; /* 深褐色備註 */
+            font-weight: 500;
+        }
+        /* --- 新增：寶可夢人孔蓋專屬卡片樣式 --- */
+        .pokemon-card {
+            background-color: #fffde7;
+            border: 2px solid #fbc02d;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(251, 192, 45, 0.2);
+        }
+        .pokemon-card::after {
+            content: "🔴";
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            font-size: 5rem;
+            opacity: 0.1;
+            transform: rotate(-20deg);
+            z-index: 0;
+        }
+        .pokemon-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        .pokemon-card-title {
+            font-weight: bold;
+            color: #f57f17;
+            font-size: 1.1rem;
+            margin-left: 10px;
+        }
+        .pokemon-content {
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+            z-index: 1;
+        }
+        /* 確保寶可夢小圖是正方形 */
+        .pokemon-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #fbc02d;
+            object-fit: cover; /* 關鍵 */
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .pokemon-details {
+            flex-grow: 1;
+        }
+        .pokemon-label {
+            font-size: 0.8rem;
+            color: #8d6e63;
+            margin-bottom: 2px;
+            display: block;
+        }
+        .pokemon-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .pokemon-map-btn {
+            display: inline-block;
+            background-color: #fbc02d;
+            color: #333;
+            font-weight: bold;
+            font-size: 0.9rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+        }
+/* --- 新增：現代化住宿卡片樣式 --- */
+        .modern-hotel-card {
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid #f0f0f0;
+        }
+        .hotel-cover-box {
+            position: relative;
+            height: 160px;
+        }
+        .hotel-cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hotel-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 20px 15px 10px;
+        }
+        .hotel-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #d32f2f;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .hotel-info-body {
+            padding: 15px 20px 20px;
+        }
+        .hotel-name-large {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: white; /* 配合 overlay 改為白色 */
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .hotel-meta-row {
+            display: flex;
+            margin-bottom: 12px;
+            align-items: flex-start;
+            color: #546e7a;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .hotel-meta-icon {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            color: #78909c;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .hotel-divider {
+            height: 1px;
+            background: #f0f0f0;
+            margin: 15px 0;
+        }
+        .hotel-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .hotel-price-label {
+            font-size: 0.75rem;
+            color: #888;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .hotel-price-val {
+            font-size: 1.5rem;
+            color: #d32f2f;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .hotel-nav-btn {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .hotel-nav-btn:active {
+            background: #bbdefb;
+            transform: scale(0.98);
+        }
+        /* --- 新增：雙語標題專用樣式 --- */
+        
+        /* 1. 首頁住宿卡片專用 */
+        .hotel-name-zh {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            line-height: 1.2;
+        }
+        .hotel-name-en {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9); /* 稍微透明一點 */
+            margin-top: 5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* 英文字體 */
+        }
+
+        /* 2. 地點詳情頁專用 */
+        .detail-header {
+            margin-bottom: 15px;
+        }
+        .detail-title-zh {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #333;
+            margin: 0;
+            line-height: 1.3;
+        }
+        .detail-title-en {
+            font-size: 1rem;
+            color: #888;
+            margin-top: 4px;
+            font-weight: 400;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        /* --- 新增：條列式清單樣式 --- */
+        .description-list {
+            list-style-type: none; /* 移除預設的圓點 */
+            padding: 0;
+            margin: 5px 0 0 0;
+        }
+        .description-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        /* 在每個項目前面加一個綠色小勾勾 */
+        .description-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4caf50; /* 綠色 */
+            font-weight: bold;
+        }                                                                                                       
     </style>
 </head>
 <body>
@@ -116,163 +763,1175 @@
         </div>
     </div>
 
-    <script>
-        const { createApp, ref, computed } = Vue;
-        const { createRouter, createWebHashHistory, useRoute, useRouter } = VueRouter;
+<script>
+    const { createApp, ref, computed, reactive } = Vue;
+    const { createRouter, createWebHashHistory, useRoute, useRouter } = VueRouter;
 
-        // --- 模擬資料 (Static Data) ---
-        const mockData = {
-            trips: [
-                { id: 1, title: '🇯🇵 東京五日遊', dates: '2023/10/20 - 2023/10/24', description: '賞楓、美食、購物之旅' }
-            ],
-            itineraries: {
-                1: [ // Trip ID 1 的行程
-                    {
-                        day: 'Day 1: 10/20 (五)',
-                        activities: [
-                            { id: 101, time: '14:00', type: '景點', title: '淺草寺 雷門', locationId: 'loc_sensoji' },
-                            { id: 102, time: '16:00', type: '景點', title: '晴空塔', locationId: 'loc_skytree' },
-                            { id: 103, time: '19:00', type: '美食', title: '一蘭拉麵 淺草店', locationId: 'loc_ichiran' }
-                        ]
-                    },
-                    {
-                        day: 'Day 2: 10/21 (六)',
-                        activities: [
-                            { id: 201, time: '10:00', type: '景點', title: '明治神宮', locationId: 'loc_meiji' },
-                            { id: 202, time: '12:30', type: '美食', title: 'AFURI 柚子鹽拉麵', locationId: 'loc_afuri' },
-                            { id: 203, time: '14:30', type: '景點', title: '澀谷十字路口 & Sky', locationId: 'loc_shibuya' }
-                        ]
-                    }
-                ]
+    // --- 1. 資料處理 (Data) ---
+    const tripData = {
+        tripInfo: {
+            title: '🏯 雙寶探險京都跨年之旅',
+            dates: '2025/12/25 - 2026/01/03',
+            description: '10天9夜深度遊：清水寺、嵐山、宇治、伏見、奈良、跨年參拜、貓貓寺',
+            flightInfo: {
+                outbound: '12/25 14:20-17:50 CI172 TPE(2)-KIX(1)',
+                inbound: '01/03 14:30-16:45 CI153 KIX(1)-TPE(2)',
+                ticketNumber: '2973003393124'
             },
-            locations: {
-                'loc_sensoji': {
-                    title: '淺草寺 雷門',
-                    description: '東京都內最古老的寺廟，巨大的紅燈籠是其標誌。周邊的仲見世通有許多傳統小吃和紀念品。',
-                    address: '東京都台東區淺草2丁目3-1',
-                    googleMapLink: 'https://goo.gl/maps/Mk8h8Y7G7k52',
-                    image: 'https://i.imgur.com/3zF7x7q.jpg' // 替換成實際圖片連結
-                },
-                'loc_skytree': {
-                    title: '東京晴空塔',
-                    description: '世界最高的自立式電波塔，可以俯瞰整個東京市區的景色。樓下有大型購物中心。',
-                    address: '東京都墨田區押上1丁目1-2',
-                    googleMapLink: 'https://goo.gl/maps/8ZqQx5yP5z52',
-                    image: 'https://i.imgur.com/4gH9x9r.jpg'
-                },
-                'loc_ichiran': {
-                    title: '一蘭拉麵 淺草店',
-                    description: '知名的豚骨拉麵連鎖店，特色是個人隔間座位和可客製化的口味濃淡。',
-                    address: '東京都台東區淺草1丁目1-16',
-                    googleMapLink: 'https://goo.gl/maps/1aB2c3d4e5f6',
-                    image: 'https://i.imgur.com/5iJ0k1l.jpg'
-                }
-                // ... 其他地點資料可依此類推增加
+            hotelInfo: {
+                name: '京都東寺舒適飯店 (Comfort Hotel Kyoto Toji)',
+                address: '日本〒601-8431 Kyoto, Minami Ward, Nishikujo Shimamachi, 54-1',
+                note: '有洗衣機',
+                price: '¥158,800'
             }
-        };
+        },
+        // 每日行程
+        itineraries: {
+            '2025-12-25': [
+                { time: '14:20', title: '搭飛機出發', locationId: 'loc_kix', note: 'CI172 TPE(2)-KIX(1)' },
+                { time: '18:50', title: '搭乘 HARUKA', locationId: 'loc_kyoto_station', note: '關西機場-京都車站' },
+                { time: '20:00', title: '轉乘近鐵', locationId: 'loc_toji_station', note: '京都車站-東寺站' },
+                { time: '20:30', title: '飯店入住', locationId: 'loc_hotel_toji', note: '京都東寺Era舒適酒店' },
+                { time: '20:30', title: '吃晚餐 (馳どり屋)', type: 'food', meal: 'dinner', note: '便宜好吃居酒屋' }
+            ],
+            '2025-12-26': [
+                { time: '09:00', title: '搭公車', locationId: 'loc_bus_to_kiyomizu', note: '207公車：九条近鐵前-清水道' },
+                { time: '09:40', title: '參觀清水寺', locationId: 'loc_kiyomizu', note: '人多擁擠' },
+                { time: '10:40', title: '散步：清水坂/三年坂', locationId: 'loc_sannenzaka', note: '人多擁擠' },
+                { time: '11:20', title: '散步：八坂地區', locationId: 'loc_yasaka_area', note: '五重塔、八坂庚申堂' },
+                { time: '12:00', title: '吃午餐 (いづ重)', type: 'food', meal: 'lunch', note: '京都風壽司' },
+                { time: '13:00', title: '散步：圓山公園周邊', locationId: 'loc_maruyama', note: '圓山公園、皮寶寶人孔蓋' },
+                { time: '14:00', title: '參觀高台寺', locationId: 'loc_kodaiji', note: '豐臣秀吉與寧寧的寺院' },
+                { time: '15:30', title: '散步：祇園/鴨川', locationId: 'loc_gion_walk', note: '寧寧之道、花見小路' },
+                { time: '16:00', title: '下午茶', locationId: 'loc_panel_cafe', note: 'Panel Cafe Kyoto' },
+                { time: '17:30', title: '吃晚餐 (京燒肉 弘)', type: 'food', meal: 'dinner', note: '已訂位' },
+                { time: '20:10', title: '搭公車回家', locationId: 'loc_bus_back', note: '207公車回九条近鐵前' }
+            ],
+            '2025-12-27': [
+                { time: '08:00', title: '搭公車前往金閣寺', locationId: 'loc_bus_to_kinkakuji', note: '205公車：九条車庫前-金閣寺道' },
+                { time: '09:00', title: '參觀金閣寺', locationId: 'loc_kinkakuji', note: '金碧輝煌的舍利殿' },
+                { time: '10:30', title: '移動至嵐山 (公車)', locationId: 'loc_move_arashiyama_bus', note: '金閣寺道-圓山' },
+                { time: '11:00', title: '移動至嵐山 (JR)', locationId: 'loc_move_arashiyama_jr', note: '圓山-嵯峨嵐山' },
+                { time: '11:30', title: '吃午餐 (湯豆腐)', type: 'food', meal: 'lunch', note: '嵐山名物湯豆腐' },
+                { time: '12:30', title: '散步：渡月橋/天龍寺', locationId: 'loc_togetsukyo', note: '天龍寺、竹林小徑' },
+                { time: '13:30', title: '參觀神社', locationId: 'loc_nonomiya', note: '野宮神社、御髮神社' },
+                { time: '14:00', title: '嵐山點心時間', locationId: 'loc_arashiyama_snacks', note: '冰淇淋、和牛煎餅' },
+                { time: '14:05', title: '嵯峨野觀光小火車', locationId: 'loc_sagano_train', note: '遊覽保津川' },
+                { time: '14:30', title: '返回嵐山', locationId: 'loc_jr_back_saga', note: 'JR馬堀駅-嵯峨嵐山站' },
+                { time: '14:40', title: '散步：嵐山公園/老街', locationId: 'loc_arashiyama_park', note: '龜山公園展望台、寶可夢人孔蓋' },
+                { time: '17:00', title: '吃晚餐 (喜重郎)', type: 'food', meal: 'dinner', note: '和牛飯' },
+                { time: '18:00', title: '搭JR回京都', locationId: 'loc_jr_saga_kyoto', note: 'JR嵯峨嵐山-京都' },
+                { time: '18:30', title: '轉乘近鐵回飯店', locationId: 'loc_toji_station', note: '京都車站-東寺' }
+            ],
+            '2025-12-28': [
+                { time: '09:00', title: '前往宇治', locationId: 'loc_move_uji', note: 'JR奈良線至宇治' },
+                { time: '10:00', title: '參觀平等寺', locationId: 'loc_byodoin', note: '鳳凰堂、鳳翔館' },
+                { time: '12:00', title: '吃午餐 (とり菊)', type: 'food', meal: 'lunch', note: '蕎麥麵' },
+                { time: '13:00', title: '宇治逛街/甜點', locationId: 'loc_uji_shopping', note: '辻利、Matcha Republic' },
+                { time: '14:00', title: '參觀宇治神社', locationId: 'loc_uji_shrine', note: '兔子神社、宇治上神社' },
+                { time: '15:00', title: '尋找寶可夢', locationId: 'loc_uji_pokemon', note: '人孔蓋：炎兔兒、斯魔茶' },
+                { time: '16:00', title: '移動至小倉', locationId: 'loc_move_ogura', note: 'JR奈良線 宇治-小倉' },
+                { time: '16:10', title: '小倉周邊', locationId: 'loc_ogura_area', note: '皮卡丘人孔蓋、任天堂博物館' },
+                { time: '17:30', title: '吃晚餐 (麺や轍)', type: 'food', meal: 'dinner', note: '拉麵' },
+                { time: '18:30', title: '搭車回家', locationId: 'loc_back_from_ogura', note: '近鐵京都線 小倉-東寺' }
+            ],
+            '2025-12-29': [
+                { time: '09:00', title: '前往伏見', locationId: 'loc_move_inari', note: 'JR奈良線至稻荷' },
+                { time: '09:30', title: '吉伊卡哇專賣店', locationId: 'loc_chiikawa_fushimi', note: 'Chiikawa Mogumogu' },
+                { time: '10:00', title: '伏見稻荷大社', locationId: 'loc_fushimi_inari', note: '千本鳥居' },
+                { time: '11:00', title: '移動至中書島', locationId: 'loc_move_chushojima', note: '京阪本線' },
+                { time: '11:20', title: '吃午餐 (月の蔵人)', type: 'food', meal: 'lunch', note: '酒造餐廳' },
+                { time: '12:20', title: '散步：伏見酒鄉', locationId: 'loc_fushimi_walk', note: '寺田屋、伏見老街' },
+                { time: '14:00', title: '清酒體驗', locationId: 'loc_sake_museum', note: '月桂冠大倉紀念館' },
+                { time: '17:00', title: '吃晚餐 (家守堂)', type: 'food', meal: 'dinner', note: '酒與下酒菜' },
+                { time: '18:00', title: '搭車回家', locationId: 'loc_back_from_momoyama', note: '近鐵 桃山御陵前-東寺' }
+            ],
+            '2025-12-30': [
+                { time: '09:29', title: '前往奈良', locationId: 'loc_move_nara', note: '近鐵京都線' },
+                { time: '10:11', title: '租腳踏車', locationId: 'loc_nara_bike', note: 'NARA Rent-A-Cycle' },
+                { time: '10:30', title: '參觀春日大社', locationId: 'loc_kasuga_taisha', note: '萬燈籠、鹿苑' },
+                { time: '11:30', title: '吃午餐 (柿葉壽司)', type: 'food', meal: 'lunch', note: '柿葉壽司' },
+                { time: '12:30', title: '奈良甜點時間', locationId: 'loc_nara_sweets', note: '中谷堂、大佛布丁' },
+                { time: '13:30', title: '奈良公園/東大寺', locationId: 'loc_todaiji', note: '餵鹿、大佛殿' },
+                { time: '15:30', title: '興福寺/市區逛街', locationId: 'loc_kofukuji', note: '五重塔、商店街' },
+                { time: '17:00', title: '吃晚餐 (まぐろ小屋)', type: 'food', meal: 'dinner', note: '鮪魚料理' },
+                { time: '18:47', title: '搭車回家', locationId: 'loc_back_from_nara', note: '近鐵奈良-東寺' }
+            ],
+            '2025-12-31': [
+                { time: '10:00', title: '前往四条', locationId: 'loc_move_shijo', note: '207公車' },
+                { time: '10:20', title: '錦市場美食巡禮', locationId: 'loc_nishiki_market', note: '富美家、豆乳甜甜圈' },
+                { time: '13:00', title: '逛街：高島屋周邊', locationId: 'loc_shijo_shopping', note: 'Kiddy Land、任天堂' },
+                { time: '15:00', title: '參觀平等寺', locationId: 'loc_inabado', note: '貓咪御守' },
+                { time: '17:00', title: '吃晚餐 (一蘭)', type: 'food', meal: 'dinner', note: '拉麵' },
+                { time: '18:00', title: '搭公車回家', locationId: 'loc_bus_back_shijo', note: '207公車' },
+                { time: '23:00', title: '跨年參拜', locationId: 'loc_toji_nye', note: '東寺五重塔夜燈' }
+            ],
+            '2026-01-01': [
+                { time: '09:00', title: '前往下鴨神社', locationId: 'loc_bus_shimogamo', note: '205公車' },
+                { time: '10:00', title: '初詣：下鴨神社', locationId: 'loc_shimogamo', note: '河合神社、相生社' },
+                { time: '11:30', title: '吃午餐 (kazuka多佳)', type: 'food', meal: 'lunch', note: '日式料理' },
+                { time: '12:30', title: '前往貓貓寺', locationId: 'loc_move_nyannyan', note: '叡山電鐵' },
+                { time: '13:00', title: '參觀貓貓寺', locationId: 'loc_nyannyanji', note: '貓族歷史博物館' },
+                { time: '16:30', title: '搭叡山電鐵', locationId: 'loc_back_eizan', note: '八瀨-出町柳' },
+                { time: '16:50', title: '轉乘京阪電車', locationId: 'loc_back_keihan', note: '出町柳-東福寺' },
+                { time: '17:15', title: '轉乘JR', locationId: 'loc_back_jr_tofukuji', note: '東福寺-京都車站' },
+                { time: '17:30', title: '吃晚餐 (Tsukumo)', type: 'food', meal: 'dinner', note: '烏龍麵' },
+                { time: '18:30', title: '京都塔', locationId: 'loc_kyoto_tower', note: '欣賞夜景' },
+                { time: '19:30', title: '搭車回家', locationId: 'loc_back_toji_final', note: '近鐵京都線' }
+            ],
+            '2026-01-02': [
+                { time: '09:00', title: '前往平安神宮', locationId: 'loc_bus_heian', note: '202公車' },
+                { time: '09:40', title: '參觀平安神宮', locationId: 'loc_heian_jingu', note: '超大鳥居' },
+                { time: '10:30', title: '散步：南禪寺區域', locationId: 'loc_nanzenji', note: '南禪寺三門、水路閣' },
+                { time: '12:00', title: '吃午餐 (とよ寿司)', type: 'food', meal: 'lunch', note: '壽司' },
+                { time: '13:00', title: '散步：哲學之道', locationId: 'loc_philosophers_path', note: '熊野若王子神社' },
+                { time: '14:30', title: '參觀銀閣寺', locationId: 'loc_ginkakuji', note: '慈照寺觀音殿' },
+                { time: '15:30', title: '銀閣寺甜點', locationId: 'loc_ginkakuji_sweets', note: 'Matsubaya' },
+                { time: '17:00', title: '吃晚餐 (銀福)', type: 'food', meal: 'dinner', note: '鯡魚飯' },
+                { time: '18:00', title: '搭203公車', locationId: 'loc_bus_203_gion', note: '銀閣寺道-祇園' },
+                { time: '18:30', title: '轉乘207公車', locationId: 'loc_bus_207_toji', note: '祇園-九條近鐵前' }
+            ],
+            '2026-01-03': [
+                { time: '08:00', title: '退房', locationId: 'loc_hotel_toji', note: '整理行李' },
+                { time: '10:00', title: '前往機場', locationId: 'loc_move_kix', note: 'HARUKA' },
+                { time: '14:30', title: '搭機返台', locationId: 'loc_kix_return', note: 'CI153' }
+            ]
+        },
+        // 美食推薦清單
+        foodRecommendations: {
+            '2025-12-25': { dinner: [{ id: 'f25d1', title: '馳どり屋東寺店', locationId: 'loc_33' }, { id: 'f25d2', title: '一寸法師', locationId: 'loc_34' }, { id: 'f25d3', title: 'てれ屋', locationId: 'loc_35' }, { id: 'f25d4', title: 'わくわく 東寺店', locationId: 'loc_36' }, { id: 'f25d5', title: 'サムラト', locationId: 'loc_37' }] },
+            '2025-12-26': { lunch: [{ id: 'f26l1', title: 'いづ重', locationId: 'loc_38' }, { id: 'f26l2', title: '葵洛', locationId: 'loc_39' }, { id: 'f26l3', title: '祇をん たこ明 本店', locationId: 'loc_40' }, { id: 'f26l4', title: '京都 炭火鰻 翠川', locationId: 'loc_41' }, { id: 'f26l5', title: '京都祇園とんかつ わだ福', locationId: 'loc_42' }], dinner: [{ id: 'f26d1', title: '京燒肉 弘 祇園山名庵', locationId: 'loc_44' }] },
+            '2025-12-27': { lunch: [{ id: 'f27l1', title: '湯豆腐 嵯峨野', locationId: 'loc_45' }, { id: 'f27l2', title: '松籟庵', locationId: 'loc_46' }, { id: 'f27l3', title: '嵐山よしむら', locationId: 'loc_47' }, { id: 'f27l4', title: '嵐山烏龍麵 Ozuru', locationId: 'loc_48' }, { id: 'f27l5', title: '嵐山咖哩', locationId: 'loc_49' }], dinner: [{ id: 'f27d1', title: '嵐山 喜重郎', locationId: 'loc_51' }, { id: 'f27d2', title: 'Upit\'s Burger', locationId: 'loc_52' }, { id: 'f27d3', title: 'さがのや', locationId: 'loc_53' }] },
+            '2025-12-28': { lunch: [{ id: 'f28l1', title: 'とり菊', locationId: 'loc_54' }, { id: 'f28l2', title: 'Food Park', locationId: 'loc_55' }, { id: 'f28l3', title: '京うどん 三よしや', locationId: 'loc_56' }, { id: 'f28l4', title: 'お台所 roji', locationId: 'loc_57' }, { id: 'f28l5', title: '肉屋黒川 宇治本店', locationId: 'loc_58' }], dinner: [{ id: 'f28d1', title: '麺や轍 小倉店', locationId: 'loc_71' }, { id: 'f28d2', title: 'かつ扇', locationId: 'loc_72' }, { id: 'f28d3', title: 'お好み焼 なすび亭', locationId: 'loc_73' }, { id: 'f28d4', title: '手打ちそば 濱屋', locationId: 'loc_74' }] },
+            '2025-12-29': { lunch: [{ id: 'f29l1', title: '月の蔵人', locationId: 'loc_75' }, { id: 'f29l2', title: '鳥せい', locationId: 'loc_76' }, { id: 'f29l3', title: '三代目 辨慶 饂の神', locationId: 'loc_77' }, { id: 'f29l4', title: 'かつ廣 桃山店', locationId: 'loc_78' }, { id: 'f29l5', title: '伏水酒藏小路', locationId: 'loc_79' }], dinner: [{ id: 'f29d1', title: '家守堂', locationId: 'loc_80' }, { id: 'f29d2', title: 'SUGIDAMA', locationId: 'loc_81' }, { id: 'f29d3', title: 'Katsukura', locationId: 'loc_82' }] },
+            '2025-12-30': { lunch: [{ id: 'f30l1', title: '柿葉壽司本舖田中', locationId: 'loc_85' }, { id: 'f30l2', title: '志津香 公園店', locationId: 'loc_83' }, { id: 'f30l3', title: '春日荷茶屋', locationId: 'loc_84' }, { id: 'f30l4', title: 'YUKI 亭', locationId: 'loc_86' }, { id: 'f30l5', title: 'Dandan', locationId: 'loc_87' }, { id: 'f30l6', title: '麵屋K', locationId: 'loc_88' }], dinner: [{ id: 'f30d1', title: 'まぐろ小屋', locationId: 'loc_90' }, { id: 'f30d2', title: 'すき焼き しゃぶしゃぶ鍋', locationId: 'loc_93' }, { id: 'f30d3', title: '元喜神', locationId: 'loc_91' }, { id: 'f30d4', title: 'Zagin', locationId: 'loc_92' }, { id: 'f30d5', title: '一面二臂三店', locationId: 'loc_94' }] },
+            '2025-12-31': { dinner: [{ id: 'f31d1', title: '一蘭 京都烏丸店', locationId: 'loc_160' }, { id: 'f31d2', title: 'Kyo Unawa Honten', locationId: 'loc_161' }, { id: 'f31d3', title: 'To 四条乌丸', locationId: 'loc_162' }, { id: 'f31d4', title: 'Italian Furca', locationId: 'loc_163' }, { id: 'f31d5', title: '錦 鮨しん', locationId: 'loc_164' }, { id: 'f31d6', title: '手作漢堡排 Tokura', locationId: 'loc_165' }] },
+            '2026-01-01': { lunch: [{ id: 'f01l1', title: 'kazuka多佳.', locationId: 'loc_95' }, { id: 'f01l2', title: 'Falafel Garden', locationId: 'loc_96' }, { id: 'f01l3', title: '旬菜田中でたなか', locationId: 'loc_97' }, { id: 'f01l4', title: '鴨町拉麵', locationId: 'loc_98' }, { id: 'f01l5', title: 'Kyogame', locationId: 'loc_99' }], dinner: [{ id: 'f01d1', title: 'Tsukumo烏龍', locationId: 'loc_100' }, { id: 'f01d2', title: 'Spicy Masara', locationId: 'loc_101' }, { id: 'f01d3', title: '壽司・和食 Ganko', locationId: 'loc_102' }, { id: 'f01d4', title: '7 TAPS TAVERN', locationId: 'loc_103' }, { id: 'f01d5', title: '原始炭焼き 濱いち', locationId: 'loc_104' }] },
+            '2026-01-02': { lunch: [{ id: 'f02l1', title: 'とよ寿司', locationId: 'loc_105' }, { id: 'f02l2', title: '味ま野', locationId: 'loc_106' }, { id: 'f02l3', title: 'Tairikitei', locationId: 'loc_107' }, { id: 'f02l4', title: 'Gonta', locationId: 'loc_108' }, { id: 'f02l5', title: '京料理 六盛', locationId: 'loc_109' }], dinner: [{ id: 'f02d1', title: '銀福', locationId: 'loc_111' }, { id: 'f02d2', title: 'NOANOA', locationId: 'loc_112' }, { id: 'f02d3', title: '名代おめん', locationId: 'loc_113' }, { id: 'f02d4', title: '京 銀閣寺 八よし', locationId: 'loc_114' }, { id: 'f02d5', title: '燒肉 花山', locationId: 'loc_115' }] }
+        },
+        // 地點詳細資訊
+        locations: {
+            // 12/25
+            'loc_kix': { title: '關西國際機場 (KIX)', description: '第一航廈', hours: '24小時', note: '' },
+            'loc_kyoto_station': { 
+                title: '搭乘 HARUKA', 
+                transportRoute: '關空特急 HARUKA', 
+                transportStart: '關西機場', 
+                transportEnd: '京都車站', 
+                transportCost: '約 ¥2,200 (使用 Pass)', 
+                description: '車程約 80 分鐘。\n建議事先購買 JR Pass 或 HARUKA 優惠票。\n上車前 3 分鐘可於售票機劃位。'
+            },
+            'loc_toji_station': { 
+                title: '轉乘近鐵', 
+                transportRoute: '近鐵京都線', 
+                transportStart: '京都車站', 
+                transportEnd: '東寺站', 
+                transportCost: '¥180', 
+                description: '僅需搭乘 1 站。',
+                googleMapLink: 'https://maps.app.goo.gl/7GVi2xisEWxvMXdL7'
+            },
+            'loc_hotel_toji': { title: '京都東寺Era舒適酒店', description: '住宿費¥158,800', hours: '', note: '', googleMapLink: 'https://maps.app.goo.gl/PrNgpYqA6SVMC6zZ6' },
+            'loc_33': { title: '馳どり屋東寺店', rating: '3.9', priceLevel: '¥2,000-3,000', description: '便宜好吃居酒屋', hours: '17:00-00:00', note: '', googleMapLink: 'https://maps.app.goo.gl/GXBMCdt6uD8hjSH17' },
+            'loc_34': { title: '一寸法師', rating: '3.8', priceLevel: '¥2,000-3,000', description: '關東煮', hours: '18:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/M9evEDVmtbKF3RAC9' },
+            'loc_35': { title: 'てれ屋', rating: '4.1', priceLevel: '¥2,000-3,000', description: '烤串店', hours: '17:30-00:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/M1J5B45NpAY4UjeNA' },
+            'loc_36': { title: 'わくわく 東寺店', rating: '4.0', priceLevel: '¥1,000-2,000', description: '家常料理', hours: '17:00-21:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/c5UGGpHCCunEyxMN7' },
+            'loc_37': { title: 'サムラト', rating: '4.2', priceLevel: '¥1,500-2,500', description: '印度料理', hours: '17:00-22:30', note: '', googleMapLink: 'https://maps.app.goo.gl/t25iafRsUnLSQxyg9' },
+            // 12/26
+            'loc_bus_to_kiyomizu': { 
+                title: '前往清水寺', 
+                transportRoute: '京都市營巴士 207', 
+                transportStart: '九条近鐵前', 
+                transportEnd: '清水道', 
+                transportCost: '¥230', 
+                description: '下車後需步行約 10-15 分鐘上坡至清水寺。',
+                googleMapLink: 'https://maps.app.goo.gl/fxuKLX5PH7wSU9aU9'
+            },
+            'loc_kiyomizu': { title: '清水寺', description: '世界文化遺產，以清水舞台聞名。', hours: '06:00-18:00', note: '人多擁擠', googleMapLink: 'https://maps.app.goo.gl/9QXSjeGycECvJhoS9' },
+            'loc_sannenzaka': { title: '清水坂/三年坂', description: '產寧坂、二年坂、一年坂', hours: '', note: '人多擁擠' },
+            'loc_yasaka_area': { title: '五重塔(八坂之塔)', description: '代表性街景', hours: '10:00-15:00', note: '', googleMapLink: 'https://maps.app.goo.gl/a6qsQ21sGA4GqtYQ6' },
+            'loc_koshindo': { title: '八坂庚申堂', description: '色彩繽紛的氣球跟束猿', hours: '09:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/JDMPZkwM5ohkgBm36' },
+            'loc_yasaka_shrine': { title: '八坂神社', description: '祇園的守護神社', hours: '24小時', note: '', googleMapLink: 'https://maps.app.goo.gl/YE8itbDKfzeoeDf29' },
+            'loc_38': { title: 'いづ重', rating: '4.2', priceLevel: '¥2,000-3,000', description: '京都風壽司 (鯖姿壽司)', hours: '10:30-19:00', note: '', googleMapLink: 'https://maps.app.goo.gl/z14REUsLQNy8Dwrx9' },
+            'loc_39': { title: '葵洛', rating: '4.1', priceLevel: '¥1,500-2,500', description: '抹茶麵+天婦羅', hours: '11:00-15:00', note: '', googleMapLink: 'https://maps.app.goo.gl/peEmPBfgcXN7zK71A' },
+            'loc_40': { title: '祇をん たこ明 本店', rating: '3.9', priceLevel: '¥1,000-2,000', description: '章魚燒', hours: '11:00-03:00', note: '', googleMapLink: 'https://maps.app.goo.gl/WgqP9XDnGK1Kos3FA' },
+            'loc_41': { title: '京都 炭火鰻 翠川 祗園八坂', rating: '4.6', priceLevel: '¥4,000-6,000', description: '鰻魚飯', hours: '11:00-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/QNfSz1V2KipFDATp9' },
+            'loc_42': { title: '京都祇園とんかつ わだ福', rating: '4.5', priceLevel: '¥2,000-3,000', description: '豬排店', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/kU6rZ2x7JWV7r3Ap9' },
+            'loc_maruyama': { 
+                title: '圓山公園', 
+                description: '八坂神社旁邊的賞櫻名所。', 
+                hours: '', note: '', 
+                googleMapLink: 'https://maps.app.goo.gl/pMeFW11TSyDrPhvw6',
+                // ★ 寶可夢資訊
+                pokemon: {
+                    characters: '皮寶寶、寶寶丁、皮丘',
+                    mapLink: 'https://maps.app.goo.gl/XyoD31q7XDQwB6QP7'
+                }
+            },
+            'loc_kodaiji': { title: '高台寺', description: '豐臣秀吉為寧寧所建，庭園與竹林很美 (入場費 ¥600)', hours: '09:00-17:30', note: '', googleMapLink: 'https://maps.app.goo.gl/Umh2Xcn17cBVrEq57' },
+            'loc_gion_walk': { title: '祇園/鴨川', description: '寧寧之道、石塀小路、花見小路。黃昏時鴨川很漂亮。', hours: '', note: '' },
+            'loc_panel_cafe': { title: 'Panel Cafe Kyoto', rating: '4.2', priceLevel: '¥1,000-2,000', description: '咖啡廳，舒芙雷鬆餅有名，皮寶同事推薦', hours: '10:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/PFok58hLTnhKRT1QA' },
+            'loc_44': { title: '京燒肉 弘 祇園山名庵', rating: '4.6', priceLevel: '¥6,000-8,000', description: '好吃的燒肉 (京丹波平井牛)', hours: '17:00-23:00', note: '已訂位', googleMapLink: 'https://maps.app.goo.gl/1d22dC6N9QvJUVeo6' },
+            'loc_bus_back': { 
+                title: '搭公車回家', 
+                transportRoute: '京都市營巴士 207', 
+                transportStart: '四条京阪前', 
+                transportEnd: '九条近鐵前', 
+                transportCost: '¥230', 
+                description: '返回東寺飯店休息。' 
+            },
+            // 12/27
+            'loc_bus_to_kinkakuji': { 
+                title: '前往金閣寺', 
+                transportRoute: '京都市營巴士 205', 
+                transportStart: '九条車庫前', 
+                transportEnd: '金閣寺道', 
+                transportCost: '¥230', 
+                description: '車程較長，請預留時間。',
+                googleMapLink: 'https://maps.app.goo.gl/QAKHBhqwzMLFd3ph8'
+            },
+            'loc_kinkakuji': { title: '金閣寺', description: '金碧輝煌的舍利殿 (入場費 ¥500)', hours: '09:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/gbJNLyifD33vG6mi6' },
+            'loc_move_arashiyama_bus': { 
+                title: '移動至嵐山 (公車)', 
+                transportRoute: '公車 204/205', 
+                transportStart: '金閣寺道', 
+                transportEnd: '西之京圓町', 
+                transportCost: '¥230', 
+                description: '轉乘 JR 山陰本線。' 
+            },
+            'loc_move_arashiyama_jr': { 
+                title: '移動至嵐山 (JR)', 
+                transportRoute: 'JR 山陰本線', 
+                transportStart: '圓町', 
+                transportEnd: '嵯峨嵐山', 
+                transportCost: '¥190', 
+                description: '' 
+            },
+            'loc_45': { title: '湯豆腐 嵯峨野', rating: '3.9', priceLevel: '¥3,000-4,000', description: '各種豆腐料理', hours: '11:00-17:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/5ejwfGyhCsuQYJry5' },
+            'loc_46': { title: '松籟庵', rating: '4.5', priceLevel: '¥5,000-8,000', description: '豆腐懷石料理，還可以看保津川', hours: '11:00-15:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hRK9kxamkk926va37' },
+            'loc_47': { title: '嵐山よしむら', rating: '4.2', priceLevel: '¥1,500-2,500', description: '蕎麥麵', hours: '10:30-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/zJGSLrp4YXNwn66z8' },
+            'loc_48': { title: '自家製麵 嵐山烏龍麵 Ozuru', rating: '4.3', priceLevel: '¥1,500-2,000', description: '烏龍麵，冷麵很讚', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/PUxizx2cJYdHLbiK8' },
+            'loc_49': { title: '嵐山咖哩', rating: '4.4', priceLevel: '¥1,000-2,000', description: '咖哩店，很樸素但很好吃', hours: '11:00-21:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/1DAitSqXfUE6DVkz8' },
+            'loc_togetsukyo': { title: '渡月橋/天龍寺', description: '天龍寺 (入場費 ¥500)、世界文化遺產、竹林小徑', hours: '08:30-17:00 (天龍寺)', note: '' },
+            'loc_nonomiya': { title: '野宮神社', description: '以祈求良緣、學業成就聞名', hours: '09:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/L7NFRRee8P5prJaZ9' },
+            'loc_mikami': { title: '御髮神社', description: '祈求頭髮健康', hours: '10:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hR7cvy2bMCrjcd7s6' },
+            'loc_arashiyama_snacks': { title: '嵐山點心', description: '京豆庵(豆腐冰淇淋)、和牛煎餅、eX cafe(抹茶)、新八茶屋(水果冰淇淋)', hours: '10:00-17:00', note: '' },
+            'loc_sagano_train': { 
+                title: '嵯峨野觀光小火車', 
+                transportRoute: '觀光小火車', 
+                transportStart: '嵐山站', 
+                transportEnd: '龜岡站', 
+                transportCost: '¥880', 
+                description: '遊覽保津川峽谷，風景優美。',
+                googleMapLink: 'https://maps.app.goo.gl/jT87wZ6LaWRtVG2o7'
+            },
+            'loc_jr_back_saga': { 
+                title: '返回嵐山', 
+                transportRoute: 'JR 山陰本線', 
+                transportStart: '馬堀駅', 
+                transportEnd: '嵯峨嵐山站', 
+                transportCost: '¥200', 
+                description: '從小火車龜岡站步行至 JR 馬堀站轉乘。',
+                googleMapLink: 'https://maps.app.goo.gl/wZzgF5E95sWZpzBG7'
+            },
+            'loc_arashiyama_park': { 
+                title: '嵐山公園', 
+                description: '龜山公園展望台、老街、渡月橋夕景', 
+                hours: '', note: '', 
+                googleMapLink: 'https://maps.app.goo.gl/Kei82e9UzBcd7RSN7',
+                // ★ 寶可夢資訊
+                pokemon: {
+                    characters: '鳳王 (Ho-Oh)',
+                    mapLink: 'https://maps.app.goo.gl/5YZMUBstfKVBBDeh7'
+                }
+            },
+            'loc_51': { title: '嵐山 喜重郎', rating: '4.3', priceLevel: '¥2,000-4,000', description: '和牛飯', hours: '11:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/5EMr14dzgdEGm7BEA' },
+            'loc_52': { title: 'Upit\'s Burger', rating: '4.2', priceLevel: '¥1,500-2,500', description: '熔岩起司漢堡', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/eAivCLwpLpY6VdXv7' },
+            'loc_53': { title: 'さがのや', rating: '3.8', priceLevel: '¥1,000-2,000', description: '日式料理店，定食、生魚片、蕎麥麵', hours: '17:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/bAp43NZTtaJqjGhr7' },
+            'loc_jr_saga_kyoto': { 
+                title: '搭JR回京都', 
+                transportRoute: 'JR 山陰本線', 
+                transportStart: '嵯峨嵐山', 
+                transportEnd: '京都車站', 
+                transportCost: '¥240', 
+                description: '轉乘近鐵。',
+                googleMapLink: 'https://maps.app.goo.gl/f9tywaUzfn1NuCw86'
+            },
+            // 12/28
+            'loc_move_uji': { 
+                title: '前往宇治', 
+                transportRoute: 'JR 奈良線', 
+                transportStart: '京都車站', 
+                transportEnd: '宇治站', 
+                transportCost: '¥240', 
+                description: '從東寺搭近鐵至京都站，再轉乘 JR。' 
+            },
+            'loc_byodoin': { title: '平等院', description: '鳳凰堂、鳳翔館、庭園 (入場費 ¥700)', hours: '09:30-16:10', note: '', googleMapLink: 'https://maps.app.goo.gl/4ggLYHt7WiATQ9xA8' },
+            'loc_54': { title: 'とり菊', rating: '4.0', priceLevel: '¥1,000-2,000', description: '蕎麥麵', hours: '10:30-14:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/mSeGEGLFZGDscgrM9' },
+            'loc_55': { title: 'Food Park', rating: '4.1', priceLevel: '¥1,500-2,500', description: '和牛，牛肉盒飯、漢堡', hours: '11:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/sgyNXsjjhZR7qSbm7' },
+            'loc_56': { title: '京うどん 三よしや', rating: '3.9', priceLevel: '¥1,000-1,500', description: '烏龍麵', hours: '11:00-15:30', note: '', googleMapLink: 'https://maps.app.goo.gl/PrhgCtbqKsEAoWYX6' },
+            'loc_57': { title: 'お台所 roji', rating: '4.2', priceLevel: '¥1,000-2,000', description: '居酒屋', hours: '12:00-14:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Gy9nMAs33UMqPZWE7' },
+            'loc_58': { title: '肉屋黒川 宇治本店', rating: '4.4', priceLevel: '¥1,500-2,500', description: '牛肉盒飯，有很生的選擇', hours: '11:00-14:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/uDkdcnN9QBNR1Hny6' },
+            'loc_uji_shopping': { title: '宇治逛街', description: '辻利、Matcha Republic、中村藤吉、平等院表參道', hours: '10:00-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/igRppppmszzr38Fw9' },
+            'loc_uji_shrine': { title: '宇治神社', description: '兔子神社', hours: '24小時', note: '', googleMapLink: 'https://maps.app.goo.gl/Qb1SnecjnGxRxkoh8' },
+            'loc_ujigami': { title: '宇治上神社', description: '世界文化遺產，日本最古老本殿', hours: '09:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Rnir2Q7L1aBtAkTm7' },
+            'loc_uji_pokemon': { 
+                title: '尋找寶可夢', 
+                description: '宇治地區的寶可夢人孔蓋', 
+                hours: '', note: '', 
+                // ★ 寶可夢資訊
+                pokemon: {
+                    characters: '炎兔兒、晃晃斑、斯魔茶、來杯粗茶',
+                    mapLink: 'https://maps.app.goo.gl/WkgscN4xLLxHgWPCA'
+                }
+            },
+            'loc_move_ogura': { 
+                title: '前往小倉', 
+                transportRoute: 'JR 奈良線', 
+                transportStart: '宇治站', 
+                transportEnd: '小倉站', 
+                transportCost: '¥150', 
+                description: '僅需搭乘 1 站。',
+                googleMapLink: 'https://maps.app.goo.gl/wp6zvuFnPiNZDbXE6' 
+            },
+            'loc_ogura_area': { 
+                title: '小倉周邊', 
+                description: '任天堂博物館(外觀)', 
+                hours: '', note: '', 
+                googleMapLink: 'https://maps.app.goo.gl/M2AC2zTaYkmXUpGh6',
+                // ★ 寶可夢資訊
+                pokemon: {
+                    characters: '皮卡丘 (Pikachu)',
+                    mapLink: 'https://maps.app.goo.gl/M2AC2zTaYkmXUpGh6'
+                }
+            },
+            'loc_71': { title: '麺や轍 小倉店', rating: '4.0', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '18:00-04:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/jyw4iXDcQAwjVxye9' },
+            'loc_72': { title: 'かつ扇', rating: '4.1', priceLevel: '¥1,500-2,500', description: '豬排店', hours: '17:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/Q7cRoqWqL7d9sG5F7' },
+            'loc_73': { title: 'お好み焼 なすび亭', rating: '3.8', priceLevel: '¥1,500-2,500', description: '御好燒', hours: '17:30-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/aqGcf6yJ4BoHHEnp8' },
+            'loc_74': { title: '手打ちそば 濱屋', rating: '4.2', priceLevel: '¥1,000-2,000', description: '蕎麥麵、天婦羅', hours: '17:30-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/vGsZJCKYMmB4ta3eA' },
+            'loc_back_from_ogura': { 
+                title: '搭車回家', 
+                transportRoute: '近鐵京都線', 
+                transportStart: '小倉', 
+                transportEnd: '東寺', 
+                transportCost: '¥360', 
+                description: '',
+                googleMapLink: 'https://maps.app.goo.gl/UoX9odhnTBdcEcyW6'
+            },
+            // 12/29
+            'loc_move_inari': { 
+                title: '前往伏見', 
+                transportRoute: 'JR 奈良線', 
+                transportStart: '京都車站', 
+                transportEnd: '稻荷車站', 
+                transportCost: '¥150', 
+                description: '出站即是伏見稻荷大社。' 
+            },
+            'loc_chiikawa_fushimi': { title: 'Chiikawa Mogumogu Honpo', description: '吉伊卡哇專賣店 (非免稅店)', hours: '09:30-17:30', note: '', googleMapLink: 'https://maps.app.goo.gl/PtqmExNUZcFEmABa6' },
+            'loc_fushimi_inari': { title: '伏見稻荷大社', description: '主殿、千本鳥居、重輕石', hours: '24小時', note: '', googleMapLink: 'https://maps.app.goo.gl/mzRi4J7W1HpppARK8' },
+            'loc_move_chushojima': { 
+                title: '前往中書島', 
+                transportRoute: '京阪本線', 
+                transportStart: '伏見稻荷站', 
+                transportEnd: '中書島站', 
+                transportCost: '¥240', 
+                description: '',
+                googleMapLink: 'https://maps.app.goo.gl/xJ1qP6ki7MHiujVt8'
+            },
+            'loc_75': { title: '月の蔵人', rating: '4.0', priceLevel: '¥1,500-2,500', description: '酒造改建餐廳，主打清酒料理', hours: '11:00-15:00', note: '', googleMapLink: 'https://maps.app.goo.gl/qvvw87rsoTXXjZpYA' },
+            'loc_76': { title: '鳥せい', rating: '4.2', priceLevel: '¥2,000-3,000', description: '烤串好吃', hours: '11:00-21:30', note: '', googleMapLink: 'https://maps.app.goo.gl/8ZB6qda7xgkTctE7A' },
+            'loc_77': { title: '三代目 辨慶 饂の神', rating: '4.1', priceLevel: '¥1,000-1,500', description: '烏龍麵', hours: '11:00-14:30', note: '', googleMapLink: 'https://maps.app.goo.gl/mQiWKra8koSYSimA9' },
+            'loc_78': { title: 'かつ廣 桃山店', rating: '4.0', priceLevel: '¥1,500-2,000', description: '豬排店', hours: '11:30-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/i6HGk5DbSa2AsAVT6' },
+            'loc_79': { title: '伏水酒藏小路', rating: '4.1', priceLevel: '¥2,000-4,000', description: '居酒屋集合地', hours: '11:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/x6bgJk6Gei4e5vwh6' },
+            'loc_fushimi_walk': { title: '伏見酒鄉散步', description: '寺田屋(坂本龍馬歷史旅館)、伏見老街、運河公園', hours: '', note: '', googleMapLink: 'https://maps.app.goo.gl/6Hzfu92SdA8zEpye7' },
+            'loc_sake_museum': { title: '伏見清酒博物館', description: '試飲伏見地酒 (伏見夢百衆)、月桂冠大倉紀念館 (入場費 ¥600)', hours: '10:30-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/XzGNALRvdSCZijJj9' },
+            'loc_80': { title: '家守堂', rating: '4.3', priceLevel: '¥2,000-4,000', description: '酒與下酒菜', hours: '11:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/2XVQXPXF3t483NuY7' },
+            'loc_81': { title: 'SUGIDAMA Fushimi-Momoyama', rating: '3.9', priceLevel: '¥2,000-3,000', description: '居酒屋', hours: '16:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/UgwbryGycpLrUiJT8' },
+            'loc_82': { title: 'Katsukura Fushimi Momoyama', rating: '4.3', priceLevel: '¥1,500-2,500', description: '豬排店', hours: '11:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/zg5xNUrScnkXS8Gj7' },
+            'loc_back_from_momoyama': { 
+                title: '搭車回家', 
+                transportRoute: '近鐵京都線', 
+                transportStart: '桃山御陵前', 
+                transportEnd: '東寺', 
+                transportCost: '¥240', 
+                description: '',
+                googleMapLink: 'https://maps.app.goo.gl/rBktnzjFtaM4WSWt6'
+            },
+            // 12/30
+            'loc_move_nara': { 
+                title: '前往奈良', 
+                transportRoute: '近鐵京都線', 
+                transportStart: '東寺站', 
+                transportEnd: '近鐵奈良站', 
+                transportCost: '¥760', 
+                description: '車程約 45 分鐘。' 
+            },
+            'loc_nara_bike': { title: 'NARA Rent-A-Cycle', description: '自行車¥1000 / 電動自行車¥2000', hours: '09:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/6P5YGgsdXQKSUGXM7' },
+            'loc_kasuga_taisha': { title: '春日大社', description: '萬燈籠、鹿苑、夫婦大國社 (入場費 ¥700)', hours: '07:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/5pwSYnfaPEvYRmXL9' },
+            'loc_85': { title: '柿葉壽司本舖田中 奈良店', rating: '4.2', priceLevel: '¥1,000-1,500', description: '柿葉壽司', hours: '08:00-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/8nxYhKMDFndBv2Ds6' },
+            'loc_83': { title: '志津香 公園店', rating: '3.8', priceLevel: '¥1,500-2,500', description: '釜飯', hours: '11:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/sscyYiJhahawiiMo9' },
+            'loc_84': { title: '春日荷茶屋', rating: '4.3', priceLevel: '¥1,000-1,500', description: '萬葉粥及日式茶點', hours: '10:30-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/pesx2ZtYqiU6t3Fq7' },
+            'loc_86': { title: 'YUKI 亭', rating: '4.4', priceLevel: '¥1,000-2,000', description: '蛋包飯', hours: '11:00-14:30', note: '', googleMapLink: 'https://maps.app.goo.gl/eVaChzr31cWa6Tkj7' },
+            'loc_87': { title: 'Dandan', rating: '4.0', priceLevel: '¥1,000-2,000', description: '蕎麥麵', hours: '11:15-14:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/e6WF3WgbtmjZzYJWA' },
+            'loc_88': { title: '麵屋K', rating: '4.1', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '11:00-14:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/JbHvHB7aWgkXvDWCA' },
+            'loc_nara_sweets': { title: '奈良甜點', description: '中谷堂(艾草麻糬)、大佛布丁', hours: '10:00-18:00', note: '' },
+            'loc_todaiji': { title: '奈良公園/東大寺', description: '南大門、大佛殿 (入場費 ¥800)、餵鹿', hours: '08:00-17:00 (東大寺)', note: '', googleMapLink: 'https://maps.app.goo.gl/qrjLNBQi9zYJ2jK38' },
+            'loc_kofukuji': { title: '興福寺/市區', description: '五重塔、興福寺 (入場費 ¥900)、Mi Nara、近鐵百貨', hours: '09:00-17:00 (興福寺)', note: '', googleMapLink: 'https://maps.app.goo.gl/EnGUWoM9eR1BuduX9' },
+            'loc_90': { title: 'まぐろ小屋', rating: '4.5', priceLevel: '¥1,500-2,500', description: '日式料理，鮪魚好吃', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/oD7HwFE63GkvdGas7' },
+            'loc_93': { title: 'すき焼き しゃぶしゃぶ鍋', rating: '4.0', priceLevel: '¥3,000-5,000', description: '和牛壽喜燒', hours: '17:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/23CBFXWd2TstNhFd9' },
+            'loc_91': { title: '元喜神 奈良店', rating: '3.9', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/fyZ5ND1LtKXzwwbz7' },
+            'loc_92': { title: 'Zagin Kintetsu-Nara', rating: '4.4', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '10:30-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/BnmHPuPgDSqqqcBeA' },
+            'loc_94': { title: '一面二臂三店 パインストア', rating: '4.3', priceLevel: '¥2,000-3,000', description: '多元創作料理', hours: '17:00-20:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/ohcgkvakAUrCL8du9' },
+            'loc_back_from_nara': { 
+                title: '搭車回家', 
+                transportRoute: '近鐵京都線', 
+                transportStart: '近鐵奈良', 
+                transportEnd: '東寺', 
+                transportCost: '¥760', 
+                description: '',
+                googleMapLink: 'https://maps.app.goo.gl/VhNaAu4p8JrDKkPc8'
+            },
+            // 12/31
+            'loc_move_shijo': { 
+                title: '前往四条', 
+                transportRoute: '京都市營巴士 207', 
+                transportStart: '九條近鐵前', 
+                transportEnd: '四条高倉', 
+                transportCost: '¥230', 
+                description: '',
+                googleMapLink: 'https://maps.app.goo.gl/J13zdDbqBMCZxdCeA'
+            },
+            'loc_nishiki_market': { title: '錦市場', description: '京都的廚房：富美家、豆乳甜甜圈、玉子燒(只收現金)、章魚燒', hours: '11:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/pL5rpUbp8DTyGfqt5' },
+            'loc_shijo_shopping': { title: '高島屋周邊', description: 'Kiddy Land(吉伊卡哇)、任天堂', hours: '10:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Hv7YNNhLP8u1u7Mo8' },
+            'loc_inabado': { title: '平等寺 (因幡堂)', description: '貓咪御守，保佑毛小孩', hours: '06:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/FHohmQ8v2HdBA6wV6' },
+            'loc_160': { title: '一蘭 京都烏丸店', rating: '4.2', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '10:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/YsGkeL1r4aiyrWw38' },
+            'loc_161': { title: 'Kyo Unawa Honten', rating: '4.5', priceLevel: '¥3,000-5,000', description: '鰻魚飯', hours: '11:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/yQe38x4HGAK7vh7i8' },
+            'loc_162': { title: 'To 四条乌丸', rating: '4.0', priceLevel: '¥3,000-4,000', description: '居酒屋', hours: '16:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/ewn3E3yho7x8CKtD8' },
+            'loc_163': { title: 'Italian Furca', rating: '4.3', priceLevel: '¥2,000-3,000', description: '義式餐廳', hours: '15:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/74eiNYQrtSpc9dh9A' },
+            'loc_164': { title: '錦 鮨しん', rating: '4.4', priceLevel: '¥4,000-6,000', description: '壽司', hours: '17:30-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hLznNuhhQf9juZzk6' },
+            'loc_165': { title: '手作漢堡排 Tokura 京都三條店', rating: '4.3', priceLevel: '¥1,500-2,500', description: '漢堡排，皮寶同事推薦', hours: '17:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/cTy3WuUkaTt9nbYs5' },
+            'loc_bus_back_shijo': { 
+                title: '搭公車回家', 
+                transportRoute: '京都市營巴士 207', 
+                transportStart: '四条高倉', 
+                transportEnd: '九條近鐵前', 
+                transportCost: '¥230', 
+                description: '',
+                googleMapLink: 'https://maps.app.goo.gl/Mz1B8WTEFYs9yb297'
+            },
+            'loc_toji_nye': { 
+                title: '東寺 (除夕)', 
+                description: '五重塔夜燈跟除夕鐘聲', 
+                hours: '', note: '', 
+                googleMapLink: 'https://maps.app.goo.gl/rBThfp1RWMaoPhRc8',
+                // ★ 補回寶可夢資訊
+                pokemon: {
+                    characters: '瑪力露麗、小鉅鱷',
+                    mapLink: 'https://maps.app.goo.gl/W8NvKNL3jc2tSjqB9'
+                }
+            },
+            // 1/1
+            'loc_bus_shimogamo': { 
+                title: '前往下鴨神社', 
+                transportRoute: '京都市營巴士 205', 
+                transportStart: '九条車庫前', 
+                transportEnd: '新葵橋', 
+                transportCost: '¥230', 
+                description: '',
+                googleMapLink: 'https://maps.app.goo.gl/FKMykXFphMLZwVh67'
+            },
+            'loc_shimogamo': { title: '下鴨神社', description: '河合神社(美之神社)、相生社(結緣)、御守 (入場費 ¥1000)', hours: '10:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/TP3wScLjyShx3qcr7' },
+            'loc_95': { title: 'kazuka多佳.', rating: '4.7', priceLevel: '¥2,000-3,000', description: '日式料理店', hours: '12:00-13:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/daS6NP9w6ibA9mGN7' },
+            'loc_96': { title: 'Falafel Garden', rating: '4.4', priceLevel: '¥1,000-1,500', description: '中東三明治', hours: '11:30-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/Kih2aaRH3K8menVy7' },
+            'loc_97': { title: '旬菜田中でたなか', rating: '4.2', priceLevel: '¥1,500-2,500', description: '日式料理店', hours: '11:30-14:00', note: '', googleMapLink: 'https://maps.app.goo.gl/L1FVQox5WFSGVQaPA' },
+            'loc_98': { title: '鴨町拉麵', rating: '4.1', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '11:00-15:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/2reBYhzGRunjgDHK6' },
+            'loc_99': { title: 'Kyogame', rating: '4.0', priceLevel: '¥1,500-2,500', description: '鍋物料哩，有馬肉', hours: '11:30-13:30', note: '', googleMapLink: 'https://maps.app.goo.gl/p34hMwDE4bfer9ZK7' },
+            'loc_move_nyannyan': { 
+                title: '前往貓貓寺', 
+                transportRoute: '叡山電鐵', 
+                transportStart: '出町柳', 
+                transportEnd: '八瀨比叡山口', 
+                transportCost: '¥280', 
+                description: '',
+                googleMapLink: 'https://maps.app.goo.gl/GVdtzBC8NSL9UZMx9'
+            },
+            'loc_nyannyanji': { title: '貓貓寺/博物館', description: '貓族歷史博物館、貓咪住持 (入場費 ¥800)', hours: '11:00-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/69L3ZpeaxHHv5QR27' },
+            'loc_back_eizan': { 
+                title: '搭叡山電鐵', 
+                transportRoute: '叡山電鐵', 
+                transportStart: '八瀨比叡山口', 
+                transportEnd: '出町柳', 
+                transportCost: '¥280', 
+                description: '回程第一段。'
+            },
+            'loc_back_keihan': { 
+                title: '轉乘京阪電車', 
+                transportRoute: '京阪本線', 
+                transportStart: '出町柳', 
+                transportEnd: '東福寺', 
+                transportCost: '¥300', 
+                description: '回程第二段。'
+            },
+            'loc_back_jr_tofukuji': { 
+                title: '轉乘JR', 
+                transportRoute: 'JR 奈良線', 
+                transportStart: '東福寺', 
+                transportEnd: '京都車站', 
+                transportCost: '¥150', 
+                description: '回程第三段。'
+            },
+            'loc_100': { title: 'Tsukumo烏龍 鹽小路本店', rating: '3.9', priceLevel: '¥500-1,000', description: '烏龍麵店', hours: '07:00-21:30', note: '', googleMapLink: 'https://maps.app.goo.gl/hPJ5ztFFg98qy26u5' },
+            'loc_101': { title: 'Spicy Masara', rating: '4.2', priceLevel: '¥1,000-1,500', description: '咖哩店', hours: '09:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/GwCZLCE8Js4BxwEB8' },
+            'loc_102': { title: '壽司・和食 Ganko 京都車站大樓店', rating: '3.8', priceLevel: '¥1,500-3,000', description: '日式料理店', hours: '11:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/N463h4ntdKtwPqZr6' },
+            'loc_103': { title: 'Pub & Grill 7 TAPS TAVERN', rating: '4.1', priceLevel: '¥2,000-3,000', description: '餐酒館', hours: '11:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hRMrNHbgXPUtfjbE6' },
+            'loc_104': { title: '原始炭焼き 濱いち 京都駅前店', rating: '4.0', priceLevel: '¥3,000-4,000', description: '居酒屋', hours: '17:00-00:00', note: '', googleMapLink: 'https://maps.app.goo.gl/DcbweGQapgSy9FKo8' },
+            'loc_kyoto_tower': { title: '京都塔', description: '欣賞夜景 (入場費 ¥900)', hours: '10:00-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/8zjomrjWcjr5qAYLA' },
+            'loc_back_toji_final': { 
+                title: '搭車回家', 
+                transportRoute: '近鐵京都線', 
+                transportStart: '京都車站', 
+                transportEnd: '東寺', 
+                transportCost: '¥180', 
+                description: '',
+                googleMapLink: 'https://maps.app.goo.gl/VmxLWyzRD5ykKpbp9'
+            },
+            // 1/2
+            'loc_bus_heian': { 
+                title: '前往平安神宮', 
+                transportRoute: '京都市營巴士 202', 
+                transportStart: '九条近鐵前', 
+                transportEnd: '東山仁王門', 
+                transportCost: '¥230', 
+                description: '',
+                googleMapLink: 'https://maps.app.goo.gl/qaNBReH2MBTX6iAx8'
+            },
+            'loc_heian_jingu': { 
+                title: '平安神宮', 
+                description: '超大鳥居、神苑 (非櫻花季可不進神苑)', 
+                hours: '06:00-17:00', note: '', 
+                googleMapLink: 'https://maps.app.goo.gl/jat4d7W1jPQNgTHq7',
+                // ★ 補回寶可夢資訊
+                pokemon: {
+                    characters: '火球鼠、達摩狒狒',
+                    mapLink: 'https://maps.app.goo.gl/CRohzKrL62fNYe1u8'
+                }
+            },
+            'loc_nanzenji': { title: '南禪寺/永觀堂', description: '三門(¥600)、方丈(¥600)、水路閣、永觀堂(¥600)', hours: '08:40-16:30', note: '', googleMapLink: 'https://maps.app.goo.gl/AkoiarETAgfaxqNcA' },
+            'loc_105': { title: 'とよ寿司', rating: '4.3', priceLevel: '¥2,000-4,000', description: '壽司', hours: '11:30-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/pHdZvGMgd6RUaeJi6' },
+            'loc_106': { title: '味ま野', rating: '4.5', priceLevel: '¥5,000-8,000', description: '懷石料理', hours: '11:30-19:00', note: '', googleMapLink: 'https://maps.app.goo.gl/WU3V3XA4iReKaWwD8' },
+            'loc_107': { title: 'Tairikitei', rating: '3.8', priceLevel: '¥1,500-2,500', description: '烏龍麵，壽喜燒', hours: '11:30-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/JYjQpVR8qvHzpQwH6' },
+            'loc_108': { title: 'Gonta', rating: '4.2', priceLevel: '¥1,000-1,500', description: '烏龍麵', hours: '11:00-17:30', note: '', googleMapLink: 'https://maps.app.goo.gl/uBsRHaRgLJTgwVRD8' },
+            'loc_109': { title: '京料理 六盛', rating: '4.4', priceLevel: '¥3,000-6,000', description: '京都料理', hours: '11:30-14:00', note: '', googleMapLink: 'https://maps.app.goo.gl/TcDzttVhWyvkWg2y7' },
+            'loc_philosophers_path': { title: '哲學之道/若王子神社', description: '八咫鳥、適合散步', hours: '09:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/MvJBAacYnosE5UiQ8' },
+            'loc_ginkakuji': { title: '慈照寺(銀閣寺)', description: '觀音殿 (入場費 ¥500)', hours: '08:30-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/ABka2RESKHY1g5xu5' },
+            'loc_ginkakuji_sweets': { title: '銀閣寺甜點', description: 'Matsubaya(霜淇淋/泡芙)、氵庵(抹茶)', hours: '09:00-17:20', note: '' },
+            'loc_111': { title: '銀福', rating: '4.0', priceLevel: '¥1,500-2,500', description: '鯡魚飯與鯡魚蕎麥麵', hours: '11:30-18:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/noeWYxc9xyRed8D16' },
+            'loc_112': { title: '義式料理 NOANOA', rating: '4.1', priceLevel: '¥1,500-3,000', description: '義式料理', hours: '11:00-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/G6TEZQx9XnrFznZXA' },
+            'loc_113': { title: '名代おめん 銀閣寺本店', rating: '4.2', priceLevel: '¥1,500-2,000', description: '烏龍麵', hours: '10:30-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/g6M4Lfw4fD6Az7Qm9' },
+            'loc_114': { title: '京 銀閣寺 八よし', rating: '4.3', priceLevel: '¥2,500-4,000', description: '京都風定食', hours: '17:30-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/aLjdos6sjvQ8hJEi7' },
+            'loc_115': { title: '燒肉 花山', rating: '4.0', priceLevel: '¥4,000-6,000', description: '燒肉店', hours: '17:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Rog8WB9mxz9zHvqT8' },
+            'loc_bus_203_gion': { 
+                title: '搭203公車', 
+                transportRoute: '京都市營巴士 203', 
+                transportStart: '銀閣寺道', 
+                transportEnd: '祇園', 
+                transportCost: '¥230', 
+                description: '回程第一段。',
+                googleMapLink: 'https://maps.app.goo.gl/Rf9RazXzNk3DfKwe8'
+            },
+            'loc_bus_207_toji': { 
+                title: '轉乘207公車', 
+                transportRoute: '京都市營巴士 207', 
+                transportStart: '祇園', 
+                transportEnd: '九條近鐵前', 
+                transportCost: '¥230', 
+                description: '回程第二段。',
+                googleMapLink: 'https://maps.app.goo.gl/Rf9RazXzNk3DfKwe8'
+            },
+            // 1/3
+            'loc_move_kix': { 
+                title: '前往機場', 
+                transportRoute: '關空特急 HARUKA', 
+                transportStart: '京都車站', 
+                transportEnd: '關西機場', 
+                transportCost: '約 ¥2,200', 
+                description: '上車前 3 分鐘可劃位。',
+                googleMapLink: 'https://maps.app.goo.gl/qA3fGEHJCjuXZoGm9'
+            },
+            'loc_kix_return': { title: '關西國際機場 (KIX)', description: '第一航廈', hours: '', note: '', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Kansai_International_Airport_Terminal_1_20220815.jpg/800px-Kansai_International_Airport_Terminal_1_20220815.jpg' },
+            'default': { title: '地點資訊', description: '尚無詳細資訊。' }
+        }
+    };
 
-        // --- 組件定義 (Components) ---
+    const processedItineraries = tripData.itineraries;
 
-        // 1. 首頁 - 行程列表組件
-        const TripList = {
-            template: `
-                <div>
-                    <div v-for="trip in trips" :key="trip.id" class="card" @click="goToItinerary(trip.id)">
-                        <h3>{{ trip.title }}</h3>
-                        <p>📅 {{ trip.dates }}</p>
-                        <p>ℹ️ {{ trip.description }}</p>
+// 1. 首頁 - 行程列表組件 (已修改：住宿圖改為預設本地圖片)
+    const Home = {
+        template: `
+            <div>
+                <div class="card">
+                    <h3>{{ tripInfo.title }}</h3>
+                    <p>📅 {{ tripInfo.dates }}</p>
+                    <p>ℹ️ {{ tripInfo.description }}</p>
+                </div>
+
+                <div class="card" @click="$router.push('/phrases')" style="background: linear-gradient(135deg, #ff9800, #f57c00); color: white; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center;">
+                        <span style="font-size: 2rem; margin-right: 15px;">🗣️</span>
+                        <div>
+                            <h3 style="color: white; margin: 0;">旅遊實用日文</h3>
+                            <p style="color: #fff3e0; margin: 2px 0 0; font-size: 0.9rem;">點餐、購物、問路必備</p>
+                        </div>
+                    </div>
+                    <div style="font-size: 1.5rem;">›</div>
+                </div>
+
+                <div class="info-section" style="background: none; padding: 0;">
+                    <h3 style="margin-left: 5px;">✈️ 航班資訊</h3>
+                    <div class="flight-card-container">
+                        <div class="flight-segment">
+                            <div>
+                                <span class="flight-badge">去程</span>
+                                <span class="flight-date">{{ parseFlight(tripInfo.flightInfo.outbound).date }}</span>
+                            </div>
+                            <div class="flight-body">
+                                <div class="flight-time-box">
+                                    <span class="flight-time">{{ parseFlight(tripInfo.flightInfo.outbound).startTime }}</span>
+                                    <span style="color:#ccc">↓</span>
+                                    <span class="flight-time">{{ parseFlight(tripInfo.flightInfo.outbound).endTime }}</span>
+                                </div>
+                                <div class="flight-details">
+                                    <div class="flight-number">✈️ {{ parseFlight(tripInfo.flightInfo.outbound).flightNo }}</div>
+                                    <div class="flight-route">
+                                        {{ parseFlight(tripInfo.flightInfo.outbound).from }} <br>
+                                        <span style="color:#ccc">to</span><br>
+                                        {{ parseFlight(tripInfo.flightInfo.outbound).to }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flight-segment">
+                            <div>
+                                <span class="flight-badge inbound">回程</span>
+                                <span class="flight-date">{{ parseFlight(tripInfo.flightInfo.inbound).date }}</span>
+                            </div>
+                            <div class="flight-body">
+                                <div class="flight-time-box">
+                                    <span class="flight-time">{{ parseFlight(tripInfo.flightInfo.inbound).startTime }}</span>
+                                    <span style="color:#ccc">↓</span>
+                                    <span class="flight-time">{{ parseFlight(tripInfo.flightInfo.inbound).endTime }}</span>
+                                </div>
+                                <div class="flight-details">
+                                    <div class="flight-number">✈️ {{ parseFlight(tripInfo.flightInfo.inbound).flightNo }}</div>
+                                    <div class="flight-route">
+                                        {{ parseFlight(tripInfo.flightInfo.inbound).from }} <br>
+                                        <span style="color:#ccc">to</span><br>
+                                        {{ parseFlight(tripInfo.flightInfo.inbound).to }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ticket-footer">
+                            🎫 電子機票號碼: {{ tripInfo.flightInfo.ticketNumber }}
+                        </div>
                     </div>
                 </div>
-            `,
-            setup() {
-                const router = useRouter();
-                const trips = ref(mockData.trips);
-                const goToItinerary = (id) => router.push(`/itinerary/${id}`);
-                return { trips, goToItinerary };
-            }
-        };
 
-        // 2. 行程詳情組件
-        const ItineraryDetail = {
-            template: `
-                <div>
-                    <a @click="$router.back()" class="back-btn">← 返回行程列表</a>
-                    <div v-for="(day, index) in itinerary" :key="index" class="itinerary-day">
-                        <h4>{{ day.day }}</h4>
-                        <div class="card" style="padding: 0;">
-                            <div v-for="act in day.activities" :key="act.id" class="activity-item" @click="goToLocation(act.locationId)">
-                                <div class="activity-time">{{ act.time }}</div>
-                                <div class="activity-info">
-                                    <div class="activity-type">{{ act.type }}</div>
-                                    <div>{{ act.title }}</div>
+                <div class="info-section" style="background: none; padding: 0;">
+                    <h3 style="margin-left: 5px;">🏨 住宿資訊</h3>
+                    
+                    <div class="modern-hotel-card">
+                        <div class="hotel-cover-box">
+                            <img src="./comfort-hotel-image.jpg" class="hotel-cover-img" alt="Hotel">
+                            
+                            <div class="hotel-tag">10天9夜</div>
+                            <div class="hotel-overlay">
+                                <h3 class="hotel-name-zh">{{ splitTitle(tripInfo.hotelInfo.name).zh }}</h3>
+                                <div class="hotel-name-en" v-if="splitTitle(tripInfo.hotelInfo.name).en">
+                                    {{ splitTitle(tripInfo.hotelInfo.name).en }}
                                 </div>
-                                <div>Isoka</div>
+                            </div>
+                        </div>
+                        
+                        <div class="hotel-info-body">
+                            <div class="hotel-meta-row">
+                                <span class="hotel-meta-icon">📍</span>
+                                <span>{{ tripInfo.hotelInfo.address }}</span>
+                            </div>
+                            <div class="hotel-meta-row">
+                                <span class="hotel-meta-icon">📝</span>
+                                <span>{{ tripInfo.hotelInfo.note }}</span>
+                            </div>
+                            
+                            <div class="hotel-divider"></div>
+                            
+                            <div class="hotel-footer-row">
+                                <div>
+                                    <span class="hotel-price-label">總金額</span>
+                                    <span class="hotel-price-val">{{ tripInfo.hotelInfo.price }}</span>
+                                </div>
+                                <a href="https://maps.app.goo.gl/PrNgpYqA6SVMC6zZ6" target="_blank" class="hotel-nav-btn">
+                                    導航去 ➔
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            `,
-            setup() {
-                const route = useRoute();
-                const router = useRouter();
-                const tripId = route.params.tripId;
-                // 根據 URL 參數取得對應的行程資料
-                const itinerary = computed(() => mockData.itineraries[tripId] || []);
-                const goToLocation = (locId) => router.push(`/location/${locId}`);
-                return { itinerary, goToLocation };
-            }
-        };
 
-        // 3. 景點/美食詳情組件
-        const LocationDetail = {
-            template: `
-                <div class="detail-page" v-if="location">
-                    <a @click="$router.back()" class="back-btn">← 返回行程</a>
-                    <h2>{{ location.title }}</h2>
-                    <img :src="location.image" alt="location.title" style="background-color: #ddd; min-height: 200px;">
-                    <p><strong>📍 地址:</strong> {{ location.address }}</p>
-                    <p><strong>📝 簡介:</strong></p>
-                    <p>{{ location.description }}</p>
-                    <a :href="location.googleMapLink" target="_blank" class="map-link">🗺️ 在 Google 地圖上開啟導航</a>
+                <h3 style="margin-top: 30px; color: #d32f2f; margin-left: 5px;">每日行程</h3>
+                <div v-for="(activities, date) in itineraries" :key="date" class="card" @click="goToItinerary(date)">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 style="margin-bottom: 5px; color: #333;">{{ formatDate(date) }}</h3>
+                            <div style="color: #d32f2f; font-weight: bold; font-size: 1.1rem;">
+                                {{ dailyTitles[date] || '當日行程' }}
+                            </div>
+                        </div>
+                        <div style="color: #ccc; font-size: 1.5rem;">›</div>
+                    </div>
+                </div>
+            </div>
+        `,
+        setup() {
+            const router = useRouter();
+            const { tripInfo } = tripData;
+            const itineraries = processedItineraries;
+            
+            const dailyTitles = {
+                '2025-12-25': '✈️ 出發京都 & 東寺居酒屋',
+                '2025-12-26': '👘 清水寺 & 祇園深度遊',
+                '2025-12-27': '🚂 金閣寺 & 嵐山小火車',
+                '2025-12-28': '🍵 宇治抹茶 & 寶可夢人孔蓋',
+                '2025-12-29': '⛩️ 伏見稻荷 & 酒鄉巡禮',
+                '2025-12-30': '🦌 奈良餵鹿 & 春日大社',
+                '2025-12-31': '🛍️ 錦市場 & 跨年參拜',
+                '2026-01-01': '🐈 下鴨神社 & 貓貓寺初詣',
+                '2026-01-02': '🍁 平安神宮 & 銀閣寺散策',
+                '2026-01-03': '🛫 滿載而歸 & 返台'
+            };
+            
+            const goToItinerary = (date) => router.push(`/itinerary/${date}`);
+            
+            const formatDate = (dateStr) => {
+                const date = new Date(dateStr);
+                const weekDay = ['日', '一', '二', '三', '四', '五', '六'][date.getDay()];
+                return `${date.getMonth() + 1}/${date.getDate()} (${weekDay})`;
+            };
+
+            const parseFlight = (str) => {
+                if (!str) return {};
+                try {
+                    const regex = /^(\d{2}\/\d{2})\s+(\d{2}:\d{2}-\d{2}:\d{2})\s+(.*?)\s+(.*)$/;
+                    const match = str.match(regex);
+                    if (match) {
+                        const times = match[2].split('-');
+                        const routes = match[4].split('-');
+                        return {
+                            date: match[1],
+                            startTime: times[0],
+                            endTime: times[1],
+                            flightNo: match[3],
+                            from: routes[0],
+                            to: routes[1] || ''
+                        };
+                    } else {
+                        return { date: '日期', startTime: '', endTime: '', flightNo: str, from: '', to: '' };
+                    }
+                } catch (e) { return { date: 'Error', flightNo: str }; }
+            };
+
+            const splitTitle = (title) => {
+                if (!title) return { zh: '', en: '' };
+                const match = title.match(/^(.*?)\s*[（\(](.*)[）\)]$/);
+                if (match) {
+                    return { zh: match[1], en: match[2] };
+                }
+                return { zh: title, en: '' };
+            };
+
+            return { tripInfo, itineraries, goToItinerary, formatDate, parseFlight, dailyTitles, splitTitle };
+        }
+    };
+
+    // 2. 每日行程詳情組件
+    const ItineraryDetail = {
+        template: `
+            <div>
+                <a @click="$router.back()" class="back-btn">← 返回首頁</a>
+                <div class="itinerary-day">
+                    <h4>{{ formatDate(date) }}</h4>
+                    
+                    <div class="activity-list">
+                        <template v-for="(act, index) in dailyItinerary" :key="index">
+                            
+                            <div v-if="act.type === 'food'" class="food-card activity-item" @click="goToFood(act.meal)">
+                                <div style="display: flex; align-items: center;">
+                                    <span class="food-icon">{{ act.meal === 'lunch' ? '🍱' : '🍽️' }}</span>
+                                    <h3>{{ act.meal === 'lunch' ? '午餐推薦' : '晚餐推薦' }}</h3>
+                                </div>
+                                <div style="color: #ccc;">›</div>
+                            </div>
+
+                            <div v-else 
+                                 class="activity-item" 
+                                 :class="getItemClass(act)"
+                                 @click="goToLocation(act.locationId)">
+                                 
+                                <div class="activity-time">{{ act.time }}</div>
+                                
+                                <div class="activity-icon">
+                                    {{ getIcon(act) }}
+                                </div>
+
+                                <div class="activity-info">
+                                    <div class="activity-title">{{ act.title }}</div>
+                                    <div class="activity-note" v-if="act.note">{{ act.note }}</div>
+                                </div>
+                                
+                                <div style="color: #ccc;">›</div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        `,
+        setup() {
+            const route = useRoute();
+            const router = useRouter();
+            const date = route.params.date;
+            const dailyItinerary = computed(() => tripData.itineraries[date] || []);
+            
+            const goToLocation = (locId) => {
+                if (locId) router.push(`/location/${locId}`);
+            };
+            const goToFood = (type) => router.push(`/food/${date}/${type}`);
+            
+            const formatDate = (dateStr) => {
+                const dateObj = new Date(dateStr);
+                const weekDay = ['日', '一', '二', '三', '四', '五', '六'][dateObj.getDay()];
+                return `${dateObj.getMonth() + 1}/${dateObj.getDate()} (${weekDay})`;
+            };
+
+            const getCategory = (act) => {
+                const text = (act.title + (act.note || '')).toLowerCase();
+                if (text.includes('寶可夢') || text.includes('人孔蓋') || text.includes('皮卡丘')) {
+                    return 'pokemon';
+                }
+                const transportKeywords = /搭|轉乘|移動|前往|返回|回家|退房|入住|抵達/;
+                if (transportKeywords.test(act.title)) {
+                    return 'transport';
+                }
+                return 'attraction';
+            };
+
+            const getItemClass = (act) => {
+                const cat = getCategory(act);
+                if (cat === 'pokemon') return 'pokemon-item';
+                if (cat === 'transport') return 'transport-item';
+                return 'attraction-item';
+            };
+
+            const getIcon = (act) => {
+                const cat = getCategory(act);
+                if (cat === 'pokemon') return '🔴';
+                if (cat === 'transport') return '🚌';
+                return '📷';
+            };
+
+            return { date, dailyItinerary, goToLocation, goToFood, formatDate, getItemClass, getIcon };
+        }
+    };
+
+    // 3. 美食推薦列表組件
+    const FoodList = {
+        template: `
+            <div>
+                <a @click="$router.back()" class="back-btn">← 返回行程</a>
+                <div class="card">
+                    <h3>{{ formatDate(date) }} - {{ foodType === 'lunch' ? '午餐' : '晚餐' }}推薦</h3>
+                    <div class="food-list">
+                        <div v-for="food in foodItems" :key="food.id" class="food-list-item" @click="goToLocation(food.locationId)">
+                            <div>
+                                <div class="food-title">{{ food.title }}</div>
+                                <div class="food-note" v-if="food.note">{{ food.note }}</div>
+                            </div>
+                            <div style="color: #ccc;">›</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `,
+        setup() {
+            const route = useRoute();
+            const router = useRouter();
+            const { date, type } = route.params;
+            const foodItems = computed(() => tripData.foodRecommendations[date]?.[type] || []);
+
+            const goToLocation = (locId) => router.push(`/location/${locId}`);
+            const formatDate = (dateStr) => {
+                const dateObj = new Date(dateStr);
+                const weekDay = ['日', '一', '二', '三', '四', '五', '六'][dateObj.getDay()];
+                return `${dateObj.getMonth() + 1}/${dateObj.getDate()} (${weekDay})`;
+            };
+
+            return { date, foodType: type, foodItems, goToLocation, formatDate };
+        }
+    };
+
+// 4. 地點詳情組件 (已修改：簡介支援條列式清單)
+    const LocationDetail = {
+        template: `
+            <div class="detail-page">
+                <a @click="$router.back()" class="back-btn">← 返回</a>
+                <div v-if="location">
+                    
+                    <div class="detail-header">
+                        <h2 class="detail-title-zh">{{ splitTitle(location.title).zh }}</h2>
+                        <div class="detail-title-en" v-if="splitTitle(location.title).en">
+                            {{ splitTitle(location.title).en }}
+                        </div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <img 
+                            :src="getImageUrl(location)" 
+                            class="detail-image"
+                            :alt="location.title"
+                            loading="lazy"
+                        >
+                    </div>
+
+                    <div class="info-section" style="background: none; padding: 0; margin-top: 15px;">
+                        
+                        <div class="detail-row" v-if="location.rating || location.priceLevel">
+                            <span class="detail-label">📊 評價 & 預算</span>
+                            <div class="detail-content">
+                                <span v-if="location.rating" class="rating-badge">⭐ {{ location.rating }}</span>
+                                <span v-if="location.priceLevel" class="price-badge">💰 {{ location.priceLevel }}</span>
+                            </div>
+                        </div>
+
+                        <template v-if="location.transportRoute">
+                            <div class="detail-row">
+                                <span class="detail-label">🚌 搭乘路線</span>
+                                <div class="detail-content">
+                                    <span class="transport-badge">{{ location.transportRoute }}</span>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">🚏 起訖站</span>
+                                <div class="detail-content station-flow">
+                                    {{ location.transportStart }}
+                                    <span class="station-arrow">➔</span>
+                                    {{ location.transportEnd }}
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">💰 費用</span>
+                                <div class="detail-content cost-highlight">
+                                    {{ location.transportCost }}
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <div class="detail-row" v-if="location.hours && !location.transportRoute">
+                            <span class="detail-label">🕒 營業時間</span>
+                            <div class="detail-content" style="color: #d32f2f; font-weight: 500;">
+                                {{ location.hours }}
+                            </div>
+                        </div>
+
+                        <div class="detail-row" v-if="location.description">
+                            <span class="detail-label">📝 簡介 / 備註</span>
+                            <div class="detail-content">
+                                <ul v-if="location.description.includes('、') || location.description.includes('，')" class="description-list">
+                                    <li v-for="(item, index) in location.description.split(/[、，]/)" :key="index">
+                                        {{ item.trim() }}
+                                    </li>
+                                </ul>
+                                <div v-else style="white-space: pre-line;">
+                                    {{ location.description }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-row" v-if="location.note">
+                            <span class="detail-label">💡 補充資訊</span>
+                            <div class="detail-content">
+                                <span v-if="location.note.includes('只收現金')" class="tag-cash-only">⚠️ 只收現金</span>
+                                <span>{{ location.note }}</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-row" v-if="location.address">
+                            <span class="detail-label">📍 位置</span>
+                            <div class="detail-content">{{ location.address }}</div>
+                        </div>
+
+                    </div>
+
+                    <a v-if="location.googleMapLink" :href="location.googleMapLink" target="_blank" class="map-link">🗺️ 開啟景點地圖</a>
+                    <a v-else :href="'http://googleusercontent.com/maps.google.com/?q=' + encodeURIComponent(location.title + ' ' + (location.address || ''))" target="_blank" class="map-link">🗺️ 搜尋景點位置</a>
+
+                    <hr v-if="location.pokemon" style="border: 0; border-top: 1px dashed #ccc; margin: 30px 0;">
+
+                    <div v-if="location.pokemon" class="pokemon-card">
+                        <div class="pokemon-card-header">
+                            <span style="font-size: 1.5rem;">🔴</span>
+                            <span class="pokemon-card-title">發現寶可夢人孔蓋！</span>
+                        </div>
+                        <div class="pokemon-content">
+                            <img 
+                                src="./image-not-found.png"
+                                class="pokemon-img"
+                                alt="Pokemon"
+                            >
+                            <div class="pokemon-details">
+                                <span class="pokemon-label">出沒角色</span>
+                                <span class="pokemon-name">{{ location.pokemon.characters }}</span>
+                                
+                                <a :href="location.pokemon.mapLink || location.googleMapLink" target="_blank" class="pokemon-map-btn">
+                                    📍 導航到人孔蓋
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div v-else>
                     <p>找不到此地點資訊。</p>
-                    <a @click="$router.back()" class="back-btn">← 返回</a>
                 </div>
-            `,
-            setup() {
-                const route = useRoute();
-                const locationId = route.params.locationId;
-                // 根據 URL 參數取得地點資料
-                const location = computed(() => mockData.locations[locationId]);
-                return { location };
-            }
-        };
+            </div>
+        `,
+        setup() {
+            const route = useRoute();
+            const locationId = route.params.locationId;
+            const location = computed(() => tripData.locations[locationId] || tripData.locations['default']);
 
-        // --- 路由設定 (Router Config) ---
-        const routes = [
-            { path: '/', component: TripList, meta: { title: '我的行程列表' } },
-            { path: '/itinerary/:tripId', component: ItineraryDetail, meta: { title: '行程詳情' } },
-            { path: '/location/:locationId', component: LocationDetail, meta: { title: '地點資訊' } }
-        ];
+            const getImageUrl = (loc) => {
+                if (loc.image) return loc.image;
+                if (loc.transportRoute) {
+                    const routeStr = loc.transportRoute.toLowerCase();
+                    if (routeStr.includes('haruka')) return './haruka-image.png';
+                    if (routeStr.includes('巴士') || routeStr.includes('公車')) return './bus-image.png';
+                    return './train-image.png';
+                }
+                return './image-not-found.png';
+            };
 
-        const router = createRouter({
-            history: createWebHashHistory(), // 使用 Hash 模式，方便本地開啟
-            routes,
-        });
+            const splitTitle = (title) => {
+                if (!title) return { zh: '', en: '' };
+                const match = title.match(/^(.*?)\s*[（\(](.*)[）\)]$/);
+                if (match) {
+                    return { zh: match[1], en: match[2] };
+                }
+                return { zh: title, en: '' };
+            };
 
-        // --- App 實例 (App Instance) ---
-        const app = createApp({
-            setup() {
-                const route = useRoute();
-                // 動態改變 Header 標題
-                const headerTitle = computed(() => route.meta.title || '旅遊手札');
-                return { headerTitle };
-            }
-        });
+            return { location, getImageUrl, splitTitle };
+        }
+    };
 
-        app.use(router);
-        app.mount('#app');
-    </script>
+    // 5. 實用日文組件
+    const JapanesePhrasebook = {
+        template: `
+            <div>
+                <a @click="$router.back()" class="back-btn">← 返回首頁</a>
+                
+                <div class="card" style="background: #d32f2f; color: white;">
+                    <h3 style="color: white; margin: 0;">🗣️ 旅遊實用日文</h3>
+                    <p style="color: #ffcdd2; margin: 5px 0 0;">手指給店員看也能通！</p>
+                </div>
+
+                <div v-for="(category, index) in phrases" :key="index" class="phrase-category">
+                    <h3>{{ category.title }}</h3>
+                    <div class="phrase-list">
+                        <div v-for="(item, idx) in category.items" :key="idx" class="phrase-item">
+                            <div class="phrase-content">
+                                <span class="phrase-jp">{{ item.jp }}</span>
+                                <span class="phrase-kana">{{ item.pronounce }}</span>
+                                <span class="phrase-cn">{{ item.cn }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `,
+        setup() {
+            const phrases = [
+                {
+                    title: '👋 基本問候',
+                    items: [
+                        { jp: 'こんにちは', pronounce: 'Konnichiwa', cn: '你好 (白天)' },
+                        { jp: 'ありがとうございます', pronounce: 'Arigatou gozaimasu', cn: '謝謝' },
+                        { jp: 'すみません', pronounce: 'Sumimasen', cn: '不好意思 / 借過' },
+                        { jp: 'はい / いいえ', pronounce: 'Hai / Iie', cn: '是 / 不是' },
+                        { jp: '大丈夫です', pronounce: 'Daijoubu desu', cn: '沒關係 / 不用了' }
+                    ]
+                },
+                {
+                    title: '🍽️ 餐廳點餐',
+                    items: [
+                        { jp: 'メニューをください', pronounce: 'Menyu wo kudasai', cn: '請給我菜單' },
+                        { jp: 'これをお願いします', pronounce: 'Kore wo onegaishimasu', cn: '我要點這個 (指著菜單)' },
+                        { jp: 'お水ください', pronounce: 'Omizu kudasai', cn: '請給我冰水' },
+                        { jp: 'お会計お願いします', pronounce: 'Okaikei onegaishimasu', cn: '麻煩結帳' },
+                        { jp: 'トイレはどこですか？', pronounce: 'Toire wa doko desu ka?', cn: '請問廁所在哪裡？' }
+                    ]
+                },
+                {
+                    title: '🛍️ 購物結帳',
+                    items: [
+                        { jp: 'いくらですか？', pronounce: 'Ikura desu ka?', cn: '請問多少錢？' },
+                        { jp: 'カードは使えますか？', pronounce: 'Kaado wa tsukaemasu ka?', cn: '可以刷卡嗎？' },
+                        { jp: '袋はいりません', pronounce: 'Fukuro wa irimasen', cn: '我不需要袋子' },
+                        { jp: '免税できますか？', pronounce: 'Menzei dekimasu ka?', cn: '可以退稅嗎？' },
+                        { jp: 'これにします', pronounce: 'Kore ni shimasu', cn: '我要買這個' }
+                    ]
+                },
+                {
+                    title: '🏨 住宿與交通',
+                    items: [
+                        { jp: 'チェックインお願いします', pronounce: 'Chekku-in onegaishimasu', cn: '我要辦理入住' },
+                        { jp: '荷物を預かってもらえますか？', pronounce: 'Nimotsu wo azukatte moraemasu ka?', cn: '可以寄放行李嗎？' },
+                        { jp: '駅はどこですか？', pronounce: 'Eki wa doko desu ka?', cn: '請問車站在哪裡？' },
+                        { jp: '切符売り場', pronounce: 'Kippu uriba', cn: '售票處' }
+                    ]
+                }
+            ];
+            return { phrases };
+        }
+    };
+
+    // --- 路由設定 (Router Config) ---
+    const routes = [
+        { path: '/', component: Home, meta: { title: '雙寶探險京都手札' } },
+        { path: '/itinerary/:date', component: ItineraryDetail, meta: { title: '當日行程' } },
+        { path: '/food/:date/:type', component: FoodList, meta: { title: '美食推薦' } },
+        { path: '/location/:locationId', component: LocationDetail, meta: { title: '地點詳情' } },
+        { path: '/phrases', component: JapanesePhrasebook, meta: { title: '實用日文' } }
+    ];
+
+    const router = createRouter({
+        history: createWebHashHistory(),
+        routes,
+        scrollBehavior(to, from, savedPosition) {
+            return { top: 0 };
+        }
+    });
+
+    // --- App 實例 (App Instance) ---
+    const app = createApp({
+        setup() {
+            const route = useRoute();
+            const headerTitle = computed(() => route.meta.title || '旅遊手札');
+            return { headerTitle };
+        }
+    });
+
+    app.use(router);
+    app.mount('#app');
+</script>
 </body>
 </html>
