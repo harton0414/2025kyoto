@@ -345,15 +345,17 @@
             color: #333;
             line-height: 1.5;
         }
+        /* --- 既有樣式微調：只收現金標籤 --- */
         .tag-cash-only {
             display: inline-block;
-            background-color: #ffeb3b;
-            color: #333;
+            background-color: #fffde7;
+            color: #f57f17;
+            border: 1px solid #fbc02d;
             padding: 2px 8px;
-            border-radius: 4px;
+            border-radius: 12px;
             font-size: 0.85rem;
             font-weight: bold;
-            margin-right: 5px;
+            margin-right: 8px; /* 增加右邊距，避免與後面的文字沾黏 */
         }
         .tag-fee {
             color: #d32f2f;
@@ -750,7 +752,68 @@
             left: 0;
             color: #4caf50; /* 綠色 */
             font-weight: bold;
-        }                                                                                                       
+        }
+/* --- 新增：子店家列表樣式 --- */
+        .sub-location-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .sub-location-card {
+            background: #fff0f5; /* 沿用美食的櫻花粉色調，比較活潑 */
+            border: 1px solid #f8bbd0;
+            border-radius: 12px;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sub-loc-info {
+            flex-grow: 1;
+        }
+        .sub-loc-title {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #880e4f;
+            margin-bottom: 4px;
+        }
+        .sub-loc-meta {
+            font-size: 0.85rem;
+            color: #555;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px; /* 項目之間的間距 */
+        }
+        /* 給子店家的只收現金標籤一個縮小版樣式 */
+        .tag-cash-only-small {
+            font-size: 0.75rem;
+            background-color: #fffde7;
+            color: #f57f17;
+            border: 1px solid #fbc02d;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .sub-loc-map-btn {
+            text-decoration: none;
+            background: #e91e63; /* 較深的美食色 */
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-left: 10px;
+            box-shadow: 0 2px 4px rgba(233, 30, 99, 0.2);
+            transition: all 0.2s;
+        }
+        .sub-loc-map-btn:active {
+            transform: scale(0.95);
+            box-shadow: none;
+        }                                                                                
     </style>
 </head>
 <body>
@@ -909,16 +972,16 @@
             '2026-01-01': { lunch: [{ id: 'f01l1', title: 'kazuka多佳.', locationId: 'loc_95' }, { id: 'f01l2', title: 'Falafel Garden', locationId: 'loc_96' }, { id: 'f01l3', title: '旬菜田中でたなか', locationId: 'loc_97' }, { id: 'f01l4', title: '鴨町拉麵', locationId: 'loc_98' }, { id: 'f01l5', title: 'Kyogame', locationId: 'loc_99' }], dinner: [{ id: 'f01d1', title: 'Tsukumo烏龍', locationId: 'loc_100' }, { id: 'f01d2', title: 'Spicy Masara', locationId: 'loc_101' }, { id: 'f01d3', title: '壽司・和食 Ganko', locationId: 'loc_102' }, { id: 'f01d4', title: '7 TAPS TAVERN', locationId: 'loc_103' }, { id: 'f01d5', title: '原始炭焼き 濱いち', locationId: 'loc_104' }] },
             '2026-01-02': { lunch: [{ id: 'f02l1', title: 'とよ寿司', locationId: 'loc_105' }, { id: 'f02l2', title: '味ま野', locationId: 'loc_106' }, { id: 'f02l3', title: 'Tairikitei', locationId: 'loc_107' }, { id: 'f02l4', title: 'Gonta', locationId: 'loc_108' }, { id: 'f02l5', title: '京料理 六盛', locationId: 'loc_109' }], dinner: [{ id: 'f02d1', title: '銀福', locationId: 'loc_111' }, { id: 'f02d2', title: 'NOANOA', locationId: 'loc_112' }, { id: 'f02d3', title: '名代おめん', locationId: 'loc_113' }, { id: 'f02d4', title: '京 銀閣寺 八よし', locationId: 'loc_114' }, { id: 'f02d5', title: '燒肉 花山', locationId: 'loc_115' }] }
         },
-        // 地點詳細資訊
+        // 地點詳細資訊 (已更新：加入 subLocations 子景點資料)
         locations: {
-            // 12/25
+            // ... (前面的資料保持不變，從 loc_kix 到 loc_mikami) ...
             'loc_kix': { title: '關西國際機場 (KIX)', description: '第一航廈', hours: '24小時', note: '' },
             'loc_kyoto_station': { 
                 title: '搭乘 HARUKA', 
                 transportRoute: '關空特急 HARUKA', 
                 transportStart: '關西機場', 
                 transportEnd: '京都車站', 
-                transportCost: '約 ¥2,200 (使用 Pass)', 
+                transportCost: '¥2,200', 
                 description: '車程約 80 分鐘。\n建議事先購買 JR Pass 或 HARUKA 優惠票。\n上車前 3 分鐘可於售票機劃位。'
             },
             'loc_toji_station': { 
@@ -947,10 +1010,10 @@
                 googleMapLink: 'https://maps.app.goo.gl/fxuKLX5PH7wSU9aU9'
             },
             'loc_kiyomizu': { title: '清水寺', description: '世界文化遺產，以清水舞台聞名。', hours: '06:00-18:00', note: '人多擁擠', googleMapLink: 'https://maps.app.goo.gl/9QXSjeGycECvJhoS9' },
-            'loc_sannenzaka': { title: '清水坂/三年坂', description: '產寧坂、二年坂、一年坂', hours: '', note: '人多擁擠' },
-            'loc_yasaka_area': { title: '五重塔(八坂之塔)', description: '代表性街景', hours: '10:00-15:00', note: '', googleMapLink: 'https://maps.app.goo.gl/a6qsQ21sGA4GqtYQ6' },
-            'loc_koshindo': { title: '八坂庚申堂', description: '色彩繽紛的氣球跟束猿', hours: '09:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/JDMPZkwM5ohkgBm36' },
-            'loc_yasaka_shrine': { title: '八坂神社', description: '祇園的守護神社', hours: '24小時', note: '', googleMapLink: 'https://maps.app.goo.gl/YE8itbDKfzeoeDf29' },
+            'loc_sannenzaka': { title: '清水坂/三年坂', description: '產寧坂、二年坂、一年坂，充滿京都風情的坡道。', hours: '店家約 10:00-18:00', note: '人多擁擠' },
+            'loc_yasaka_area': { title: '五重塔(八坂之塔)', description: '代表性街景，拍照熱點。', hours: '外观24小时', note: '', googleMapLink: 'https://maps.app.goo.gl/a6qsQ21sGA4GqtYQ6' },
+            'loc_koshindo': { title: '八坂庚申堂', description: '色彩繽紛的氣球跟束猿，網美打卡點。', hours: '09:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/JDMPZkwM5ohkgBm36' },
+            'loc_yasaka_shrine': { title: '八坂神社', description: '祇園的守護神社，以除厄、生意興隆聞名。', hours: '24小時開放', note: '', googleMapLink: 'https://maps.app.goo.gl/YE8itbDKfzeoeDf29' },
             'loc_38': { title: 'いづ重', rating: '4.2', priceLevel: '¥2,000-3,000', description: '京都風壽司 (鯖姿壽司)', hours: '10:30-19:00', note: '', googleMapLink: 'https://maps.app.goo.gl/z14REUsLQNy8Dwrx9' },
             'loc_39': { title: '葵洛', rating: '4.1', priceLevel: '¥1,500-2,500', description: '抹茶麵+天婦羅', hours: '11:00-15:00', note: '', googleMapLink: 'https://maps.app.goo.gl/peEmPBfgcXN7zK71A' },
             'loc_40': { title: '祇をん たこ明 本店', rating: '3.9', priceLevel: '¥1,000-2,000', description: '章魚燒', hours: '11:00-03:00', note: '', googleMapLink: 'https://maps.app.goo.gl/WgqP9XDnGK1Kos3FA' },
@@ -959,9 +1022,8 @@
             'loc_maruyama': { 
                 title: '圓山公園', 
                 description: '八坂神社旁邊的賞櫻名所。', 
-                hours: '', note: '', 
+                hours: '24小時', note: '', 
                 googleMapLink: 'https://maps.app.goo.gl/pMeFW11TSyDrPhvw6',
-                // ★ 寶可夢資訊
                 pokemon: {
                     characters: '皮寶寶、寶寶丁、皮丘',
                     mapLink: 'https://maps.app.goo.gl/XyoD31q7XDQwB6QP7'
@@ -1007,21 +1069,42 @@
                 description: '' 
             },
             'loc_45': { title: '湯豆腐 嵯峨野', rating: '3.9', priceLevel: '¥3,000-4,000', description: '各種豆腐料理', hours: '11:00-17:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/5ejwfGyhCsuQYJry5' },
-            'loc_46': { title: '松籟庵', rating: '4.5', priceLevel: '¥5,000-8,000', description: '豆腐懷石料理，還可以看保津川', hours: '11:00-15:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hRK9kxamkk926va37' },
-            'loc_47': { title: '嵐山よしむら', rating: '4.2', priceLevel: '¥1,500-2,500', description: '蕎麥麵', hours: '10:30-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/zJGSLrp4YXNwn66z8' },
+            'loc_46': { title: '松籟庵', rating: '4.5', priceLevel: '¥5,000-8,000', description: '豆腐懷石料理，還可以看保津川', hours: '11:00-15:00', note: '需預約', googleMapLink: 'https://maps.app.goo.gl/hRK9kxamkk926va37' },
+            'loc_47': { title: '嵐山よしむら', rating: '4.2', priceLevel: '¥1,500-2,500', description: '蕎麥麵，可欣賞渡月橋景色', hours: '10:30-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/zJGSLrp4YXNwn66z8' },
             'loc_48': { title: '自家製麵 嵐山烏龍麵 Ozuru', rating: '4.3', priceLevel: '¥1,500-2,000', description: '烏龍麵，冷麵很讚', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/PUxizx2cJYdHLbiK8' },
             'loc_49': { title: '嵐山咖哩', rating: '4.4', priceLevel: '¥1,000-2,000', description: '咖哩店，很樸素但很好吃', hours: '11:00-21:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/1DAitSqXfUE6DVkz8' },
-            'loc_togetsukyo': { title: '渡月橋/天龍寺', description: '天龍寺 (入場費 ¥500)、世界文化遺產、竹林小徑', hours: '08:30-17:00 (天龍寺)', note: '' },
-            'loc_nonomiya': { title: '野宮神社', description: '以祈求良緣、學業成就聞名', hours: '09:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/L7NFRRee8P5prJaZ9' },
-            'loc_mikami': { title: '御髮神社', description: '祈求頭髮健康', hours: '10:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hR7cvy2bMCrjcd7s6' },
-            'loc_arashiyama_snacks': { title: '嵐山點心', description: '京豆庵(豆腐冰淇淋)、和牛煎餅、eX cafe(抹茶)、新八茶屋(水果冰淇淋)', hours: '10:00-17:00', note: '' },
+            'loc_togetsukyo': { 
+                title: '渡月橋/天龍寺', 
+                description: '嵐山的地標渡月橋，以及世界文化遺產天龍寺。', 
+                hours: '天龍寺 08:30-17:00', 
+                note: '天龍寺庭園門票 ¥500',
+                googleMapLink: 'https://maps.app.goo.gl/7GVi2xisEWxvMXdL7'
+            },
+            'loc_nonomiya': { title: '野宮神社', description: '以祈求良緣、學業成就聞名，位於竹林小徑內。', hours: '09:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/L7NFRRee8P5prJaZ9' },
+            'loc_mikami': { title: '御髮神社', description: '日本唯一祈求頭髮健康的神社。', hours: '10:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hR7cvy2bMCrjcd7s6' },
+            
+            // ★★★ 修改點 1：嵐山點心 (加入 subLocations) ★★★
+            'loc_arashiyama_snacks': { 
+                title: '嵐山點心時間', 
+                description: '嵐山大街上有許多美味的散步甜點和這裡才有的特色小吃。', 
+                hours: '各店不同，約 09:00-18:00', 
+                note: '',
+                googleMapLink: 'https://maps.app.goo.gl/fKUyAbUeYHWa8jqt9', // 嵐山大街
+                subLocations: [
+                    { title: '京豆庵 (Kyozuan)', hours: '10:00-17:00', note: '倒立也不會掉的豆腐冰淇淋', mapLink: 'https://maps.app.goo.gl/jBAY395wt8TX5cp56' },
+                    { title: 'Niku No Odakichi Arashiyama', hours: '09:30-17:30', note: '超大片和牛煎餅', mapLink: 'https://maps.app.goo.gl/CE7frVh9ViS8i7Yp6' },
+                    { title: 'eX cafe 京都嵐山本店', hours: '09:00-18:00', note: '自己烤糰子，很熱門需排隊', mapLink: 'https://maps.app.goo.gl/3mXp324EmhS8nzru5' },
+                    { title: '新八茶屋', hours: '10:00-18:00', note: '得獎的義式冰淇淋', mapLink: 'https://maps.app.goo.gl/Jz6AeB81SdLJkPMV8' },
+                    { title: 'Cafe 嵯峨野湯', hours: '11:00-19:00', note: '抹茶甜品跟鬆餅好吃', mapLink: 'https://maps.app.goo.gl/fUJjkkqUGu3gMc7q6' },
+                ]
+            },
             'loc_sagano_train': { 
                 title: '嵯峨野觀光小火車', 
                 transportRoute: '觀光小火車', 
                 transportStart: '嵐山站', 
                 transportEnd: '龜岡站', 
                 transportCost: '¥880', 
-                description: '遊覽保津川峽谷，風景優美。',
+                description: '遊覽保津川峽谷，風景優美。建議提前預約。',
                 googleMapLink: 'https://maps.app.goo.gl/jT87wZ6LaWRtVG2o7'
             },
             'loc_jr_back_saga': { 
@@ -1030,30 +1113,29 @@
                 transportStart: '馬堀駅', 
                 transportEnd: '嵯峨嵐山站', 
                 transportCost: '¥200', 
-                description: '從小火車龜岡站步行至 JR 馬堀站轉乘。',
+                description: '從小火車龜岡站步行約 10 分鐘至 JR 馬堀站轉乘。',
                 googleMapLink: 'https://maps.app.goo.gl/wZzgF5E95sWZpzBG7'
             },
             'loc_arashiyama_park': { 
                 title: '嵐山公園', 
-                description: '龜山公園展望台、老街、渡月橋夕景', 
-                hours: '', note: '', 
+                description: '包含龜山地區、中之島地區。龜山公園有展望台可俯瞰保津川。', 
+                hours: '24小時', note: '', 
                 googleMapLink: 'https://maps.app.goo.gl/Kei82e9UzBcd7RSN7',
-                // ★ 寶可夢資訊
                 pokemon: {
                     characters: '鳳王 (Ho-Oh)',
                     mapLink: 'https://maps.app.goo.gl/5YZMUBstfKVBBDeh7'
                 }
             },
-            'loc_51': { title: '嵐山 喜重郎', rating: '4.3', priceLevel: '¥2,000-4,000', description: '和牛飯', hours: '11:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/5EMr14dzgdEGm7BEA' },
-            'loc_52': { title: 'Upit\'s Burger', rating: '4.2', priceLevel: '¥1,500-2,500', description: '熔岩起司漢堡', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/eAivCLwpLpY6VdXv7' },
-            'loc_53': { title: 'さがのや', rating: '3.8', priceLevel: '¥1,000-2,000', description: '日式料理店，定食、生魚片、蕎麥麵', hours: '17:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/bAp43NZTtaJqjGhr7' },
+            'loc_51': { title: '嵐山 喜重郎', rating: '4.3', priceLevel: '¥2,000-4,000', description: '和牛飯，庭園景觀不錯', hours: '11:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/5EMr14dzgdEGm7BEA' },
+            'loc_52': { title: 'Upit\'s Burger', rating: '4.2', priceLevel: '¥1,500-2,500', description: '視覺效果十足的熔岩起司漢堡', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/eAivCLwpLpY6VdXv7' },
+            'loc_53': { title: 'さがのや', rating: '3.8', priceLevel: '¥1,000-2,000', description: '日式料理店，有定食、生魚片、蕎麥麵', hours: '17:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/bAp43NZTtaJqjGhr7' },
             'loc_jr_saga_kyoto': { 
                 title: '搭JR回京都', 
                 transportRoute: 'JR 山陰本線', 
                 transportStart: '嵯峨嵐山', 
                 transportEnd: '京都車站', 
                 transportCost: '¥240', 
-                description: '轉乘近鐵。',
+                description: '回到京都車站後，再轉乘近鐵回東寺。',
                 googleMapLink: 'https://maps.app.goo.gl/f9tywaUzfn1NuCw86'
             },
             // 12/28
@@ -1063,22 +1145,43 @@
                 transportStart: '京都車站', 
                 transportEnd: '宇治站', 
                 transportCost: '¥240', 
-                description: '從東寺搭近鐵至京都站，再轉乘 JR。' 
+                description: '車程約 20-30 分鐘 (快速/普通)。' 
             },
-            'loc_byodoin': { title: '平等院', description: '鳳凰堂、鳳翔館、庭園 (入場費 ¥700)', hours: '09:30-16:10', note: '', googleMapLink: 'https://maps.app.goo.gl/4ggLYHt7WiATQ9xA8' },
-            'loc_54': { title: 'とり菊', rating: '4.0', priceLevel: '¥1,000-2,000', description: '蕎麥麵', hours: '10:30-14:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/mSeGEGLFZGDscgrM9' },
-            'loc_55': { title: 'Food Park', rating: '4.1', priceLevel: '¥1,500-2,500', description: '和牛，牛肉盒飯、漢堡', hours: '11:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/sgyNXsjjhZR7qSbm7' },
-            'loc_56': { title: '京うどん 三よしや', rating: '3.9', priceLevel: '¥1,000-1,500', description: '烏龍麵', hours: '11:00-15:30', note: '', googleMapLink: 'https://maps.app.goo.gl/PrhgCtbqKsEAoWYX6' },
-            'loc_57': { title: 'お台所 roji', rating: '4.2', priceLevel: '¥1,000-2,000', description: '居酒屋', hours: '12:00-14:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Gy9nMAs33UMqPZWE7' },
-            'loc_58': { title: '肉屋黒川 宇治本店', rating: '4.4', priceLevel: '¥1,500-2,500', description: '牛肉盒飯，有很生的選擇', hours: '11:00-14:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/uDkdcnN9QBNR1Hny6' },
-            'loc_uji_shopping': { title: '宇治逛街', description: '辻利、Matcha Republic、中村藤吉、平等院表參道', hours: '10:00-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/igRppppmszzr38Fw9' },
-            'loc_uji_shrine': { title: '宇治神社', description: '兔子神社', hours: '24小時', note: '', googleMapLink: 'https://maps.app.goo.gl/Qb1SnecjnGxRxkoh8' },
-            'loc_ujigami': { title: '宇治上神社', description: '世界文化遺產，日本最古老本殿', hours: '09:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Rnir2Q7L1aBtAkTm7' },
+            'loc_byodoin': { title: '平等院', description: '世界文化遺產，日幣10元硬幣上的圖案。鳳凰堂內部參觀需另付費。', hours: '08:30-17:30', note: '門票 ¥700', googleMapLink: 'https://maps.app.goo.gl/4ggLYHt7WiATQ9xA8' },
+            'loc_54': { title: 'とり菊', rating: '4.0', priceLevel: '¥1,000-2,000', description: '當地人光顧的蕎麥麵店', hours: '10:30-14:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/mSeGEGLFZGDscgrM9' },
+            'loc_55': { title: 'Food Park', rating: '4.1', priceLevel: '¥1,500-2,500', description: '主打和牛，有牛肉盒飯、漢堡', hours: '11:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/sgyNXsjjhZR7qSbm7' },
+            'loc_56': { title: '京うどん 三よしや', rating: '3.9', priceLevel: '¥1,000-1,500', description: '手打烏龍麵', hours: '11:00-15:30', note: '', googleMapLink: 'https://maps.app.goo.gl/PrhgCtbqKsEAoWYX6' },
+            'loc_57': { title: 'お台所 roji', rating: '4.2', priceLevel: '¥1,000-2,000', description: '溫馨的日式定食居酒屋', hours: '12:00-14:00, 17:30-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Gy9nMAs33UMqPZWE7' },
+            'loc_58': { title: '肉屋黒川 宇治本店', rating: '4.4', priceLevel: '¥1,500-2,500', description: '人氣牛肉盒飯，肉質鮮嫩', hours: '11:00-14:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/uDkdcnN9QBNR1Hny6' },
+            
+            // ★★★ 修改點 2：宇治逛街 (加入 subLocations) ★★★
+            'loc_uji_shopping': { 
+                title: '宇治逛街/甜點', 
+                description: '平等院表參道上有許多歷史悠久的茶舖和現代抹茶甜點店。', 
+                hours: '各店不同，約 10:00-17:00', 
+                note: '',
+                googleMapLink: 'https://maps.app.goo.gl/igRppppmszzr38Fw9',
+                subLocations: [
+                    { title: '中村藤吉 平等院店', hours: '10:00-17:00', note: '各種抹茶料理，甜的到鹹的都有', mapLink: 'https://maps.app.goo.gl/Lo1vaShRT2EvtpE78' },
+                    { title: '辻利 宇治本店', hours: '10:00-18:00', note: '抹茶甜點', mapLink: 'https://maps.app.goo.gl/igRppppmszzr38Fw9' },
+                    { title: 'Matcha Republic', hours: '10:00-18:00', note: '網美風抹茶墨水瓶飲料', mapLink: 'https://maps.app.goo.gl/Sard32zJPDzjdKzG8' },
+                    { title: 'お菓子のワキモト', hours: '09:00-18:00', note: '復古小店，適合買伴手禮', mapLink: 'https://maps.app.goo.gl/bu421gSEY1aDFzQZA' },
+                    { title: 'Kunel no tsuzuki', hours: '11:00-19:00', note: '貝果店，只收現金', mapLink: 'https://maps.app.goo.gl/G5cCy3eQ3pi9mVUX8' },
+                    { title: 'Appro食品館 宇治店', hours: '09:30-21:00', note: '超市，有抹茶土產', mapLink: 'https://maps.app.goo.gl/x7u4tgoEtNjxc7ok9' },
+                    { title: '京都宇治茶房 山本甚次郎', hours: '12:00-15:00', note: '抹茶店，認真泡抹茶的那種', mapLink: 'https://maps.app.goo.gl/aoqfMaP3wQ9HKaAR8' },
+                    { title: 'おうすの里 宇治店', hours: '10:00-18:00', note: '梅子土產', mapLink: 'https://maps.app.goo.gl/RndB2Vs1wbLyUTeW6' },
+                    { title: 'TOBI-EN とび園', hours: '10:00-18:00', note: '抹茶專賣店，茶到茶碗都有', mapLink: 'https://maps.app.goo.gl/PXfkWB1ntd54wWoc7' },
+                    { title: 'Hoho Hojicha Uji Main Store', hours: '10:00-18:00', note: '焙茶甜點', mapLink: 'https://maps.app.goo.gl/vXWDe7iui5FwgKYd9' },
+                    { title: '茶寮FUKUCHA宇治店', hours: '11:00-17:00', note: '抹茶甜點店', mapLink: 'https://maps.app.goo.gl/jcQTjo7DZoiyRBtK9' },
+                    { title: '宇治駿河屋', hours: '09:00-17:00', note: '抹茶料理，糰子羊羹都有', mapLink: 'https://maps.app.goo.gl/F4mWZJE92skZqdLWA' },
+                ]
+            },
+            'loc_uji_shrine': { title: '宇治神社', description: '供奉菟道稚郎子命，有可愛的兔子籤詩，是求學業、考試順利的神社。', hours: '24小時', note: '', googleMapLink: 'https://maps.app.goo.gl/Qb1SnecjnGxRxkoh8' },
+            'loc_ujigami': { title: '宇治上神社', description: '世界文化遺產，擁有日本最古老的神社本殿。', hours: '09:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Rnir2Q7L1aBtAkTm7' },
             'loc_uji_pokemon': { 
                 title: '尋找寶可夢', 
-                description: '宇治地區的寶可夢人孔蓋', 
-                hours: '', note: '', 
-                // ★ 寶可夢資訊
+                description: '宇治地區設置了數個以茶為主題的寶可夢人孔蓋。', 
+                hours: '24小時', note: '', 
                 pokemon: {
                     characters: '炎兔兒、晃晃斑、斯魔茶、來杯粗茶',
                     mapLink: 'https://maps.app.goo.gl/WkgscN4xLLxHgWPCA'
@@ -1090,31 +1193,36 @@
                 transportStart: '宇治站', 
                 transportEnd: '小倉站', 
                 transportCost: '¥150', 
-                description: '僅需搭乘 1 站。',
-                googleMapLink: 'https://maps.app.goo.gl/wp6zvuFnPiNZDbXE6' 
+                description: '僅需搭乘 1 站，約 3 分鐘。',
+                googleMapLink: 'https://maps.app.goo.gl/wp6zvuFnPiNZDbXE6'
             },
+            
+            // ★★★ 修改點 3：小倉周邊 (加入 subLocations) ★★★
             'loc_ogura_area': { 
                 title: '小倉周邊', 
-                description: '任天堂博物館(外觀)', 
+                description: '任天堂發源地，有新開幕的博物館和任天堂主題人孔蓋。', 
                 hours: '', note: '', 
                 googleMapLink: 'https://maps.app.goo.gl/M2AC2zTaYkmXUpGh6',
-                // ★ 寶可夢資訊
+                subLocations: [
+                    { title: '任天堂博物館 (Nintendo Museum)', hours: '需預約', note: '2024秋季開幕，展示任天堂歷史', mapLink: 'https://maps.app.goo.gl/M2AC2zTaYkmXUpGh6' },
+                    { title: '皮卡丘人孔蓋', hours: '24小時', note: '位於博物館附近', mapLink: 'https://maps.app.goo.gl/M2AC2zTaYkmXUpGh6' }
+                ],
                 pokemon: {
                     characters: '皮卡丘 (Pikachu)',
                     mapLink: 'https://maps.app.goo.gl/M2AC2zTaYkmXUpGh6'
                 }
             },
-            'loc_71': { title: '麺や轍 小倉店', rating: '4.0', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '18:00-04:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/jyw4iXDcQAwjVxye9' },
-            'loc_72': { title: 'かつ扇', rating: '4.1', priceLevel: '¥1,500-2,500', description: '豬排店', hours: '17:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/Q7cRoqWqL7d9sG5F7' },
-            'loc_73': { title: 'お好み焼 なすび亭', rating: '3.8', priceLevel: '¥1,500-2,500', description: '御好燒', hours: '17:30-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/aqGcf6yJ4BoHHEnp8' },
-            'loc_74': { title: '手打ちそば 濱屋', rating: '4.2', priceLevel: '¥1,000-2,000', description: '蕎麥麵、天婦羅', hours: '17:30-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/vGsZJCKYMmB4ta3eA' },
+            'loc_71': { title: '麺や轍 小倉店', rating: '4.0', priceLevel: '¥1,000-1,500', description: '濃郁雞白湯拉麵', hours: '18:00-04:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/jyw4iXDcQAwjVxye9' },
+            'loc_72': { title: 'かつ扇', rating: '4.1', priceLevel: '¥1,500-2,500', description: '在地人氣豬排店', hours: '17:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/Q7cRoqWqL7d9sG5F7' },
+            'loc_73': { title: 'お好み焼 なすび亭', rating: '3.8', priceLevel: '¥1,500-2,500', description: '御好燒、鐵板燒', hours: '17:30-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/aqGcf6yJ4BoHHEnp8' },
+            'loc_74': { title: '手打ちそば 濱屋', rating: '4.2', priceLevel: '¥1,000-2,000', description: '手工蕎麥麵、天婦羅', hours: '17:30-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/vGsZJCKYMmB4ta3eA' },
             'loc_back_from_ogura': { 
                 title: '搭車回家', 
                 transportRoute: '近鐵京都線', 
-                transportStart: '小倉', 
-                transportEnd: '東寺', 
+                transportStart: '小倉站', 
+                transportEnd: '東寺站', 
                 transportCost: '¥360', 
-                description: '',
+                description: '注意：JR小倉站與近鐵小倉站不同，需步行轉乘。',
                 googleMapLink: 'https://maps.app.goo.gl/UoX9odhnTBdcEcyW6'
             },
             // 12/29
@@ -1124,66 +1232,98 @@
                 transportStart: '京都車站', 
                 transportEnd: '稻荷車站', 
                 transportCost: '¥150', 
-                description: '出站即是伏見稻荷大社。' 
+                description: '出站即是伏見稻荷大社表參道。' 
             },
-            'loc_chiikawa_fushimi': { title: 'Chiikawa Mogumogu Honpo', description: '吉伊卡哇專賣店 (非免稅店)', hours: '09:30-17:30', note: '', googleMapLink: 'https://maps.app.goo.gl/PtqmExNUZcFEmABa6' },
-            'loc_fushimi_inari': { title: '伏見稻荷大社', description: '主殿、千本鳥居、重輕石', hours: '24小時', note: '', googleMapLink: 'https://maps.app.goo.gl/mzRi4J7W1HpppARK8' },
+            'loc_chiikawa_fushimi': { title: '吉伊卡哇專賣店 (Chiikawa Mogumogu Honpo)', description: '京都限定的伏見稻荷主題吉伊卡哇周邊商品。', hours: '09:30-17:30', note: '非免稅店，人多時需整理券', googleMapLink: 'https://maps.app.goo.gl/PtqmExNUZcFEmABa6' },
+            'loc_fushimi_inari': { title: '伏見稻荷大社', description: '以千本鳥居聞名，供奉商業之神。山頂視野好但需體力。', hours: '24小時', note: '免費參觀', googleMapLink: 'https://maps.app.goo.gl/B5T2DMhbwx7FyqVU9' },
             'loc_move_chushojima': { 
                 title: '前往中書島', 
                 transportRoute: '京阪本線', 
                 transportStart: '伏見稻荷站', 
                 transportEnd: '中書島站', 
                 transportCost: '¥240', 
-                description: '',
+                description: '步行至京阪電車車站轉乘。',
                 googleMapLink: 'https://maps.app.goo.gl/xJ1qP6ki7MHiujVt8'
             },
-            'loc_75': { title: '月の蔵人', rating: '4.0', priceLevel: '¥1,500-2,500', description: '酒造改建餐廳，主打清酒料理', hours: '11:00-15:00', note: '', googleMapLink: 'https://maps.app.goo.gl/qvvw87rsoTXXjZpYA' },
-            'loc_76': { title: '鳥せい', rating: '4.2', priceLevel: '¥2,000-3,000', description: '烤串好吃', hours: '11:00-21:30', note: '', googleMapLink: 'https://maps.app.goo.gl/8ZB6qda7xgkTctE7A' },
-            'loc_77': { title: '三代目 辨慶 饂の神', rating: '4.1', priceLevel: '¥1,000-1,500', description: '烏龍麵', hours: '11:00-14:30', note: '', googleMapLink: 'https://maps.app.goo.gl/mQiWKra8koSYSimA9' },
-            'loc_78': { title: 'かつ廣 桃山店', rating: '4.0', priceLevel: '¥1,500-2,000', description: '豬排店', hours: '11:30-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/i6HGk5DbSa2AsAVT6' },
-            'loc_79': { title: '伏水酒藏小路', rating: '4.1', priceLevel: '¥2,000-4,000', description: '居酒屋集合地', hours: '11:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/x6bgJk6Gei4e5vwh6' },
-            'loc_fushimi_walk': { title: '伏見酒鄉散步', description: '寺田屋(坂本龍馬歷史旅館)、伏見老街、運河公園', hours: '', note: '', googleMapLink: 'https://maps.app.goo.gl/6Hzfu92SdA8zEpye7' },
-            'loc_sake_museum': { title: '伏見清酒博物館', description: '試飲伏見地酒 (伏見夢百衆)、月桂冠大倉紀念館 (入場費 ¥600)', hours: '10:30-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/XzGNALRvdSCZijJj9' },
-            'loc_80': { title: '家守堂', rating: '4.3', priceLevel: '¥2,000-4,000', description: '酒與下酒菜', hours: '11:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/2XVQXPXF3t483NuY7' },
-            'loc_81': { title: 'SUGIDAMA Fushimi-Momoyama', rating: '3.9', priceLevel: '¥2,000-3,000', description: '居酒屋', hours: '16:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/UgwbryGycpLrUiJT8' },
-            'loc_82': { title: 'Katsukura Fushimi Momoyama', rating: '4.3', priceLevel: '¥1,500-2,500', description: '豬排店', hours: '11:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/zg5xNUrScnkXS8Gj7' },
+            'loc_75': { title: '月の蔵人', rating: '4.0', priceLevel: '¥1,500-2,500', description: '月桂冠酒造改建的餐廳，主打清酒與豆腐料理。', hours: '11:00-15:00, 17:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/qvvw87rsoTXXjZpYA' },
+            'loc_76': { title: '鳥せい 本店', rating: '4.2', priceLevel: '¥2,000-3,000', description: '由酒窖改建，提供美味烤雞串和清酒。', hours: '11:00-21:30 (週一休)', note: '', googleMapLink: 'https://maps.app.goo.gl/8ZB6qda7xgkTctE7A' },
+            'loc_77': { title: '三代目 辨慶 饂の神', rating: '4.1', priceLevel: '¥1,000-1,500', description: '人氣烏龍麵店', hours: '11:00-14:30, 17:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/mQiWKra8koSYSimA9' },
+            'loc_78': { title: 'かつ廣 桃山店', rating: '4.0', priceLevel: '¥1,500-2,000', description: '炸豬排定食', hours: '11:30-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/i6HGk5DbSa2AsAVT6' },
+            'loc_79': { title: '伏水酒藏小路', rating: '4.1', priceLevel: '¥2,000-4,000', description: '集合多家餐飲店的設施，可以一次喝到多種伏見清酒。', hours: '11:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/x6bgJk6Gei4e5vwh6' },
+            
+            // ★★★ 修改點 4：伏見酒鄉散步 (加入 subLocations) ★★★
+            'loc_fushimi_walk': { 
+                title: '伏見酒鄉散步', 
+                description: '漫步在充滿歷史感的街道和運河邊，參觀幕末歷史場景。', 
+                hours: '', note: '', 
+                googleMapLink: 'https://maps.app.goo.gl/6Hzfu92SdA8zEpye7',
+                subLocations: [
+                    { title: '寺田屋', hours: '10:00-16:00', note: '坂本龍馬遇襲的歷史旅館 (參觀費¥400)', mapLink: 'https://maps.app.goo.gl/qaNBReH2MBTX6iAx8' },
+                    { title: '伏見十石舟', hours: '10:00-16:20 (季節限定)', note: '乘船遊覽運河與酒窖風景', mapLink: 'https://maps.app.goo.gl/Rf9RazXzNk3DfKwe8' },
+                    { title: '龍馬通商店街', hours: '各店不同', note: '復古風味的商店街', mapLink: 'https://maps.app.goo.gl/qA3fGEHJCjuXZoGm9' }
+                ]
+            },
+            'loc_sake_museum': { 
+                title: '清酒體驗', 
+                description: '參觀酒造博物館並品嚐新鮮清酒。', 
+                hours: '09:30-16:30', note: '', 
+                googleMapLink: 'https://maps.app.goo.gl/XzGNALRvdSCZijJj9',
+                subLocations: [
+                    { title: '月桂冠大倉紀念館', hours: '09:30-16:30', note: '門票¥600 (含試飲及紀念品)', mapLink: 'https://maps.app.goo.gl/6adAepLBzedQGtC19' },
+                    { title: '伏見夢百衆', hours: '10:30-17:00', note: '大正時代建築改建的咖啡廳與伴手禮店', mapLink: 'https://maps.app.goo.gl/XzGNALRvdSCZijJj9' }
+                ]
+            },
+            'loc_80': { title: '家守堂', rating: '4.3', priceLevel: '¥2,000-4,000', description: '在百年町家品嚐精釀啤酒與創意料理。', hours: '11:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/2XVQXPXF3t483NuY7' },
+            'loc_81': { title: 'SUGIDAMA 伏見桃山店', rating: '3.9', priceLevel: '¥2,000-3,000', description: '壽司居酒屋，CP值高。', hours: '16:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/UgwbryGycpLrUiJT8' },
+            'loc_82': { title: '名代炸豬排 Katsukura 伏見桃山店', rating: '4.3', priceLevel: '¥1,500-2,500', description: '京都知名的炸豬排連鎖店。', hours: '11:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/zg5xNUrScnkXS8Gj7' },
             'loc_back_from_momoyama': { 
                 title: '搭車回家', 
                 transportRoute: '近鐵京都線', 
                 transportStart: '桃山御陵前', 
                 transportEnd: '東寺', 
                 transportCost: '¥240', 
-                description: '',
+                description: '從酒鄉步行至近鐵車站搭車。',
                 googleMapLink: 'https://maps.app.goo.gl/rBktnzjFtaM4WSWt6'
             },
             // 12/30
             'loc_move_nara': { 
                 title: '前往奈良', 
-                transportRoute: '近鐵京都線', 
+                transportRoute: '近鐵京都線 (急行)', 
                 transportStart: '東寺站', 
                 transportEnd: '近鐵奈良站', 
                 transportCost: '¥760', 
-                description: '車程約 45 分鐘。' 
+                description: '車程約 45-50 分鐘。' 
             },
-            'loc_nara_bike': { title: 'NARA Rent-A-Cycle', description: '自行車¥1000 / 電動自行車¥2000', hours: '09:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/6P5YGgsdXQKSUGXM7' },
-            'loc_kasuga_taisha': { title: '春日大社', description: '萬燈籠、鹿苑、夫婦大國社 (入場費 ¥700)', hours: '07:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/5pwSYnfaPEvYRmXL9' },
-            'loc_85': { title: '柿葉壽司本舖田中 奈良店', rating: '4.2', priceLevel: '¥1,000-1,500', description: '柿葉壽司', hours: '08:00-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/8nxYhKMDFndBv2Ds6' },
-            'loc_83': { title: '志津香 公園店', rating: '3.8', priceLevel: '¥1,500-2,500', description: '釜飯', hours: '11:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/sscyYiJhahawiiMo9' },
-            'loc_84': { title: '春日荷茶屋', rating: '4.3', priceLevel: '¥1,000-1,500', description: '萬葉粥及日式茶點', hours: '10:30-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/pesx2ZtYqiU6t3Fq7' },
-            'loc_86': { title: 'YUKI 亭', rating: '4.4', priceLevel: '¥1,000-2,000', description: '蛋包飯', hours: '11:00-14:30', note: '', googleMapLink: 'https://maps.app.goo.gl/eVaChzr31cWa6Tkj7' },
-            'loc_87': { title: 'Dandan', rating: '4.0', priceLevel: '¥1,000-2,000', description: '蕎麥麵', hours: '11:15-14:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/e6WF3WgbtmjZzYJWA' },
-            'loc_88': { title: '麵屋K', rating: '4.1', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '11:00-14:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/JbHvHB7aWgkXvDWCA' },
-            'loc_nara_sweets': { title: '奈良甜點', description: '中谷堂(艾草麻糬)、大佛布丁', hours: '10:00-18:00', note: '' },
-            'loc_todaiji': { title: '奈良公園/東大寺', description: '南大門、大佛殿 (入場費 ¥800)、餵鹿', hours: '08:00-17:00 (東大寺)', note: '', googleMapLink: 'https://maps.app.goo.gl/qrjLNBQi9zYJ2jK38' },
-            'loc_kofukuji': { title: '興福寺/市區', description: '五重塔、興福寺 (入場費 ¥900)、Mi Nara、近鐵百貨', hours: '09:00-17:00 (興福寺)', note: '', googleMapLink: 'https://maps.app.goo.gl/EnGUWoM9eR1BuduX9' },
-            'loc_90': { title: 'まぐろ小屋', rating: '4.5', priceLevel: '¥1,500-2,500', description: '日式料理，鮪魚好吃', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/oD7HwFE63GkvdGas7' },
-            'loc_93': { title: 'すき焼き しゃぶしゃぶ鍋', rating: '4.0', priceLevel: '¥3,000-5,000', description: '和牛壽喜燒', hours: '17:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/23CBFXWd2TstNhFd9' },
-            'loc_91': { title: '元喜神 奈良店', rating: '3.9', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/fyZ5ND1LtKXzwwbz7' },
-            'loc_92': { title: 'Zagin Kintetsu-Nara', rating: '4.4', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '10:30-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/BnmHPuPgDSqqqcBeA' },
-            'loc_94': { title: '一面二臂三店 パインストア', rating: '4.3', priceLevel: '¥2,000-3,000', description: '多元創作料理', hours: '17:00-20:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/ohcgkvakAUrCL8du9' },
+            'loc_nara_bike': { title: 'NARA Rent-A-Cycle', description: '租借腳踏車遊覽奈良公園更輕鬆。', hours: '09:00-17:00', note: '普通車¥1000 / 電動車¥2000', googleMapLink: 'https://maps.app.goo.gl/6P5YGgsdXQKSUGXM7' },
+            'loc_kasuga_taisha': { title: '春日大社', description: '世界文化遺產，以參道兩旁的萬燈籠聞名。', hours: '07:00-17:00', note: '本殿參拜費 ¥500', googleMapLink: 'https://maps.app.goo.gl/5pwSYnfaPEvYRmXL9' },
+            'loc_85': { title: '柿葉壽司本舖田中 奈良店', rating: '4.2', priceLevel: '¥1,000-1,500', description: '奈良名產柿葉壽司外帶店。', hours: '08:00-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/8nxYhKMDFndBv2Ds6' },
+            'loc_83': { title: '志津香 公園店', rating: '3.8', priceLevel: '¥1,500-2,500', description: '知名釜飯老店，通常需要排隊。', hours: '11:00-15:00', note: '', googleMapLink: 'https://maps.app.goo.gl/sscyYiJhahawiiMo9' },
+            'loc_84': { title: '春日荷茶屋', rating: '4.3', priceLevel: '¥1,000-1,500', description: '位於春日大社境內，提供萬葉粥及日式茶點。', hours: '10:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/pesx2ZtYqiU6t3Fq7' },
+            'loc_86': { title: 'YUKI 亭', rating: '4.4', priceLevel: '¥1,000-2,000', description: '懷舊風洋食店，蛋包飯受歡迎。', hours: '11:00-14:30', note: '', googleMapLink: 'https://maps.app.goo.gl/eVaChzr31cWa6Tkj7' },
+            'loc_87': { title: 'Dandan', rating: '4.0', priceLevel: '¥1,000-2,000', description: '手工蕎麥麵', hours: '11:15-14:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/e6WF3WgbtmjZzYJWA' },
+            'loc_88': { title: '麵屋K', rating: '4.1', priceLevel: '¥1,000-1,500', description: '人氣拉麵店', hours: '11:00-14:30, 18:00-20:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/JbHvHB7aWgkXvDWCA' },
+            
+            // ★★★ 修改點 5：奈良甜點 (加入 subLocations) ★★★
+            'loc_nara_sweets': { 
+                title: '奈良甜點時間', 
+                description: '品嚐奈良特色點心。', 
+                hours: '', note: '', 
+                googleMapLink: 'https://maps.app.goo.gl/GqogwtZXiWqthQXM8',
+                subLocations: [
+                    { title: '中谷堂', hours: '10:00-19:00', note: '以快速搗麻糬表演聞名的艾草紅豆麻糬', mapLink: 'https://maps.app.goo.gl/GqogwtZXiWqthQXM8' },
+                    { title: '大佛布丁 (近鐵奈良站店)', hours: '09:00-20:00', note: '口感綿密、瓶子可愛的人氣布丁', mapLink: 'https://maps.app.goo.gl/GqogwtZXiWqthQXM8' }
+                ]
+            },
+            'loc_todaiji': { title: '奈良公園/東大寺', description: '世界最大的木造建築大佛殿，以及公園內自由漫步的小鹿。', hours: '大佛殿 08:00-17:00', note: '大佛殿門票 ¥800，鹿仙貝 ¥200', googleMapLink: 'https://maps.app.goo.gl/qrjLNBQi9zYJ2jK38' },
+            'loc_kofukuji': { title: '興福寺/市區逛街', description: '國寶五重塔（整修中），以及好逛的商店街。', hours: '', note: '', googleMapLink: 'https://maps.app.goo.gl/EnGUWoM9eR1BuduX9' },
+            'loc_90': { title: 'まぐろ小屋', rating: '4.5', priceLevel: '¥1,500-2,500', description: '專賣鮪魚料理的小店，CP值高。', hours: '11:00-20:00 (週日休)', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/oD7HwFE63GkvdGas7' },
+            'loc_93': { title: 'すき焼き しゃぶしゃぶ鍋 もしも奈良に...', rating: '4.0', priceLevel: '¥3,000-5,000', description: '和牛壽喜燒、涮涮鍋', hours: '17:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/23CBFXWd2TstNhFd9' },
+            'loc_91': { title: '元喜神 奈良店', rating: '3.9', priceLevel: '¥1,000-1,500', description: '雞白湯拉麵，可煮成雜炊。', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/fyZ5ND1LtKXzwwbz7' },
+            'loc_92': { title: 'Zagin Kintetsu-Nara', rating: '4.4', priceLevel: '¥1,000-1,500', description: '大阪知名拉麵店的奈良分店。', hours: '10:30-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/BnmHPuPgDSqqqcBeA' },
+            'loc_94': { title: '一面二臂三店 パインストア', rating: '4.3', priceLevel: '¥2,000-3,000', description: '充滿創意的無國籍料理居酒屋。', hours: '17:00-20:30', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/ohcgkvakAUrCL8du9' },
             'loc_back_from_nara': { 
                 title: '搭車回家', 
-                transportRoute: '近鐵京都線', 
+                transportRoute: '近鐵京都線 (急行)', 
                 transportStart: '近鐵奈良', 
                 transportEnd: '東寺', 
                 transportCost: '¥760', 
@@ -1197,167 +1337,113 @@
                 transportStart: '九條近鐵前', 
                 transportEnd: '四条高倉', 
                 transportCost: '¥230', 
-                description: '',
+                description: '前往錦市場與市區。',
                 googleMapLink: 'https://maps.app.goo.gl/J13zdDbqBMCZxdCeA'
             },
-            'loc_nishiki_market': { title: '錦市場', description: '京都的廚房：富美家、豆乳甜甜圈、玉子燒(只收現金)、章魚燒', hours: '11:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/pL5rpUbp8DTyGfqt5' },
-            'loc_shijo_shopping': { title: '高島屋周邊', description: 'Kiddy Land(吉伊卡哇)、任天堂', hours: '10:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Hv7YNNhLP8u1u7Mo8' },
-            'loc_inabado': { title: '平等寺 (因幡堂)', description: '貓咪御守，保佑毛小孩', hours: '06:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/FHohmQ8v2HdBA6wV6' },
-            'loc_160': { title: '一蘭 京都烏丸店', rating: '4.2', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '10:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/YsGkeL1r4aiyrWw38' },
-            'loc_161': { title: 'Kyo Unawa Honten', rating: '4.5', priceLevel: '¥3,000-5,000', description: '鰻魚飯', hours: '11:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/yQe38x4HGAK7vh7i8' },
-            'loc_162': { title: 'To 四条乌丸', rating: '4.0', priceLevel: '¥3,000-4,000', description: '居酒屋', hours: '16:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/ewn3E3yho7x8CKtD8' },
-            'loc_163': { title: 'Italian Furca', rating: '4.3', priceLevel: '¥2,000-3,000', description: '義式餐廳', hours: '15:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/74eiNYQrtSpc9dh9A' },
-            'loc_164': { title: '錦 鮨しん', rating: '4.4', priceLevel: '¥4,000-6,000', description: '壽司', hours: '17:30-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hLznNuhhQf9juZzk6' },
-            'loc_165': { title: '手作漢堡排 Tokura 京都三條店', rating: '4.3', priceLevel: '¥1,500-2,500', description: '漢堡排，皮寶同事推薦', hours: '17:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/cTy3WuUkaTt9nbYs5' },
+            
+            // ★★★ 修改點 6：錦市場 (加入 subLocations) ★★★
+            'loc_nishiki_market': { 
+                title: '錦市場', 
+                description: '被稱為「京都的廚房」，長約400公尺的商店街，充滿各種小吃和食材。', 
+                hours: '約 10:00-17:00 (各店不同)', note: '建議邊走邊吃時注意禮儀', 
+                googleMapLink: 'https://maps.app.goo.gl/pL5rpUbp8DTyGfqt5',
+                subLocations: [
+                    { title: '富美家 本店', hours: '11:00-17:00', note: '鍋燒烏龍麵、紅豆甜品、抹茶聖代', mapLink: 'https://maps.app.goo.gl/pL5rpUbp8DTyGfqt5' },
+                    { title: '冨美家 錦店', hours: '11:00-17:30', note: '另一家分店，如果本店人太多可以來這', mapLink: 'https://maps.app.goo.gl/81DwuPtVkQWiTz2i9' },
+                    { title: '豆乳甜甜圈 (こんなもんじゃ)', hours: '10:00-18:00', note: '小巧可愛的現炸甜甜圈', mapLink: 'https://maps.app.goo.gl/CTHGL16RPt2CjcQn8' },
+                    { title: '三木雞卵', hours: '09:00-18:00', note: '高湯玉子燒名店 只收現金', mapLink: 'https://maps.app.goo.gl/iru2NvwD93h5BixD6' },
+                    { title: '田中雞卵', hours: '09:00-18:00', note: '好吃的玉子燒 只收現金', mapLink: 'https://maps.app.goo.gl/ESSdwh6sQQHCzXiNA' },
+                    { title: '錦魚力', hours: '10:00-18:00', note: '天婦羅、鹽燒魚串、烤干貝、烤鰻魚', mapLink: 'https://maps.app.goo.gl/VY4zoiJRApbvbfFJ6' },
+                    { title: 'カリカリ博士', hours: '10:00-20:00', note: '章魚燒', mapLink: 'https://maps.app.goo.gl/znPTgrHh6fG9A67CA' },
+                    { title: '京都 七味唐辛子 おちゃのこさいさい 錦店', hours: '10:00-17:30', note: '賣調味料，舞技咖哩辣仙貝好吃', mapLink: 'https://maps.app.goo.gl/QcA2rqrLuNUUwtFQ7' }
+                ]
+            },
+            'loc_shijo_shopping': { 
+                title: '四条河原町逛街', 
+                description: '京都最熱鬧的購物區，百貨公司與品牌店林立。', 
+                hours: '百貨約 10:00-20:00', note: '', 
+                googleMapLink: 'https://maps.app.goo.gl/Hv7YNNhLP8u1u7Mo8',
+                subLocations: [
+                    { title: 'Kiddy Land (京都四條河原町店)', hours: '10:00-20:00', note: '有吉伊卡哇、寶可夢等角色周邊', mapLink: 'https://maps.app.goo.gl/Hv7YNNhLP8u1u7Mo8' },
+                    { title: 'Nintendo Kyoto (高島屋S.C.)', hours: '10:00-20:00', note: '任天堂直營旗艦店', mapLink: 'https://maps.app.goo.gl/Hv7YNNhLP8u1u7Mo8' },
+                    { title: '京都高島屋 S.C.', hours: '10:00-20:00', note: '大型百貨公司', mapLink: 'https://maps.app.goo.gl/Hv7YNNhLP8u1u7Mo8' }
+                ]
+            },
+            'loc_inabado': { title: '平等寺 (因幡堂)', description: '以祈求健康和可愛的「貓咪御守」聞名，愛貓人士必訪。', hours: '06:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/FHohmQ8v2HdBA6wV6' },
+            'loc_160': { title: '一蘭 京都烏丸店', rating: '4.2', priceLevel: '¥1,000-1,500', description: '知名豚骨拉麵連鎖店', hours: '10:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/YsGkeL1r4aiyrWw38' },
+            'loc_161': { title: 'Kyo Unawa Honten', rating: '4.5', priceLevel: '¥3,000-5,000', description: '炭烤鰻魚飯', hours: '11:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/yQe38x4HGAK7vh7i8' },
+            'loc_162': { title: 'To 四条乌丸', rating: '4.0', priceLevel: '¥3,000-4,000', description: '時尚居酒屋', hours: '16:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/ewn3E3yho7x8CKtD8' },
+            'loc_163': { title: 'Italian Furca', rating: '4.3', priceLevel: '¥2,000-3,000', description: '氣氛佳的義式餐廳', hours: '15:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/74eiNYQrtSpc9dh9A' },
+            'loc_164': { title: '錦 鮨しん', rating: '4.4', priceLevel: '¥4,000-6,000', description: '錦市場附近的高品質壽司店', hours: '17:30-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hLznNuhhQf9juZzk6' },
+            'loc_165': { title: '手作漢堡排 Tokura 京都三條店', rating: '4.3', priceLevel: '¥1,500-2,500', description: '肉汁爆發的手作漢堡排，皮寶同事推薦。', hours: '17:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/cTy3WuUkaTt9nbYs5' },
             'loc_bus_back_shijo': { 
                 title: '搭公車回家', 
                 transportRoute: '京都市營巴士 207', 
                 transportStart: '四条高倉', 
                 transportEnd: '九條近鐵前', 
                 transportCost: '¥230', 
-                description: '',
+                description: '返回飯店準備跨年。',
                 googleMapLink: 'https://maps.app.goo.gl/Mz1B8WTEFYs9yb297'
             },
             'loc_toji_nye': { 
-                title: '東寺 (除夕)', 
-                description: '五重塔夜燈跟除夕鐘聲', 
-                hours: '', note: '', 
+                title: '東寺 (除夕跨年)', 
+                description: '欣賞五重塔的夜間點燈，聆聽除夕鐘聲，感受日式跨年氛圍。', 
+                hours: '夜間特別參拜至凌晨', note: '人潮眾多請注意保暖', 
                 googleMapLink: 'https://maps.app.goo.gl/rBThfp1RWMaoPhRc8',
-                // ★ 補回寶可夢資訊
                 pokemon: {
                     characters: '瑪力露麗、小鉅鱷',
                     mapLink: 'https://maps.app.goo.gl/W8NvKNL3jc2tSjqB9'
                 }
             },
-            // 1/1
-            'loc_bus_shimogamo': { 
-                title: '前往下鴨神社', 
-                transportRoute: '京都市營巴士 205', 
-                transportStart: '九条車庫前', 
-                transportEnd: '新葵橋', 
-                transportCost: '¥230', 
-                description: '',
-                googleMapLink: 'https://maps.app.goo.gl/FKMykXFphMLZwVh67'
+            // ... (後面的 1/1, 1/2, 1/3 資料保持不變) ...
+            'loc_bus_shimogamo': { title: '前往下鴨神社', transportRoute: '京都市營巴士 205', transportStart: '九条車庫前', transportEnd: '新葵橋', transportCost: '¥230', description: '', googleMapLink: 'https://maps.app.goo.gl/FKMykXFphMLZwVh67' },
+            'loc_shimogamo': { title: '下鴨神社 (賀茂御祖神社)', description: '世界文化遺產，京都最古老的神社之一。包含祈求美麗的河合神社和結緣的相生社。', hours: '06:30-17:00', note: '初詣人潮眾多', googleMapLink: 'https://maps.app.goo.gl/TP3wScLjyShx3qcr7' },
+            'loc_95': { title: 'kazuka多佳.', rating: '4.7', priceLevel: '¥2,000-3,000', description: '精緻美味的日式定食。', hours: '12:00-13:00 (午餐時段短)', note: '只收現金，建議預約', googleMapLink: 'https://maps.app.goo.gl/daS6NP9w6ibA9mGN7' },
+            'loc_96': { title: 'Falafel Garden', rating: '4.4', priceLevel: '¥1,000-1,500', description: '特色中東料理，鷹嘴豆泥三明治。', hours: '11:30-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/Kih2aaRH3K8menVy7' },
+            'loc_97': { title: '旬菜田中でたなか', rating: '4.2', priceLevel: '¥1,500-2,500', description: '使用當季食材的日式料理。', hours: '11:30-14:00', note: '', googleMapLink: 'https://maps.app.goo.gl/L1FVQox5WFSGVQaPA' },
+            'loc_98': { title: '鴨町拉麵', rating: '4.1', priceLevel: '¥1,000-1,500', description: '清爽系的豚骨拉麵。', hours: '11:00-15:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/2reBYhzGRunjgDHK6' },
+            'loc_99': { title: 'Kyogame', rating: '4.0', priceLevel: '¥1,500-2,500', description: '鍋物專門店，有少見的馬肉鍋。', hours: '11:30-13:30', note: '', googleMapLink: 'https://maps.app.goo.gl/p34hMwDE4bfer9ZK7' },
+            'loc_move_nyannyan': { title: '前往貓貓寺', transportRoute: '叡山電鐵', transportStart: '出町柳', transportEnd: '八瀨比叡山口', transportCost: '¥280', description: '搭乘可愛的叡山電鐵列車。', googleMapLink: 'https://maps.app.goo.gl/GVdtzBC8NSL9UZMx9' },
+            'loc_nyannyanji': { title: '貓貓寺 (與貓共生的本格寺院)', description: '以貓為主題的寺院型博物館，有貓咪住持和各種貓咪藝術品。', hours: '11:00-17:00 (週二休)', note: '入場費 ¥800 (含飲料)', googleMapLink: 'https://maps.app.goo.gl/69L3ZpeaxHHv5QR27' },
+            'loc_back_eizan': { title: '搭叡山電鐵', transportRoute: '叡山電鐵', transportStart: '八瀨比叡山口', transportEnd: '出町柳', transportCost: '¥280', description: '回程第一段。' },
+            'loc_back_keihan': { title: '轉乘京阪電車', transportRoute: '京阪本線', transportStart: '出町柳', transportEnd: '東福寺', transportCost: '¥300', description: '回程第二段。' },
+            'loc_back_jr_tofukuji': { title: '轉乘JR', transportRoute: 'JR 奈良線', transportStart: '東福寺', transportEnd: '京都車站', transportCost: '¥150', description: '回程第三段，回到京都車站吃晚餐。' },
+            'loc_100': { title: 'Tsukumo烏龍 鹽小路本店', rating: '3.9', priceLevel: '¥500-1,000', description: '京都車站附近的平價烏龍麵。', hours: '07:00-21:30', note: '', googleMapLink: 'https://maps.app.goo.gl/hPJ5ztFFg98qy26u5' },
+            'loc_101': { title: 'Spicy Masara', rating: '4.2', priceLevel: '¥1,000-1,500', description: '香料咖哩專賣店。', hours: '09:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/GwCZLCE8Js4BxwEB8' },
+            'loc_102': { title: '壽司・和食 Ganko 京都車站大樓店', rating: '3.8', priceLevel: '¥1,500-3,000', description: '方便美味的日式料理連鎖店。', hours: '11:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/N463h4ntdKtwPqZr6' },
+            'loc_103': { title: 'Pub & Grill 7 TAPS TAVERN', rating: '4.1', priceLevel: '¥2,000-3,000', description: '提供精釀啤酒和燒烤料理的餐酒館。', hours: '11:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hRMrNHbgXPUtfjbE6' },
+            'loc_104': { title: '原始炭焼き 濱いち 京都駅前店', rating: '4.0', priceLevel: '¥3,000-4,000', description: '主打海鮮炭火燒烤的居酒屋。', hours: '17:00-00:00', note: '', googleMapLink: 'https://maps.app.goo.gl/DcbweGQapgSy9FKo8' },
+            'loc_kyoto_tower': { title: '京都塔', description: '京都地標，可上展望台欣賞夜景 (入場費 ¥900)。樓下有商場和美食街。', hours: '展望台 10:00-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/8zjomrjWcjr5qAYLA' },
+            'loc_back_toji_final': { title: '搭車回家', transportRoute: '近鐵京都線', transportStart: '京都車站', transportEnd: '東寺', transportCost: '¥180', description: '結束新年第一天的行程。', googleMapLink: 'https://maps.app.goo.gl/VmxLWyzRD5ykKpbp9' },
+            'loc_bus_heian': { title: '前往平安神宮', transportRoute: '京都市營巴士 202', transportStart: '九条近鐵前', transportEnd: '東山仁王門', transportCost: '¥230', description: '', googleMapLink: 'https://maps.app.goo.gl/qaNBReH2MBTX6iAx8' },
+            'loc_heian_jingu': { title: '平安神宮', description: '擁有巨大的紅色鳥居，紅白色的社殿非常壯觀。', hours: '06:00-17:00', note: '神苑門票 ¥600', googleMapLink: 'https://maps.app.goo.gl/jat4d7W1jPQNgTHq7', pokemon: { characters: '火球鼠、達摩狒狒', mapLink: 'https://maps.app.goo.gl/CRohzKrL62fNYe1u8' } },
+            'loc_nanzenji': { title: '南禪寺區域', description: '包含巨大的三門、著名的賞楓景點永觀堂，以及紅磚砌成的水路閣拱橋。', hours: '南禪寺 08:40-16:30', note: '各院參拜費另計', googleMapLink: 'https://maps.app.goo.gl/AkoiarETAgfaxqNcA' },
+            'loc_105': { title: 'とよ寿司', rating: '4.3', priceLevel: '¥2,000-4,000', description: '新鮮美味的壽司店。', hours: '11:30-20:00 (週三休)', note: '', googleMapLink: 'https://maps.app.goo.gl/pHdZvGMgd6RUaeJi6' },
+            'loc_106': { title: '味ま野', rating: '4.5', priceLevel: '¥5,000-8,000', description: '正統的京懷石料理。', hours: '11:30-19:00', note: '需預約', googleMapLink: 'https://maps.app.goo.gl/WU3V3XA4iReKaWwD8' },
+            'loc_107': { title: 'Tairikitei', rating: '3.8', priceLevel: '¥1,500-2,500', description: '提供烏龍麵和壽喜燒。', hours: '11:30-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/JYjQpVR8qvHzpQwH6' },
+            'loc_108': { title: 'Gonta', rating: '4.2', priceLevel: '¥1,000-1,500', description: '受歡迎的烏龍麵店。', hours: '11:00-17:30', note: '', googleMapLink: 'https://maps.app.goo.gl/uBsRHaRgLJTgwVRD8' },
+            'loc_109': { title: '京料理 六盛', rating: '4.4', priceLevel: '¥3,000-6,000', description: '老字號的京都料理店，以手桶便當聞名。', hours: '11:30-14:00, 16:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/TcDzttVhWyvkWg2y7' },
+            'loc_philosophers_path': { title: '哲學之道', description: '沿著運河的小徑，適合悠閒散步。途經熊野若王子神社、大豐神社。', hours: '24小時', note: '', googleMapLink: 'https://maps.app.goo.gl/MvJBAacYnosE5UiQ8' },
+            'loc_ginkakuji': { title: '慈照寺(銀閣寺)', description: '世界文化遺產，展現了東山文化的侘寂之美。', hours: '08:30-17:00', note: '門票 ¥500', googleMapLink: 'https://maps.app.goo.gl/ABka2RESKHY1g5xu5' },
+            'loc_ginkakuji_sweets': { 
+                title: '銀閣寺參道甜點', 
+                description: '參道上有許多抹茶甜點和伴手禮店。', 
+                hours: '約 09:00-17:00', note: '', 
+                googleMapLink: 'https://maps.app.goo.gl/ABka2RESKHY1g5xu5',
+                subLocations: [
+                    { title: 'Matsubaya (まつばや)', hours: '09:00-17:20', note: '手工泡芙和霜淇淋', mapLink: 'https://maps.app.goo.gl/sKfEug4VNaFqNNXx5' },
+                    { title: '氵庵 -sanzuian-', hours: '08:00-17:30', note: '抹茶拿鐵、咖啡', mapLink: 'https://maps.app.goo.gl/5ox7g2BkkFw8aCAB6' }
+                ]
             },
-            'loc_shimogamo': { title: '下鴨神社', description: '河合神社(美之神社)、相生社(結緣)、御守 (入場費 ¥1000)', hours: '10:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/TP3wScLjyShx3qcr7' },
-            'loc_95': { title: 'kazuka多佳.', rating: '4.7', priceLevel: '¥2,000-3,000', description: '日式料理店', hours: '12:00-13:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/daS6NP9w6ibA9mGN7' },
-            'loc_96': { title: 'Falafel Garden', rating: '4.4', priceLevel: '¥1,000-1,500', description: '中東三明治', hours: '11:30-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/Kih2aaRH3K8menVy7' },
-            'loc_97': { title: '旬菜田中でたなか', rating: '4.2', priceLevel: '¥1,500-2,500', description: '日式料理店', hours: '11:30-14:00', note: '', googleMapLink: 'https://maps.app.goo.gl/L1FVQox5WFSGVQaPA' },
-            'loc_98': { title: '鴨町拉麵', rating: '4.1', priceLevel: '¥1,000-1,500', description: '拉麵店', hours: '11:00-15:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/2reBYhzGRunjgDHK6' },
-            'loc_99': { title: 'Kyogame', rating: '4.0', priceLevel: '¥1,500-2,500', description: '鍋物料哩，有馬肉', hours: '11:30-13:30', note: '', googleMapLink: 'https://maps.app.goo.gl/p34hMwDE4bfer9ZK7' },
-            'loc_move_nyannyan': { 
-                title: '前往貓貓寺', 
-                transportRoute: '叡山電鐵', 
-                transportStart: '出町柳', 
-                transportEnd: '八瀨比叡山口', 
-                transportCost: '¥280', 
-                description: '',
-                googleMapLink: 'https://maps.app.goo.gl/GVdtzBC8NSL9UZMx9'
-            },
-            'loc_nyannyanji': { title: '貓貓寺/博物館', description: '貓族歷史博物館、貓咪住持 (入場費 ¥800)', hours: '11:00-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/69L3ZpeaxHHv5QR27' },
-            'loc_back_eizan': { 
-                title: '搭叡山電鐵', 
-                transportRoute: '叡山電鐵', 
-                transportStart: '八瀨比叡山口', 
-                transportEnd: '出町柳', 
-                transportCost: '¥280', 
-                description: '回程第一段。'
-            },
-            'loc_back_keihan': { 
-                title: '轉乘京阪電車', 
-                transportRoute: '京阪本線', 
-                transportStart: '出町柳', 
-                transportEnd: '東福寺', 
-                transportCost: '¥300', 
-                description: '回程第二段。'
-            },
-            'loc_back_jr_tofukuji': { 
-                title: '轉乘JR', 
-                transportRoute: 'JR 奈良線', 
-                transportStart: '東福寺', 
-                transportEnd: '京都車站', 
-                transportCost: '¥150', 
-                description: '回程第三段。'
-            },
-            'loc_100': { title: 'Tsukumo烏龍 鹽小路本店', rating: '3.9', priceLevel: '¥500-1,000', description: '烏龍麵店', hours: '07:00-21:30', note: '', googleMapLink: 'https://maps.app.goo.gl/hPJ5ztFFg98qy26u5' },
-            'loc_101': { title: 'Spicy Masara', rating: '4.2', priceLevel: '¥1,000-1,500', description: '咖哩店', hours: '09:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/GwCZLCE8Js4BxwEB8' },
-            'loc_102': { title: '壽司・和食 Ganko 京都車站大樓店', rating: '3.8', priceLevel: '¥1,500-3,000', description: '日式料理店', hours: '11:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/N463h4ntdKtwPqZr6' },
-            'loc_103': { title: 'Pub & Grill 7 TAPS TAVERN', rating: '4.1', priceLevel: '¥2,000-3,000', description: '餐酒館', hours: '11:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hRMrNHbgXPUtfjbE6' },
-            'loc_104': { title: '原始炭焼き 濱いち 京都駅前店', rating: '4.0', priceLevel: '¥3,000-4,000', description: '居酒屋', hours: '17:00-00:00', note: '', googleMapLink: 'https://maps.app.goo.gl/DcbweGQapgSy9FKo8' },
-            'loc_kyoto_tower': { title: '京都塔', description: '欣賞夜景 (入場費 ¥900)', hours: '10:00-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/8zjomrjWcjr5qAYLA' },
-            'loc_back_toji_final': { 
-                title: '搭車回家', 
-                transportRoute: '近鐵京都線', 
-                transportStart: '京都車站', 
-                transportEnd: '東寺', 
-                transportCost: '¥180', 
-                description: '',
-                googleMapLink: 'https://maps.app.goo.gl/VmxLWyzRD5ykKpbp9'
-            },
-            // 1/2
-            'loc_bus_heian': { 
-                title: '前往平安神宮', 
-                transportRoute: '京都市營巴士 202', 
-                transportStart: '九条近鐵前', 
-                transportEnd: '東山仁王門', 
-                transportCost: '¥230', 
-                description: '',
-                googleMapLink: 'https://maps.app.goo.gl/qaNBReH2MBTX6iAx8'
-            },
-            'loc_heian_jingu': { 
-                title: '平安神宮', 
-                description: '超大鳥居、神苑 (非櫻花季可不進神苑)', 
-                hours: '06:00-17:00', note: '', 
-                googleMapLink: 'https://maps.app.goo.gl/jat4d7W1jPQNgTHq7',
-                // ★ 補回寶可夢資訊
-                pokemon: {
-                    characters: '火球鼠、達摩狒狒',
-                    mapLink: 'https://maps.app.goo.gl/CRohzKrL62fNYe1u8'
-                }
-            },
-            'loc_nanzenji': { title: '南禪寺/永觀堂', description: '三門(¥600)、方丈(¥600)、水路閣、永觀堂(¥600)', hours: '08:40-16:30', note: '', googleMapLink: 'https://maps.app.goo.gl/AkoiarETAgfaxqNcA' },
-            'loc_105': { title: 'とよ寿司', rating: '4.3', priceLevel: '¥2,000-4,000', description: '壽司', hours: '11:30-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/pHdZvGMgd6RUaeJi6' },
-            'loc_106': { title: '味ま野', rating: '4.5', priceLevel: '¥5,000-8,000', description: '懷石料理', hours: '11:30-19:00', note: '', googleMapLink: 'https://maps.app.goo.gl/WU3V3XA4iReKaWwD8' },
-            'loc_107': { title: 'Tairikitei', rating: '3.8', priceLevel: '¥1,500-2,500', description: '烏龍麵，壽喜燒', hours: '11:30-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/JYjQpVR8qvHzpQwH6' },
-            'loc_108': { title: 'Gonta', rating: '4.2', priceLevel: '¥1,000-1,500', description: '烏龍麵', hours: '11:00-17:30', note: '', googleMapLink: 'https://maps.app.goo.gl/uBsRHaRgLJTgwVRD8' },
-            'loc_109': { title: '京料理 六盛', rating: '4.4', priceLevel: '¥3,000-6,000', description: '京都料理', hours: '11:30-14:00', note: '', googleMapLink: 'https://maps.app.goo.gl/TcDzttVhWyvkWg2y7' },
-            'loc_philosophers_path': { title: '哲學之道/若王子神社', description: '八咫鳥、適合散步', hours: '09:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/MvJBAacYnosE5UiQ8' },
-            'loc_ginkakuji': { title: '慈照寺(銀閣寺)', description: '觀音殿 (入場費 ¥500)', hours: '08:30-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/ABka2RESKHY1g5xu5' },
-            'loc_ginkakuji_sweets': { title: '銀閣寺甜點', description: 'Matsubaya(霜淇淋/泡芙)、氵庵(抹茶)', hours: '09:00-17:20', note: '' },
-            'loc_111': { title: '銀福', rating: '4.0', priceLevel: '¥1,500-2,500', description: '鯡魚飯與鯡魚蕎麥麵', hours: '11:30-18:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/noeWYxc9xyRed8D16' },
-            'loc_112': { title: '義式料理 NOANOA', rating: '4.1', priceLevel: '¥1,500-3,000', description: '義式料理', hours: '11:00-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/G6TEZQx9XnrFznZXA' },
-            'loc_113': { title: '名代おめん 銀閣寺本店', rating: '4.2', priceLevel: '¥1,500-2,000', description: '烏龍麵', hours: '10:30-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/g6M4Lfw4fD6Az7Qm9' },
-            'loc_114': { title: '京 銀閣寺 八よし', rating: '4.3', priceLevel: '¥2,500-4,000', description: '京都風定食', hours: '17:30-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/aLjdos6sjvQ8hJEi7' },
-            'loc_115': { title: '燒肉 花山', rating: '4.0', priceLevel: '¥4,000-6,000', description: '燒肉店', hours: '17:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Rog8WB9mxz9zHvqT8' },
-            'loc_bus_203_gion': { 
-                title: '搭203公車', 
-                transportRoute: '京都市營巴士 203', 
-                transportStart: '銀閣寺道', 
-                transportEnd: '祇園', 
-                transportCost: '¥230', 
-                description: '回程第一段。',
-                googleMapLink: 'https://maps.app.goo.gl/Rf9RazXzNk3DfKwe8'
-            },
-            'loc_bus_207_toji': { 
-                title: '轉乘207公車', 
-                transportRoute: '京都市營巴士 207', 
-                transportStart: '祇園', 
-                transportEnd: '九條近鐵前', 
-                transportCost: '¥230', 
-                description: '回程第二段。',
-                googleMapLink: 'https://maps.app.goo.gl/Rf9RazXzNk3DfKwe8'
-            },
-            // 1/3
-            'loc_move_kix': { 
-                title: '前往機場', 
-                transportRoute: '關空特急 HARUKA', 
-                transportStart: '京都車站', 
-                transportEnd: '關西機場', 
-                transportCost: '約 ¥2,200', 
-                description: '上車前 3 分鐘可劃位。',
-                googleMapLink: 'https://maps.app.goo.gl/qA3fGEHJCjuXZoGm9'
-            },
-            'loc_kix_return': { title: '關西國際機場 (KIX)', description: '第一航廈', hours: '', note: '', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Kansai_International_Airport_Terminal_1_20220815.jpg/800px-Kansai_International_Airport_Terminal_1_20220815.jpg' },
+            'loc_111': { title: '銀福', rating: '4.0', priceLevel: '¥1,500-2,500', description: '名物鯡魚蕎麥麵。', hours: '11:30-18:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/noeWYxc9xyRed8D16' },
+            'loc_112': { title: '義式料理 NOANOA', rating: '4.1', priceLevel: '¥1,500-3,000', description: '哲學之道旁的義式餐廳，有戶外座位。', hours: '11:00-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/G6TEZQx9XnrFznZXA' },
+            'loc_113': { title: '名代おめん 銀閣寺本店', rating: '4.2', priceLevel: '¥1,500-2,000', description: '著名的烏龍麵老店，特色是搭配大量藥味蔬菜。', hours: '10:30-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/g6M4Lfw4fD6Az7Qm9' },
+            'loc_114': { title: '京 銀閣寺 八よし', rating: '4.3', priceLevel: '¥2,500-4,000', description: '精緻的京都風定食。', hours: '17:30-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/aLjdos6sjvQ8hJEi7' },
+            'loc_115': { title: '燒肉 花山', rating: '4.0', priceLevel: '¥4,000-6,000', description: '提供優質肉品的燒肉店。', hours: '17:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Rog8WB9mxz9zHvqT8' },
+            'loc_bus_203_gion': { title: '搭203公車', transportRoute: '京都市營巴士 203', transportStart: '銀閣寺道', transportEnd: '祇園', transportCost: '¥230', description: '回程第一段，前往祇園轉車。', googleMapLink: 'https://maps.app.goo.gl/Rf9RazXzNk3DfKwe8' },
+            'loc_bus_207_toji': { title: '轉乘207公車', transportRoute: '京都市營巴士 207', transportStart: '祇園', transportEnd: '九條近鐵前', transportCost: '¥230', description: '回程第二段，返回飯店。', googleMapLink: 'https://maps.app.goo.gl/Rf9RazXzNk3DfKwe8' },
+            'loc_move_kix': { title: '前往機場', transportRoute: '關空特急 HARUKA', transportStart: '京都車站', transportEnd: '關西機場', transportCost: '約 ¥2,200', description: '記得提前預約座位。', googleMapLink: 'https://maps.app.goo.gl/qA3fGEHJCjuXZoGm9' },
+            'loc_kix_return': { title: '關西國際機場 (KIX)', description: '第一航廈出境。好好休息，期待下次旅程！', hours: '', note: '', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Kansai_International_Airport_Terminal_1_20220815.jpg/800px-Kansai_International_Airport_Terminal_1_20220815.jpg' },
             'default': { title: '地點資訊', description: '尚無詳細資訊。' }
         }
     };
@@ -1679,7 +1765,7 @@
         }
     };
 
-// 4. 地點詳情組件 (已修改：簡介支援條列式清單)
+// 4. 地點詳情組件 (已修改：加入子景點/店家列表呈現)
     const LocationDetail = {
         template: `
             <div class="detail-page">
@@ -1756,11 +1842,28 @@
                             </div>
                         </div>
 
+                        <div class="detail-row" v-if="location.subLocations && location.subLocations.length > 0">
+                            <span class="detail-label">🏪 包含景點 / 推薦店家</span>
+                            <div class="sub-location-list">
+                                <div class="sub-location-card" v-for="(sub, index) in location.subLocations" :key="index">
+                                    <div class="sub-loc-info">
+                                        <div class="sub-loc-title">{{ sub.title }}</div>
+                                        <div class="sub-loc-meta">
+                                            <span v-if="sub.hours">🕒 {{ sub.hours }}</span>
+                                            <span v-if="sub.note && sub.note.includes('只收現金')" class="tag-cash-only-small">只收現金</span>
+                                            <span v-if="sub.note">{{ getFormattedNote(sub.note) }}</span>
+                                        </div>
+                                    </div>
+                                    <a v-if="sub.mapLink" :href="sub.mapLink" target="_blank" class="sub-loc-map-btn">📍 地圖</a>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="detail-row" v-if="location.note">
                             <span class="detail-label">💡 補充資訊</span>
-                            <div class="detail-content">
+                            <div class="detail-content" style="display: flex; align-items: center; flex-wrap: wrap;">
                                 <span v-if="location.note.includes('只收現金')" class="tag-cash-only">⚠️ 只收現金</span>
-                                <span>{{ location.note }}</span>
+                                <span>{{ getFormattedNote(location.note) }}</span>
                             </div>
                         </div>
 
@@ -1829,7 +1932,13 @@
                 return { zh: title, en: '' };
             };
 
-            return { location, getImageUrl, splitTitle };
+            const getFormattedNote = (note) => {
+                if (!note) return '';
+                let processed = note.replace(/只收現金[，, ]?/, '');
+                return processed.trim();
+            };
+
+            return { location, getImageUrl, splitTitle, getFormattedNote };
         }
     };
 
