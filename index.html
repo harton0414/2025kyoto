@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>我的旅遊手札 Demo</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-router@4/dist/vue-router.global.js"></script>
+    <style>
+        /* CSS 樣式 - 簡單的手機風格 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .container {
+            padding: 15px;
+        }
+        /* 卡片樣式 */
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            padding: 15px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .card:active {
+            transform: scale(0.98);
+        }
+        .card h3 {
+            margin: 0 0 10px;
+            color: #007bff;
+        }
+        .card p {
+            margin: 5px 0;
+            color: #666;
+        }
+        /* 行程表樣式 */
+        .itinerary-day {
+            margin-bottom: 20px;
+        }
+        .itinerary-day h4 {
+            margin-bottom: 10px;
+            padding-left: 10px;
+            border-left: 4px solid #007bff;
+        }
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .activity-time {
+            font-weight: bold;
+            margin-right: 15px;
+            color: #007bff;
+            min-width: 50px;
+        }
+        .activity-info {
+            flex-grow: 1;
+        }
+        .activity-type {
+            font-size: 0.8rem;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+        /* 詳情頁樣式 */
+        .detail-page img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .map-link {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            {{ headerTitle }}
+        </header>
+        <div class="container">
+            <router-view></router-view>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref, computed } = Vue;
+        const { createRouter, createWebHashHistory, useRoute, useRouter } = VueRouter;
+
+        // --- 模擬資料 (Static Data) ---
+        const mockData = {
+            trips: [
+                { id: 1, title: '🇯🇵 東京五日遊', dates: '2023/10/20 - 2023/10/24', description: '賞楓、美食、購物之旅' }
+            ],
+            itineraries: {
+                1: [ // Trip ID 1 的行程
+                    {
+                        day: 'Day 1: 10/20 (五)',
+                        activities: [
+                            { id: 101, time: '14:00', type: '景點', title: '淺草寺 雷門', locationId: 'loc_sensoji' },
+                            { id: 102, time: '16:00', type: '景點', title: '晴空塔', locationId: 'loc_skytree' },
+                            { id: 103, time: '19:00', type: '美食', title: '一蘭拉麵 淺草店', locationId: 'loc_ichiran' }
+                        ]
+                    },
+                    {
+                        day: 'Day 2: 10/21 (六)',
+                        activities: [
+                            { id: 201, time: '10:00', type: '景點', title: '明治神宮', locationId: 'loc_meiji' },
+                            { id: 202, time: '12:30', type: '美食', title: 'AFURI 柚子鹽拉麵', locationId: 'loc_afuri' },
+                            { id: 203, time: '14:30', type: '景點', title: '澀谷十字路口 & Sky', locationId: 'loc_shibuya' }
+                        ]
+                    }
+                ]
+            },
+            locations: {
+                'loc_sensoji': {
+                    title: '淺草寺 雷門',
+                    description: '東京都內最古老的寺廟，巨大的紅燈籠是其標誌。周邊的仲見世通有許多傳統小吃和紀念品。',
+                    address: '東京都台東區淺草2丁目3-1',
+                    googleMapLink: 'https://goo.gl/maps/Mk8h8Y7G7k52',
+                    image: 'https://i.imgur.com/3zF7x7q.jpg' // 替換成實際圖片連結
+                },
+                'loc_skytree': {
+                    title: '東京晴空塔',
+                    description: '世界最高的自立式電波塔，可以俯瞰整個東京市區的景色。樓下有大型購物中心。',
+                    address: '東京都墨田區押上1丁目1-2',
+                    googleMapLink: 'https://goo.gl/maps/8ZqQx5yP5z52',
+                    image: 'https://i.imgur.com/4gH9x9r.jpg'
+                },
+                'loc_ichiran': {
+                    title: '一蘭拉麵 淺草店',
+                    description: '知名的豚骨拉麵連鎖店，特色是個人隔間座位和可客製化的口味濃淡。',
+                    address: '東京都台東區淺草1丁目1-16',
+                    googleMapLink: 'https://goo.gl/maps/1aB2c3d4e5f6',
+                    image: 'https://i.imgur.com/5iJ0k1l.jpg'
+                }
+                // ... 其他地點資料可依此類推增加
+            }
+        };
+
+        // --- 組件定義 (Components) ---
+
+        // 1. 首頁 - 行程列表組件
+        const TripList = {
+            template: `
+                <div>
+                    <div v-for="trip in trips" :key="trip.id" class="card" @click="goToItinerary(trip.id)">
+                        <h3>{{ trip.title }}</h3>
+                        <p>📅 {{ trip.dates }}</p>
+                        <p>ℹ️ {{ trip.description }}</p>
+                    </div>
+                </div>
+            `,
+            setup() {
+                const router = useRouter();
+                const trips = ref(mockData.trips);
+                const goToItinerary = (id) => router.push(`/itinerary/${id}`);
+                return { trips, goToItinerary };
+            }
+        };
+
+        // 2. 行程詳情組件
+        const ItineraryDetail = {
+            template: `
+                <div>
+                    <a @click="$router.back()" class="back-btn">← 返回行程列表</a>
+                    <div v-for="(day, index) in itinerary" :key="index" class="itinerary-day">
+                        <h4>{{ day.day }}</h4>
+                        <div class="card" style="padding: 0;">
+                            <div v-for="act in day.activities" :key="act.id" class="activity-item" @click="goToLocation(act.locationId)">
+                                <div class="activity-time">{{ act.time }}</div>
+                                <div class="activity-info">
+                                    <div class="activity-type">{{ act.type }}</div>
+                                    <div>{{ act.title }}</div>
+                                </div>
+                                <div>Isoka</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            setup() {
+                const route = useRoute();
+                const router = useRouter();
+                const tripId = route.params.tripId;
+                // 根據 URL 參數取得對應的行程資料
+                const itinerary = computed(() => mockData.itineraries[tripId] || []);
+                const goToLocation = (locId) => router.push(`/location/${locId}`);
+                return { itinerary, goToLocation };
+            }
+        };
+
+        // 3. 景點/美食詳情組件
+        const LocationDetail = {
+            template: `
+                <div class="detail-page" v-if="location">
+                    <a @click="$router.back()" class="back-btn">← 返回行程</a>
+                    <h2>{{ location.title }}</h2>
+                    <img :src="location.image" alt="location.title" style="background-color: #ddd; min-height: 200px;">
+                    <p><strong>📍 地址:</strong> {{ location.address }}</p>
+                    <p><strong>📝 簡介:</strong></p>
+                    <p>{{ location.description }}</p>
+                    <a :href="location.googleMapLink" target="_blank" class="map-link">🗺️ 在 Google 地圖上開啟導航</a>
+                </div>
+                <div v-else>
+                    <p>找不到此地點資訊。</p>
+                    <a @click="$router.back()" class="back-btn">← 返回</a>
+                </div>
+            `,
+            setup() {
+                const route = useRoute();
+                const locationId = route.params.locationId;
+                // 根據 URL 參數取得地點資料
+                const location = computed(() => mockData.locations[locationId]);
+                return { location };
+            }
+        };
+
+        // --- 路由設定 (Router Config) ---
+        const routes = [
+            { path: '/', component: TripList, meta: { title: '我的行程列表' } },
+            { path: '/itinerary/:tripId', component: ItineraryDetail, meta: { title: '行程詳情' } },
+            { path: '/location/:locationId', component: LocationDetail, meta: { title: '地點資訊' } }
+        ];
+
+        const router = createRouter({
+            history: createWebHashHistory(), // 使用 Hash 模式，方便本地開啟
+            routes,
+        });
+
+        // --- App 實例 (App Instance) ---
+        const app = createApp({
+            setup() {
+                const route = useRoute();
+                // 動態改變 Header 標題
+                const headerTitle = computed(() => route.meta.title || '旅遊手札');
+                return { headerTitle };
+            }
+        });
+
+        app.use(router);
+        app.mount('#app');
+    </script>
+</body>
+</html>
