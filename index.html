@@ -909,14 +909,16 @@
             cursor: pointer;
             width: 100%;
             position: relative;
+            /* ★★★ 新增這一行 ★★★ */
+            gap: 15px; 
         }
         .checkmark {
             height: 24px;
             width: 24px;
             background-color: #fff;
             border: 2px solid #ccc;
-            border-radius: 50%; /* 圓形勾選框 */
-            margin-right: 15px;
+            border-radius: 50%;
+            /* margin-right: 15px;  <--- 刪除或註解掉這一行 */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -935,7 +937,7 @@
             display: none;
         }
         .packing-checkbox:checked + .checkbox-label .checkmark::after {
-            display: block;
+           /*display: block;*/
         }
         /* 勾選後文字加上刪除線，並變淡 */
         .packing-checkbox:checked + .checkbox-label .item-text {
@@ -1182,7 +1184,178 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-        }                                                                                             
+        }
+        /* --- 新增：購物清單頁面樣式 --- */
+.shop-shopping-card {
+            background: white;
+            border-radius: 20px; /* 更圓潤的卡片 */
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06); /* 更柔和的陰影 */
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .shop-card-header {
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+        .shop-card-header:hover {
+            background: #fafafa;
+        }
+        .shop-card-header.is-active {
+            background: #fff5f0; /* 展開時的暖色背景 */
+            border-bottom: 1px solid #ffe0d0;
+        }
+        .shop-header-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .shop-title {
+            margin: 0 0 5px 0;
+            font-size: 1.2rem;
+            color: #333;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .shop-item-count {
+            font-size: 0.9rem;
+            color: #888;
+            font-weight: normal;
+        }
+        .toggle-icon {
+            color: #bbb;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+            padding: 5px;
+        }
+        .shop-card-header.is-active .toggle-icon {
+            transform: rotate(180deg);
+            color: #ff7e5f;
+        }
+
+        .shop-card-body {
+            background: #fcfcfc;
+        }
+
+        .shopping-items-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .shopping-item-row {
+            display: flex;
+            align-items: flex-start; /* 靠上對齊 */
+            padding: 20px 25px; /* 增加內部間距 */
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s;
+        }
+        .shopping-item-row:last-child {
+            border-bottom: none;
+        }
+
+        /* ★★★ 新增：大尺寸圖片容器 ★★★ */
+        .item-image-box-large {
+            width: 100px;  /* 設定為 100px */
+            height: 100px; /* 設定為 100px */
+            border-radius: 12px; /* 較大的圓角 */
+            overflow: hidden;
+            margin-right: 20px;
+            flex-shrink: 0;
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* 圖片陰影 */
+        }
+        .item-image-box-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        /* 滑鼠移過圖片有輕微放大效果 */
+        .shopping-item-row:hover .item-image-box-large img {
+            transform: scale(1.05);
+        }
+        .item-image-box-large.placeholder {
+            font-size: 2.5rem;
+            color: #ddd;
+        }
+
+        /* 商品資訊區塊 */
+        .item-info-large {
+            flex-grow: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100px; /* 確保高度至少與圖片一樣 */
+        }
+        .item-name-large {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        /* 來源連結按鈕化 */
+        .item-source-btn {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #007bff;
+            text-decoration: none;
+            background: #eef6fc;
+            padding: 6px 12px;
+            border-radius: 20px;
+            align-self: flex-start; /* 靠左對齊 */
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .item-source-btn:hover {
+            background: #dceefb;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+
+        /* 空狀態樣式 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #aaa;
+            background: white;
+            border-radius: 20px;
+            border: 2px dashed #eee;
+        }
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* 展開收合動畫 */
+        .slide-fade-enter-active,
+        .slide-fade-leave-active {
+            transition: all 0.3s ease-in-out;
+            max-height: 1000px;
+            opacity: 1;
+        }
+        .slide-fade-enter-from,
+        .slide-fade-leave-to {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            overflow: hidden;
+        }                                                                                            
     </style>    
 </head>
 <body>
@@ -1394,6 +1567,40 @@
             '2026-01-02': { lunch: [{ id: 'f02l1', title: 'とよ寿司', locationId: 'loc_105' }, { id: 'f02l2', title: '味ま野', locationId: 'loc_106' }, { id: 'f02l3', title: 'Tairikitei', locationId: 'loc_107' }, { id: 'f02l4', title: 'Gonta', locationId: 'loc_108' }, { id: 'f02l5', title: '京料理 六盛', locationId: 'loc_109' }], dinner: [{ id: 'f02d1', title: '銀福', locationId: 'loc_111' }, { id: 'f02d2', title: 'NOANOA', locationId: 'loc_112' }, { id: 'f02d3', title: '名代おめん', locationId: 'loc_113' }, { id: 'f02d4', title: '京 銀閣寺 八よし', locationId: 'loc_114' }, { id: 'f02d5', title: '燒肉 花山', locationId: 'loc_115' }] }
         },
 
+        // ★★★ 新增：依店家分類的必買清單 ★★★
+        // 格式： '地點ID': [ { name: '商品名', image: '圖片路徑', link: '來源連結', checked: false }, ... ]
+        shoppingLists: {
+            // 範例：在「吉伊卡哇專賣店」要買的東西
+            'loc_chiikawa_fushimi': [
+                { name: '伏見稻荷限定 狐狸烏薩奇', image: 'fushimi-usagi1-shopping-image.jpg', link: 'https://tw.wamazing.com/media/article/a-3175/', checked: false },
+                { name: '伏見稻荷限定 狐狸烏薩奇', image: 'fushimi-usagi2-shopping-image.jpg', link: 'https://tw.wamazing.com/media/article/a-3175/', checked: false },
+                { name: '伏見稻荷限定 狐狸海獺師傅', image: 'fushimi-rakko-shopping-image.jpg', checked: false }
+            ],
+            // 範例：在「錦市場」要買的東西
+            'loc_nishiki_market': [
+                { name: '史努比茶屋 抹茶巧克力', image: './shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false },
+                { name: '呼吸巧克力 (各種口味)', image: '', link: '', checked: false }
+            ],
+            // 範例：在「錦市場」要買的東西
+            'loc_7-11': [
+                { name: '史努比茶屋 抹茶巧克力', image: './shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false },
+                { name: '呼吸巧克力 (各種口味)', image: '', link: '', checked: false }
+            ],
+            'loc_family': [
+                { name: '史努比茶屋 抹茶巧克力', image: './shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false },
+                { name: '呼吸巧克力 (各種口味)', image: '', link: '', checked: false }
+            ],
+            'loc_lawson': [
+                { name: '史努比茶屋 抹茶巧克力', image: './shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false },
+                { name: '呼吸巧克力 (各種口味)', image: '', link: '', checked: false }
+            ],
+            // 範例：在便利商店或藥妝店 (如果沒有特定地點，可以創建一個通用的 ID，例如 'loc_general_store')
+            'default': [
+                { name: '7-11 限定 砂糖奶油樹餅乾', image: './shopping-sugar-butter.jpg', link: '', checked: false },
+                { name: 'LuLuLun 面膜 (京都限定版)', image: '', link: '', checked: false }
+            ]
+        },
+
         // 地點詳細資訊 (全面更新：保留圖片與寶可夢陣列，並補齊所有景點典故)
         locations: {
             // 12/25
@@ -1410,13 +1617,16 @@
             // 12/26
             'loc_bus_to_kiyomizu': { title: '前往清水寺', transportRoute: '京都市營巴士 207', transportStart: '九条近鐵前', transportEnd: '清水道', transportCost: '¥230', description: '下車後需步行約 10-15 分鐘上坡至清水寺。', googleMapLink: 'https://maps.app.goo.gl/fxuKLX5PH7wSU9aU9' },
             'loc_kiyomizu': { title: '清水寺', description: ' 拜觀料 ¥400，世界文化遺產，以清水舞台聞名，子安塔可祈求順產。', hours: '06:00-18:00', note: '人多擁擠', image: 'kiyomizudera-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/9QXSjeGycECvJhoS9', history: '相傳延鎮上人在音羽之瀧見到被觀音化身的金色水流指引，在此結草庵修行。後來，大將軍坂上田村麻呂為了祈求妻子安產，在此建立了佛殿，這就是清水寺的起源。\n\n著名的「清水之舞台」本是為了向觀音獻舞而建，特殊的「懸造」結構未使用一根釘子，高達13公尺，展現了精湛的工藝。那句日本諺語「從清水舞台跳下去」（清水の舞台から飛び降りる），就是用來比喻抱著破釜沉舟的決心去做某事。' },
-            'loc_sannenzaka': { title: '清水坂/三年坂散策', description: '產寧坂、二年坂、一年坂，充滿京都風情的坡道，兩旁是傳統木造建築商店。', hours: '店家約 10:00-18:00', note: '人多擁擠，拍照請小心', history: '關於「三年坂」（產寧坂）名稱的由來眾說紛紜。一說是因通往祈求生產平安的「子安塔」，故稱「產寧坂」；另一說則是豐臣秀吉的妻子寧寧常由此前往清水寺參拜祈求順產。坊間流傳著「在三年坂跌倒，三年內會遭遇不幸」的都市傳說，雖然聽起來可怕，但其實是古人為了提醒孕婦和行人在陡峭的坡道上小心慢行而留下的警語。' },
+            'loc_sannenzaka': { title: '清水坂/三年坂散策', description: '產寧坂、二年坂、一年坂，充滿京都風情的坡道，兩旁是傳統木造建築商店。', hours: '店家約 10:00-18:00', note: '人多擁擠，拍照請小心', image: 'usagi-sannenzaka-attraction-image.jpg', history: '關於「三年坂」（產寧坂）名稱的由來眾說紛紜。一說是因通往祈求生產平安的「子安塔」，故稱「產寧坂」；另一說則是豐臣秀吉的妻子寧寧常由此前往清水寺參拜祈求順產。坊間流傳著「在三年坂跌倒，三年內會遭遇不幸」的都市傳說，雖然聽起來可怕，但其實是古人為了提醒孕婦和行人在陡峭的坡道上小心慢行而留下的警語。' },
             
             // 母景點：八坂地區散步
             'loc_yasaka_walk_parent': {
                 title: '八坂地區散步',
                 description: '從清水寺往下走，沿途經過經典的京都街景地標。',
-                hours: '24小時開放', note: '',
+                hours: '24小時開放', 
+                note: '', 
+                image: 'usagi-yasakawalk-attraction-image.jpg',
+                googleMapLink: 'https://maps.app.goo.gl/a6qsQ21sGA4GqtYQ6',
                 subLocations: [
                     { locationId: 'loc_yasaka_area', title: '五重塔(八坂之塔)', hours: '外觀24小時', note: '京都代表性街景' },
                     { locationId: 'loc_koshindo', title: '八坂庚申堂', hours: '09:00-17:00', note: '色彩繽紛的許願猴' }
@@ -1435,22 +1645,25 @@
             'loc_maruyama_area_parent': {
                 title: '圓山公園周邊散步',
                 description: '參拜祇園的守護神社，並在相鄰的公園散步尋找寶可夢。',
-                hours: '24小時開放', note: '',
+                hours: '24小時開放', 
+                note: '',
+                image: 'usagi-maruyama-attraction-image.jpg',
+                googleMapLink: 'https://maps.app.goo.gl/pMeFW11TSyDrPhvw6',
                 subLocations: [
                     { locationId: 'loc_yasaka_shrine', title: '八坂神社 (祇園桑)', hours: '24小時', note: '祈求消災解厄、生意興隆' },
                     { locationId: 'loc_maruyama', title: '圓山公園 (寶可夢人孔蓋)', hours: '24小時', note: '尋找皮寶寶！' }
                 ]
             },
-            'loc_yasaka_shrine': { title: '八坂神社', description: '祇園總本社，是京都香火最鼎盛的神社之一。', hours: '24小時開放', note: '夜間點燈很美', googleMapLink: 'usercontent.com/maps.google.com/4', history: '八坂神社舊稱「祇園社」，是全日本約三千座八坂神社的總本社。這裡祭祀著素戔嗚尊（須佐之男命），自古以來就是祈求消災解厄、去除疫病的信仰中心。著名的「祇園祭」起源於平安時代，當時為了平息京都流行的大瘟疫而舉行御靈會，後來演變成日本三大祭之一的盛大慶典。' },
+            'loc_yasaka_shrine': { title: '八坂神社', description: '祇園總本社，是京都香火最鼎盛的神社之一', hours: '24小時開放', note: '夜間點燈很美', image: 'yasakashrine-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/YE8itbDKfzeoeDf29', history: '八坂神社舊稱「祇園社」，是全日本約三千座八坂神社的總本社。這裡祭祀著素戔嗚尊（須佐之男命），自古以來就是祈求消災解厄、去除疫病的信仰中心。著名的「祇園祭」起源於平安時代，當時為了平息京都流行的大瘟疫而舉行御靈會，後來演變成日本三大祭之一的盛大慶典。' },
             'loc_maruyama': { 
                 title: '圓山公園', description: '京都市內最古老的公園，鄰近八坂神社。', hours: '24小時', note: '', image: 'maruyama-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/pMeFW11TSyDrPhvw6',
                 pokemon: { characters: '皮寶寶、寶寶丁、皮丘', image: 'pichu-pokemon-image.png', mapLink: 'https://maps.app.goo.gl/XyoD31q7XDQwB6QP7' },
                 history: '圓山公園是京都市內最古老的公園，明治時代參考了西方公園的設計理念而建。這裡以「祇園枝垂櫻」聞名，第一代枝垂櫻樹齡曾達兩百多年，被稱為「祇園夜櫻」的象徵。現在看到的是第二代櫻花樹，每年春天盛開時，夜晚點燈的姿態美不勝收。'
             },
 
-            'loc_kodaiji': { title: '高台寺', description: '豐臣秀吉正室寧寧晚年居住的寺院，庭園與竹林非常美麗。', hours: '09:00-17:30', note: '拜觀料 ¥600', googleMapLink: 'maps.google.com/5', history: '高台寺是豐臣秀吉的正室「北政所」（寧寧），為了替亡夫秀吉祈求冥福，並安度晚年而建立的寺院。在德川家康的資助下，建造了壯麗的殿堂與庭園。寺內大量使用華麗的「高台寺蒔繪」漆器工藝，展現了桃山時代的美術巔峰。寧寧死後也長眠於此。' },
-            'loc_gion_walk': { title: '祇園/鴨川散策', description: '走過寧寧之道、石塀小路，傍晚時分的花見小路有機會巧遇藝妓。最後到鴨川河畔吹風。', hours: '24小時', note: '花見小路私有道路禁止拍照', history: '祇園在江戶時代是圍繞著八坂神社發展起來的門前町，後來逐漸演變成日本最大的花街（藝妓區）。花見小路兩側保留了許多江戶時代末期的「町家」茶屋建築，格子窗與竹簾充滿歷史風情。每當黃昏時分，或許能瞥見趕著前往茶屋工作的藝妓或舞妓的優雅身影。' },
-            'loc_panel_cafe': { title: 'Panel Cafe Kyoto', rating: '4.2', priceLevel: '¥1,000-2,000', description: '口感蓬鬆的舒芙雷鬆餅，常需排隊。', hours: '10:00-16:00', note: '', googleMapLink: 'https://maps.app.goo.gl/PFok58hLTnhKRT1QA' },
+            'loc_kodaiji': { title: '高台寺', description: '豐臣秀吉正室寧寧晚年居住的寺院，庭園與竹林非常美麗', hours: '09:00-17:30', note: '拜觀料 ¥600', image: 'kodaiji-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/Umh2Xcn17cBVrEq57', history: '高台寺是豐臣秀吉的正室「北政所」（寧寧），為了替亡夫秀吉祈求冥福，並安度晚年而建立的寺院。在德川家康的資助下，建造了壯麗的殿堂與庭園。寺內大量使用華麗的「高台寺蒔繪」漆器工藝，展現了桃山時代的美術巔峰。寧寧死後也長眠於此。' },
+            'loc_gion_walk': { title: '祇園/鴨川散策', description: '寧寧之道，石塀小路，傍晚時分的花見小路有機會巧遇藝妓，鴨川河畔吹風', hours: '24小時', note: '花見小路私有道路禁止拍照', image: 'usagi-gionwalk-image.jpg', googleMapLink: 'https://maps.app.goo.gl/9yv7UGPsFMyPeTuD7', history: '祇園在江戶時代是圍繞著八坂神社發展起來的門前町，後來逐漸演變成日本最大的花街（藝妓區）。花見小路兩側保留了許多江戶時代末期的「町家」茶屋建築，格子窗與竹簾充滿歷史風情。每當黃昏時分，或許能瞥見趕著前往茶屋工作的藝妓或舞妓的優雅身影。' },
+            'loc_panel_cafe': { title: 'Panel Cafe Kyoto', rating: '3.6', priceLevel: '¥1,000-2,000', description: '口感蓬鬆的舒芙雷鬆餅，常需排隊', hours: '10:00-17:00', note: '', image: 'panelcafe-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/PFok58hLTnhKRT1QA' },
             'loc_44': { title: '京燒肉 弘 祇園山名庵', rating: '4.6', priceLevel: '¥6,000-8,000', description: '在傳統町家建築中享用高品質的京丹波平井牛燒肉。', hours: '17:00-23:00', note: '已訂位', googleMapLink: 'maps.google.com/44' },
             'loc_bus_back': { title: '搭公車回家', transportRoute: '京都市營巴士 207', transportStart: '四条京阪前', transportEnd: '九条近鐵前', transportCost: '¥230', description: '返回東寺飯店休息。' },
             
@@ -1678,7 +1891,7 @@
                     { title: '京都高島屋 S.C.', hours: '10:00-20:00', note: '大型百貨公司', mapLink: 'https://maps.app.goo.gl/Hv7YNNhLP8u1u7Mo8' }
                 ]
             },
-            'loc_inabado': { title: '平等寺 (因幡堂)', description: '以祈求健康和可愛的「貓咪御守」聞名，愛貓人士必訪。', hours: '06:00-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/FHohmQ8v2HdBA6wV6', history: '這座寺院正式名稱為「平等寺」，因位於因幡藥師通而通稱「因幡堂」。創建於平安時代，主祀藥師如來，以祈求治療癌症和其他疑難雜症聞名。近年來，這裡因為推出了上面繡著可愛貓咪圖案的「無病守」（祈求無病息災）而爆紅，成為愛貓人士的聖地。' },
+            'loc_inabado': { title: '平等寺 (因幡堂)', description: '以祈求健康和可愛的「貓咪御守」聞名，愛貓人士必訪', hours: '06:00-17:00', note: '', image: 'inabado-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/FHohmQ8v2HdBA6wV6', history: '這座寺院正式名稱為「平等寺」，因位於因幡藥師通而通稱「因幡堂」。創建於平安時代，主祀藥師如來，以祈求治療癌症和其他疑難雜症聞名。近年來，這裡因為推出了上面繡著可愛貓咪圖案的「無病守」（祈求無病息災）而爆紅，成為愛貓人士的聖地。' },
             'loc_160': { title: '一蘭 京都烏丸店', rating: '4.2', priceLevel: '¥1,000-1,500', description: '知名豚骨拉麵連鎖店', hours: '10:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/YsGkeL1r4aiyrWw38' },
             'loc_161': { title: 'Kyo Unawa Honten', rating: '4.5', priceLevel: '¥3,000-5,000', description: '炭烤鰻魚飯', hours: '11:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/yQe38x4HGAK7vh7i8' },
             'loc_162': { title: 'To 四条乌丸', rating: '4.0', priceLevel: '¥3,000-4,000', description: '時尚居酒屋', hours: '16:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/ewn3E3yho7x8CKtD8' },
@@ -1686,18 +1899,18 @@
             'loc_164': { title: '錦 鮨しん', rating: '4.4', priceLevel: '¥4,000-6,000', description: '錦市場附近的高品質壽司店', hours: '17:30-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hLznNuhhQf9juZzk6' },
             'loc_165': { title: '手作漢堡排 Tokura 京都三條店', rating: '4.3', priceLevel: '¥1,500-2,500', description: '肉汁爆發的手作漢堡排，皮寶同事推薦。', hours: '17:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/cTy3WuUkaTt9nbYs5' },
             'loc_bus_back_shijo': { title: '搭公車回家', transportRoute: '京都市營巴士 207', transportStart: '四条高倉', transportEnd: '九條近鐵前', transportCost: '¥230', description: '返回飯店準備跨年。', googleMapLink: 'googleusercontent.com/maps.google.com/141' },
-            'loc_toji_nye': { title: '東寺 (除夕跨年)', description: '欣賞五重塔的夜間點燈，聆聽除夕鐘聲，感受日式跨年氛圍。', hours: '夜間特別參拜至凌晨', note: '人潮眾多請注意保暖', googleMapLink: 'https://maps.app.goo.gl/rBThfp1RWMaoPhRc8', pokemon: { characters: '瑪力露麗、小鉅鱷', mapLink: 'https://maps.app.goo.gl/W8NvKNL3jc2tSjqB9' }, history: '東寺（教王護國寺）是平安京遷都時建立的官寺，後來嵯峨天皇將其賜給弘法大師空海，成為真言密教的根本道場。寺內的五重塔高約55公尺，是日本最高的木造塔，也是京都的地標。每年除夕夜，這裡的梵鐘會敲響108下，象徵消除人間的108種煩惱，迎接新的一年。' },
+            'loc_toji_nye': { title: '東寺 (除夕跨年)', description: '欣賞五重塔的夜間點燈，聆聽除夕鐘聲，感受日式跨年氛圍', hours: '夜間特別參拜至凌晨', note: '人潮眾多請注意保暖', image: 'toji-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/rBThfp1RWMaoPhRc8', pokemon: { characters: '瑪力露麗、小鉅鱷', image: 'totodile-pokemon-image.png', mapLink: 'https://maps.app.goo.gl/W8NvKNL3jc2tSjqB9' }, history: '東寺（教王護國寺）是平安京遷都時建立的官寺，後來嵯峨天皇將其賜給弘法大師空海，成為真言密教的根本道場。寺內的五重塔高約55公尺，是日本最高的木造塔，也是京都的地標。每年除夕夜，這裡的梵鐘會敲響108下，象徵消除人間的108種煩惱，迎接新的一年。' },
             
             // 1/1
             'loc_bus_shimogamo': { title: '前往下鴨神社', transportRoute: '京都市營巴士 205', transportStart: '九条車庫前', transportEnd: '新葵橋', transportCost: '¥230', description: '', googleMapLink: 'https://maps.app.goo.gl/FKMykXFphMLZwVh67' },
-            'loc_shimogamo': { title: '下鴨神社 (賀茂御祖神社)', description: '世界文化遺產，京都最古老的神社之一。包含祈求美麗的河合神社和結緣的相生社。', hours: '06:30-17:00', note: '初詣人潮眾多', googleMapLink: 'https://maps.app.goo.gl/TP3wScLjyShx3qcr7', history: '下鴨神社正式名稱為「賀茂御祖神社」，是京都最古老的神社之一，與上賀茂神社合稱「賀茂社」，自古以來就是守護京都皇城的重要神社。神社周圍環繞著廣闊的原生林「糺之森」。境內的「河合神社」供奉著日本第一美麗神，吸引許多女性前來祈求美貌；而「相生社」則是著名的結緣聖地，旁邊的「連理之賢木」是兩棵樹結合在一起的神木，象徵緣分締結。' },
+            'loc_shimogamo': { title: '下鴨神社 (賀茂御祖神社)', description: '世界文化遺產，京都最古老的神社之一，祈求美麗的河合神社，祈求結緣的相生社。', hours: '06:30-17:00', note: '初詣人潮眾多', image: 'shimogamo-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/TP3wScLjyShx3qcr7', history: '下鴨神社正式名稱為「賀茂御祖神社」，是京都最古老的神社之一，與上賀茂神社合稱「賀茂社」，自古以來就是守護京都皇城的重要神社。神社周圍環繞著廣闊的原生林「糺之森」。境內的「河合神社」供奉著日本第一美麗神，吸引許多女性前來祈求美貌；而「相生社」則是著名的結緣聖地，旁邊的「連理之賢木」是兩棵樹結合在一起的神木，象徵緣分締結。' },
             'loc_95': { title: 'kazuka多佳.', rating: '4.7', priceLevel: '¥2,000-3,000', description: '精緻美味的日式定食。', hours: '12:00-13:00 (午餐時段短)', note: '只收現金，建議預約', googleMapLink: 'https://maps.app.goo.gl/daS6NP9w6ibA9mGN7' },
             'loc_96': { title: 'Falafel Garden', rating: '4.4', priceLevel: '¥1,000-1,500', description: '特色中東料理，鷹嘴豆泥三明治。', hours: '11:30-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/Kih2aaRH3K8menVy7' },
             'loc_97': { title: '旬菜田中でたなか', rating: '4.2', priceLevel: '¥1,500-2,500', description: '使用當季食材的日式料理。', hours: '11:30-14:00', note: '', googleMapLink: 'https://maps.app.goo.gl/L1FVQox5WFSGVQaPA' },
             'loc_98': { title: '鴨町拉麵', rating: '4.1', priceLevel: '¥1,000-1,500', description: '清爽系的豚骨拉麵。', hours: '11:00-15:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/2reBYhzGRunjgDHK6' },
             'loc_99': { title: 'Kyogame', rating: '4.0', priceLevel: '¥1,500-2,500', description: '鍋物專門店，有少見的馬肉鍋。', hours: '11:30-13:30', note: '', googleMapLink: 'maps.google.com/99' },
             'loc_move_nyannyan': { title: '前往貓貓寺', transportRoute: '叡山電鐵', transportStart: '出町柳', transportEnd: '八瀨比叡山口', transportCost: '¥280', description: '搭乘可愛的叡山電鐵列車。', googleMapLink: 'https://maps.app.goo.gl/GVdtzBC8NSL9UZMx9' },
-            'loc_nyannyanji': { title: '貓貓寺 (與貓共生的本格寺院)', description: '以貓為主題的寺院型博物館，有貓咪住持和各種貓咪藝術品。', hours: '11:00-17:00 (週二休)', note: '入場費 ¥800 (含飲料)', googleMapLink: 'maps.google.com/26', history: '這不是一座傳統的宗教寺院，而是一座以貓為主題的博物館與藝術空間。由繪本作家加悅徹及其家人創立，旨在創造一個「貓、人與藝術融合」的場所。這裡有穿著袈裟的「貓住持」值班（需確認值班時間），內部展示了許多以貓為主題的佛像繪畫和藝術品，充滿了幽默與對貓的熱愛。' },
+            'loc_nyannyanji': { title: '貓貓寺 (與貓共生的本格寺院)', description: '以貓為主題的寺院型博物館，有貓咪住持和各種貓咪藝術品', hours: '11:00-17:00 (週二休)', note: '入場費 ¥800 (含飲料)', image: 'nyannyanji-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/idsuX6eKWbp2bACW7', history: '這不是一座傳統的宗教寺院，而是一座以貓為主題的博物館與藝術空間。由繪本作家加悅徹及其家人創立，旨在創造一個「貓、人與藝術融合」的場所。這裡有穿著袈裟的「貓住持」值班（需確認值班時間），內部展示了許多以貓為主題的佛像繪畫和藝術品，充滿了幽默與對貓的熱愛。' },
             'loc_back_eizan': { title: '搭叡山電鐵', transportRoute: '叡山電鐵', transportStart: '八瀨比叡山口', transportEnd: '出町柳', transportCost: '¥280', description: '回程第一段。' },
             'loc_back_keihan': { title: '轉乘京阪電車', transportRoute: '京阪本線', transportStart: '出町柳', transportEnd: '東福寺', transportCost: '¥300', description: '回程第二段。' },
             'loc_back_jr_tofukuji': { title: '轉乘JR', transportRoute: 'JR 奈良線', transportStart: '東福寺', transportEnd: '京都車站', transportCost: '¥150', description: '回程第三段，回到京都車站吃晚餐。' },
@@ -1706,7 +1919,7 @@
             'loc_102': { title: '壽司・和食 Ganko 京都車站大樓店', rating: '3.8', priceLevel: '¥1,500-3,000', description: '方便美味的日式料理連鎖店。', hours: '11:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/N463h4ntdKtwPqZr6' },
             'loc_103': { title: 'Pub & Grill 7 TAPS TAVERN', rating: '4.1', priceLevel: '¥2,000-3,000', description: '提供精釀啤酒和燒烤料理的餐酒館。', hours: '11:00-23:00', note: '', googleMapLink: 'https://maps.app.goo.gl/hRMrNHbgXPUtfjbE6' },
             'loc_104': { title: '原始炭焼き 濱いち 京都駅前店', rating: '4.0', priceLevel: '¥3,000-4,000', description: '主打海鮮炭火燒烤的居酒屋。', hours: '17:00-00:00', note: '', googleMapLink: 'https://maps.app.goo.gl/DcbweGQapgSy9FKo8' },
-            'loc_kyoto_tower': { title: '京都塔', description: '京都地標，可上展望台欣賞夜景 (入場費 ¥900)。樓下有商場和美食街。', hours: '展望台 10:00-21:00', note: '', googleMapLink: 'https://maps.app.goo.gl/8zjomrjWcjr5qAYLA', history: '京都塔為了配合1964年東京奧運的舉辦，並作為京都車站前的地標而建造。它的造型獨特，設計靈感來自於照亮京都盆地這座沒有海的城市的「燈塔」。塔高131公尺，是京都市內最高的建築物。雖然在古都建造現代化高塔曾引起爭議，但如今它已成為京都車站前不可或缺的象徵性景觀。' },
+            'loc_kyoto_tower': { title: '京都塔', description: '京都地標，可上展望台欣賞夜景，樓下有商場和美食街。', hours: '展望台 10:00-21:00', note: '入場費 ¥900', image: 'kyototower-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/8zjomrjWcjr5qAYLA', history: '京都塔為了配合1964年東京奧運的舉辦，並作為京都車站前的地標而建造。它的造型獨特，設計靈感來自於照亮京都盆地這座沒有海的城市的「燈塔」。塔高131公尺，是京都市內最高的建築物。雖然在古都建造現代化高塔曾引起爭議，但如今它已成為京都車站前不可或缺的象徵性景觀。' },
             'loc_back_toji_final': { title: '搭車回家', transportRoute: '近鐵京都線', transportStart: '京都車站', transportEnd: '東寺', transportCost: '¥180', description: '結束新年第一天的行程。', googleMapLink: 'https://maps.app.goo.gl/VmxLWyzRD5ykKpbp9' },
             
             // 1/2
@@ -1752,13 +1965,17 @@
             // 1/3
             'loc_move_kix': { title: '前往機場', transportRoute: '關空特急 HARUKA', transportStart: '京都車站', transportEnd: '關西機場', transportCost: '約 ¥2,200', description: '記得提前預約座位。', googleMapLink: 'googleusercontent.com/maps.google.com/148' },
             'loc_kix_return': { title: '關西國際機場 (KIX)', description: '第一航廈出境。好好休息，期待下次旅程！', hours: '', note: '', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Kansai_International_Airport_Terminal_1_20220815.jpg/800px-Kansai_International_Airport_Terminal_1_20220815.jpg' },
-            'default': { title: '地點資訊', description: '尚無詳細資訊。' }
+            'default': { title: '地點資訊', description: '尚無詳細資訊。' },
+
+            'loc_7-11': { title: '7-11', description: '隨處可見的7-11', hours: '00:00-23:59', note: ''},
+            'loc_family': { title: '全家', description: '隨處可見的全家', hours: '00:00-23:59', note: ''},
+            'loc_lawson': { title: 'Lawson', description: '隨處可見的7Lawson', hours: '00:00-23:59', note: ''}
         },
 
         // ★★★ 新增：行李清單資料 ★★★
         packingList: [
             {
-                category: '🪪 重要文件與金錢 (絕對必要)',
+                category: '⚡ 重要文件與金錢 (絕對必要)',
                 note: '少了這些無法出門，請放在隨身包包最安全的地方。',
                 items: [
                     { name: '護照', type: 'must', note: '確認有效期限在6個月以上。' },
@@ -1767,8 +1984,7 @@
                     { name: '日幣現金', type: 'must', note: '許多小店、神社、公車仍需現金。建議準備足夠。' },
                     { name: '信用卡 (海外回饋高)', type: 'must', note: '至少帶兩張不同發卡組織 (Visa/Master/JCB)。' },
                     { name: '海外提款卡', type: 'recommended', note: '開通海外提款功能以備不時之需。' },
-                    { name: '旅遊保險單據', type: 'must', note: '包含醫療與不便險。' },
-                    { name: '駕照/日文譯本', type: 'recommended', note: '如果有計畫租車或騎車才需要。' }
+                    { name: '旅遊保險單據', type: 'must', note: '包含醫療與不便險。' }
                 ]
             },
             {
@@ -1778,7 +1994,6 @@
                     { name: '手機 & 充電線', type: 'must', note: '' },
                     { name: '行動電源 (大容量)', type: 'must', note: '冬天手機耗電快，導航拍照必備。記得帶兩顆。' },
                     { name: '日本上網 SIM 卡 / WiFi 機', type: 'must', note: '確認已開通或預約。' },
-                    { name: '旅行萬用轉接頭', type: 'recommended', note: '日本電壓插座與台灣相同(雙扁腳)，通常不需要轉接頭，但若有三腳插頭電器則需要。' },
                     { name: '相機 & 備用電池/記憶卡', type: 'recommended', note: '捕捉美好回憶。' }
                 ]
             },
@@ -1792,8 +2007,7 @@
                     { name: '保暖褲/刷毛褲', type: 'must', note: '牛仔褲內可能需要加穿發熱褲。' },
                     { name: '保暖襪 (羊毛襪)', type: 'must', note: '腳底保暖很重要，建議多帶幾雙。' },
                     { name: '舒適好走的鞋子 (兩雙)', type: 'must', note: '行程每天都要走很多路！建議具備防水功能，並帶兩雙替換。' },
-                    { name: '睡衣褲', type: 'recommended', note: '飯店通常有提供，穿不慣可自帶。' },
-                    { name: '稍微正式的服裝', type: 'recommended', note: '若有安排高級餐廳晚餐 (如燒肉弘) 可考慮，但非必要。' }
+                    { name: '睡衣褲', type: 'recommended', note: '飯店通常有提供，穿不慣可自帶。' }
                 ]
             },
             {
@@ -1825,7 +2039,7 @@
                 category: '🎒 其他好物',
                 note: '讓旅程更舒適便利的小道具。',
                 items: [
-                    { name: '輕便後背包/斜背包', type: 'must', note: '每天出門裝必需品，雙手騰空比較方便顧小孩。' },
+                    { name: '輕便後背包/斜背包', type: 'must', note: '每天出門裝必需品。' },
                     { name: '環保購物袋 (折疊)', type: 'must', note: '日本塑膠袋要付費，超市超商購物必備。' },
                     { name: '夾鏈袋/塑膠袋', type: 'recommended', note: '裝濕衣服、垃圾、分類小物很好用。' },
                     { name: '折疊傘', type: 'recommended', note: '以備不時之需，雖然冬天較常下雪。' },
@@ -2004,7 +2218,20 @@
                     </div>
                 </div>
 
-                <h3 style="margin-top: 30px; color: #d32f2f; margin-left: 5px;">每日行程</h3>
+                <div style="padding: 0 20px 25px;">
+                    <div @click="goToShopping" class="card" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); color: white; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 20px; box-shadow: 0 4px 15px rgba(255, 126, 95, 0.4); transition: transform 0.2s;">
+                        <div style="display: flex; align-items: center;">
+                            <span style="font-size: 2.5rem; margin-right: 15px;">🛒</span>
+                            <div>
+                                <h2 style="margin: 0; font-size: 1.3rem; color: white;">必買戰利品清單</h2>
+                                <p style="margin: 5px 0 0; opacity: 0.9; font-size: 0.9rem; color: rgba(255,255,255,0.9);">查看 IG/YT 推薦商品整理</p>
+                            </div>
+                        </div>
+                        <span style="font-size: 1.5rem;">›</span>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 0px; color: #d32f2f; margin-left: 5px;">每日行程</h3>
                 <div v-for="(activities, date) in itineraries" :key="date" class="card" @click="goToItinerary(date)">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div>
@@ -2037,6 +2264,11 @@
             };
             
             const goToItinerary = (date) => router.push(`/itinerary/${date}`);
+
+            // ★★★ 新增這個函式 ★★★
+            const goToShopping = () => {
+                router.push('/shopping');
+            };
             
             const formatDate = (dateStr) => {
                 const date = new Date(dateStr);
@@ -2075,7 +2307,7 @@
                 return { zh: title, en: '' };
             };
 
-            return { tripInfo, itineraries, goToItinerary, formatDate, parseFlight, dailyTitles, splitTitle };
+            return { tripInfo, itineraries, goToItinerary, formatDate, parseFlight, dailyTitles, splitTitle, goToShopping };
         }
     };
 
@@ -2641,6 +2873,86 @@
         }
     };
 
+    // 5. 購物清單頁面組件
+    // 5. 購物清單頁面組件 (樣式優化版：移除 checkbox，加大圖片)
+    const ShoppingList = {
+        template: `
+            <div class="detail-page" style="background-color: #f0f2f5;">
+                <a @click="$router.back()" class="back-btn">← 返回首頁</a>
+                
+                <div class="header-banner" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); padding: 30px 20px; border-radius: 0 0 25px 25px; margin-bottom: 30px; color: white; box-shadow: 0 4px 15px rgba(255, 126, 95, 0.3);">
+                    <h2 style="margin: 0; font-size: 2rem; font-weight: 700; letter-spacing: 1px;">🛒 必買戰利品清單</h2>
+                    <p style="margin: 10px 0 0; opacity: 0.95; font-size: 1.05rem;">到達店家時，點開卡片確認要買什麼！</p>
+                </div>
+
+                <div style="padding: 0 20px 50px;">
+                    
+                    <div v-for="(items, locationId) in shoppingData" :key="locationId" class="shop-shopping-card">
+                        
+                        <div class="shop-card-header" @click="toggleStore(locationId)" :class="{ 'is-active': expandedStoreId === locationId }">
+                            <div class="shop-header-info">
+                                <h3 class="shop-title">
+                                    <span style="margin-right: 8px;">🏪</span>
+                                    {{ getStoreName(locationId) }}
+                                </h3>
+                                <span class="shop-item-count">{{ items.length }} 個待買商品</span>
+                            </div>
+                            <span class="toggle-icon">{{ expandedStoreId === locationId ? '▼' : '▶' }}</span>
+                        </div>
+
+                        <transition name="slide-fade">
+                            <div v-if="expandedStoreId === locationId" class="shop-card-body">
+                                <ul class="shopping-items-list">
+                                    <li v-for="(item, index) in items" :key="index" class="shopping-item-row">
+                                        
+                                        <div class="item-image-box-large" v-if="item.image">
+                                            <img :src="item.image" alt="商品圖">
+                                        </div>
+                                        <div class="item-image-box-large placeholder" v-else>
+                                            <span>🛍️</span>
+                                        </div>
+                                        
+                                        <div class="item-info-large">
+                                            <div class="item-name-large">{{ item.name }}</div>
+                                            <a v-if="item.link" :href="item.link" target="_blank" class="item-source-btn">
+                                                🔗 查看來源
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </transition>
+                    </div>
+
+                    <div v-if="Object.keys(shoppingData).length === 0" class="empty-state">
+                        <div class="empty-icon">📝</div>
+                        <p>目前還沒有購物清單喔！<br>請在程式碼的 shoppingLists 中新增。</p>
+                    </div>
+
+                </div>
+            </div>
+        `,
+        // ... setup() 部分保持不變 ...
+        setup() {
+            const router = useRouter();
+            const expandedStoreId = ref(null);
+            const shoppingData = computed(() => tripData.shoppingLists || {});
+            const getStoreName = (locId) => {
+                if (locId === 'default') return '隨處可見 / 通用';
+                const loc = tripData.locations[locId];
+                return loc ? loc.title : '未知店家';
+            };
+            const toggleStore = (locId) => {
+                if (expandedStoreId.value === locId) {
+                    expandedStoreId.value = null;
+                } else {
+                    expandedStoreId.value = locId;
+                }
+            };
+            return { shoppingData, expandedStoreId, getStoreName, toggleStore };
+        }
+    };
+
 // --- 路由設定 (Router Config) ---
     const routes = [
         { path: '/', component: Home, meta: { title: '雙寶探險京都手札' } },
@@ -2649,7 +2961,8 @@
         { path: '/location/:locationId', component: LocationDetail, meta: { title: '地點詳情' } },
         { path: '/phrases', component: JapanesePhrasebook, meta: { title: '實用日文' } },
         // ★★★ 新增路由 ★★★
-        { path: '/packing', component: PackingListPage, meta: { title: '行李清單' } }
+        { path: '/packing', component: PackingListPage, meta: { title: '行李清單' } },
+        { path: '/shopping', component: ShoppingList }
     ];
 
     const router = createRouter({
