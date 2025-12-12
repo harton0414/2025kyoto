@@ -1491,7 +1491,13 @@
                 // ★★★ 修復：補上 locationId (這裡假設是用柿葉壽司本舖田中) ★★★
                 { time: '11:30', title: '吃午餐 (柿葉壽司)', type: 'food', meal: 'lunch', locationId: 'loc_85', note: '柿葉壽司' },
                 { time: '12:30', title: '奈良甜點時間', locationId: 'loc_nara_sweets', note: '中谷堂、大佛布丁' },
-                { time: '13:30', title: '奈良公園/東大寺', locationId: 'loc_todaiji', note: '餵鹿、大佛殿' },
+                { 
+                    time: '13:30', title: '奈良公園/東大寺', locationId: 'loc_todaiji_area_parent', note: '餵鹿、大佛殿',
+                    subActivities: [
+                        { title: '東大寺', locationId: 'loc_todaiji' },
+                        { title: '東向商店街/近鐵百貨', locationId: 'loc_nara_shopping' }
+                    ]
+                },
                 { 
                     time: '15:30', title: '興福寺/市區逛街', locationId: 'loc_nara_kofukuji_area_parent', note: '國寶建築與熱鬧商圈',
                     subActivities: [
@@ -1570,29 +1576,36 @@
         // ★★★ 新增：依店家分類的必買清單 ★★★
         // 格式： '地點ID': [ { name: '商品名', image: '圖片路徑', link: '來源連結', checked: false }, ... ]
         shoppingLists: {
-            // 範例：在「吉伊卡哇專賣店」要買的東西
+            // 吉伊卡哇店
             'loc_chiikawa_fushimi': [
                 { name: '伏見稻荷限定 狐狸烏薩奇', image: 'fushimi-usagi1-shopping-image.jpg', link: 'https://tw.wamazing.com/media/article/a-3175/', checked: false },
                 { name: '伏見稻荷限定 狐狸烏薩奇', image: 'fushimi-usagi2-shopping-image.jpg', link: 'https://tw.wamazing.com/media/article/a-3175/', checked: false },
                 { name: '伏見稻荷限定 狐狸海獺師傅', image: 'fushimi-rakko-shopping-image.jpg', checked: false }
             ],
-            // 範例：在「錦市場」要買的東西
+            // 錦市場
             'loc_nishiki_market': [
-                { name: '史努比茶屋 抹茶巧克力', image: './shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false },
+                { name: '史努比茶屋 抹茶巧克力', image: 'shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false },
                 { name: '呼吸巧克力 (各種口味)', image: '', link: '', checked: false }
             ],
-            // 範例：在「錦市場」要買的東西
+            // 7-11
             'loc_7-11': [
-                { name: '史努比茶屋 抹茶巧克力', image: './shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false },
-                { name: '呼吸巧克力 (各種口味)', image: '', link: '', checked: false }
+                { name: '史努比茶屋 抹茶巧克力', image: 'shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false }
             ],
+            // 全家
             'loc_family': [
-                { name: '史努比茶屋 抹茶巧克力', image: './shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false },
-                { name: '呼吸巧克力 (各種口味)', image: '', link: '', checked: false }
+                { name: '史努比茶屋 抹茶巧克力', image: 'shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false }
             ],
+            // Lawson
             'loc_lawson': [
-                { name: '史努比茶屋 抹茶巧克力', image: './shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false },
-                { name: '呼吸巧克力 (各種口味)', image: '', link: '', checked: false }
+                { name: '史努比茶屋 抹茶巧克力', image: 'shopping-snoopy-matcha.jpg', link: 'https://youtube.com/shorts/example2', checked: false }
+            ],
+            // 下鴨神社
+            'loc_shimogamo': [
+                { name: '四季御守', image: 'shimogamo-season-shopping-image.jpg', link: 'https://www.instagram.com/p/C-Y6uShyAUZ/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==', checked: false }
+            ],
+            // 平等寺
+            'loc_inabado': [
+                { name: '貓咪御守', image: 'inabado-cat-shopping-image.jpg', link: 'https://osaka.letsgojp.com/archives/610802/', checked: false }
             ],
             // 範例：在便利商店或藥妝店 (如果沒有特定地點，可以創建一個通用的 ID，例如 'loc_general_store')
             'default': [
@@ -1790,8 +1803,8 @@
             
             // 12/29
             'loc_move_inari': { title: '前往伏見', transportRoute: 'JR 奈良線', transportStart: '京都車站', transportEnd: '稻荷車站', transportCost: '¥150', description: '出站即是伏見稻荷大社表參道。' },
-            'loc_chiikawa_fushimi': { title: '吉伊卡哇專賣店 (Chiikawa Mogumogu Honpo)', description: '京都限定的伏見稻荷主題吉伊卡哇周邊商品。', hours: '09:30-17:30', note: '非免稅店，人多時需整理券', googleMapLink: 'googleusercontent.com/maps.google.com/12' },
-            'loc_fushimi_inari': { title: '伏見稻荷大社', description: '以千本鳥居聞名，是全國稻荷神社的總本社。山頂視野好但需體力。', hours: '24小時', note: '免費參觀', googleMapLink: 'https://maps.app.goo.gl/mzRi4J7W1HpppARK8', history: '這裡是全日本三萬多間稻荷神社的總本宮。相傳在奈良時代（西元711年），貴族伊侶巨秦公在山上射餅，結果餅化為白鳥飛走，降落的地方長出了稻子，人們認為是神蹟，便在此建社供奉「稻荷大神」，祈求五穀豐收。\n\n「稻荷」在日文中與「稻生」同音。狐狸被視為稻荷大神的使者，因此神社內隨處可見狐狸雕像。著名的「千本鳥居」是由許願或還願的信徒所捐獻，一座座朱紅色的鳥居連綿至山頂，象徵著人們對神明的感謝與祈求通達之意，紅色也被認為具有除魔的效果。' },
+            'loc_chiikawa_fushimi': { title: '吉伊卡哇專賣店 (Chiikawa Mogumogu Honpo)', description: '京都限定的伏見稻荷主題吉伊卡哇周邊商品', hours: '09:30-17:30', note: '非免稅店，人多時需整理券', image: 'chiikawafushimi-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/PtqmExNUZcFEmABa6' },
+            'loc_fushimi_inari': { title: '伏見稻荷大社', description: '以千本鳥居聞名，全國稻荷神社的總本社，山頂視野好但需體力', hours: '24小時', note: '免費參觀', image: 'fushimiinari-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/g1FxkucqUzzWvRs7A', history: '這裡是全日本三萬多間稻荷神社的總本宮。相傳在奈良時代（西元711年），貴族伊侶巨秦公在山上射餅，結果餅化為白鳥飛走，降落的地方長出了稻子，人們認為是神蹟，便在此建社供奉「稻荷大神」，祈求五穀豐收。\n\n「稻荷」在日文中與「稻生」同音。狐狸被視為稻荷大神的使者，因此神社內隨處可見狐狸雕像。著名的「千本鳥居」是由許願或還願的信徒所捐獻，一座座朱紅色的鳥居連綿至山頂，象徵著人們對神明的感謝與祈求通達之意，紅色也被認為具有除魔的效果。' },
             'loc_move_chushojima': { title: '前往中書島', transportRoute: '京阪本線', transportStart: '伏見稻荷站', transportEnd: '中書島站', transportCost: '¥240', description: '步行至京阪電車車站轉乘。', googleMapLink: 'https://maps.app.goo.gl/xJ1qP6ki7MHiujVt8' },
             'loc_75': { title: '月の蔵人', rating: '4.0', priceLevel: '¥1,500-2,500', description: '月桂冠酒造改建的餐廳，主打清酒與豆腐料理。', hours: '11:00-15:00, 17:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/qvvw87rsoTXXjZpYA' },
             'loc_76': { title: '鳥せい 本店', rating: '4.2', priceLevel: '¥2,000-3,000', description: '由酒窖改建，提供美味烤雞串和清酒。', hours: '11:00-21:30 (週一休)', note: '', googleMapLink: 'maps.google.com/76' },
@@ -1805,7 +1818,7 @@
                 subLocations: [
                     { title: '寺田屋', hours: '10:00-16:00', note: '坂本龍馬遇襲的歷史旅館 (參觀費¥400)', mapLink: 'https://maps.app.goo.gl/6Hzfu92SdA8zEpye7' },
                     { title: '伏見十石舟', hours: '10:00-16:20 (季節限定)', note: '乘船遊覽運河與酒窖風景', mapLink: 'https://maps.app.goo.gl/9Tv8wUAnv51w8UUm6' },
-                    { title: '龍馬通商店街', hours: '各店不同', note: '復古風味的商店街', mapLink: 'https://maps.app.goo.gl/qA3fGEHJCjuXZoGm9' }
+                    { title: '龍馬通商店街', hours: '各店不同', note: '復古風味的商店街', mapLink: 'https://maps.app.goo.gl/F7GkmoJdLHCkypDz5' }
                 ],
                 history: '伏見桃山地區憑藉著優質的地下水「伏水」，自古以來就是著名的清酒產地。江戶時代，這裡作為連結京都與大阪的水路交通樞紐「伏見港」而繁榮。運河（濠川）兩岸排列著月桂冠等老牌酒造的倉庫群，黑色的木板牆與白色的土牆形成了獨特的景觀。'
             },
@@ -1841,7 +1854,20 @@
                     { title: '大佛布丁 (近鐵奈良站店)', hours: '09:00-20:00', note: '口感綿密、瓶子可愛的人氣布丁', mapLink: 'https://maps.app.goo.gl/Q7VDVLSz9o4zuaVs7' }
                 ]
             },
-            'loc_todaiji': { title: '奈良公園/東大寺', description: '世界最大的木造建築大佛殿，以及公園內自由漫步的小鹿。', hours: '大佛殿 08:00-17:00', note: '大佛殿門票 ¥800，鹿仙貝 ¥200', googleMapLink: 'https://maps.app.goo.gl/qrjLNBQi9zYJ2jK38', history: '東大寺是由聖武天皇在西元728年為了祈求國家平安而下令建造的。其核心建築「大佛殿」是世界最大的木造建築之一，裡面供奉著高達15公尺以上的「奈良大佛」（盧舍那佛）。這座大佛歷經多次戰火與地震的損毀與修復，承載了千年來人們的信仰與歷史。著名的「柱子洞」位於大佛殿右後方，據說鑽過去就能獲得好運與健康。' },
+            'loc_todaiji_area_parent': { 
+                title: '奈良公園/東大寺', 
+                description: '世界最大的木造建築大佛殿，公園內自由漫步的小鹿', 
+                hours: '大佛殿 08:00-17:00', 
+                note: '大佛殿門票 ¥800，鹿仙貝 ¥200',
+                image: 'usagi-todaijiarea-attraction-image.jpg', 
+                googleMapLink: 'https://maps.app.goo.gl/qrjLNBQi9zYJ2jK38', 
+                subLocations: [
+                    { locationId: 'loc_todaiji', title: '東大寺', hours: '08:00-17:00', note: '全世界最大的木造建築「大佛殿」'},
+                    { locationId: 'loc_nara_park', title: '奈良公園', hours: '24小時', note: '很多可愛的鹿' }
+                ] 
+            },
+            'loc_todaiji':{ title: '東大寺', description: '全日本最大的山門「南大門」，全世界最大的木造建築「大佛殿」，大佛殿的盧舍那佛', hours: '08:00-17:00', note: '門票 ¥800', googleMapLink: 'https://maps.app.goo.gl/qrjLNBQi9zYJ2jK38', history: '東大寺是由聖武天皇在西元728年為了祈求國家平安而下令建造的。其核心建築「大佛殿」是世界最大的木造建築之一，裡面供奉著高達15公尺以上的「奈良大佛」（盧舍那佛）。這座大佛歷經多次戰火與地震的損毀與修復，承載了千年來人們的信仰與歷史。著名的「柱子洞」位於大佛殿右後方，據說鑽過去就能獲得好運與健康。' },
+            'loc_nara_park':{ title: '奈良公園', description: '500公頃，超過1000頭鹿', hours: '24小時', note: '', image: 'narapark-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/GqogwtZXiWqthQXM8'},
             
             // 母景點：奈良興福寺區
             'loc_nara_kofukuji_area_parent': {
@@ -1924,7 +1950,7 @@
             
             // 1/2
             'loc_bus_heian': { title: '前往平安神宮', transportRoute: '京都市營巴士 202', transportStart: '九条近鐵前', transportEnd: '東山仁王門', transportCost: '¥230', description: '', googleMapLink: 'https://maps.app.goo.gl/qaNBReH2MBTX6iAx8' },
-            'loc_heian_jingu': { title: '平安神宮', description: '擁有巨大的紅色鳥居，紅白色的社殿非常壯觀。', hours: '06:00-17:00', note: '神苑門票 ¥600', googleMapLink: 'https://maps.app.goo.gl/jat4d7W1jPQNgTHq7', pokemon: { characters: '火球鼠、達摩狒狒', mapLink: 'https://maps.app.goo.gl/CRohzKrL62fNYe1u8' }, history: '平安神宮是為了紀念平安遷都1100週年，於1895年創建的。它祭祀著平安京的首位天皇（桓武天皇）和最後一位天皇（孝明天皇）。神社的建築是按原比例縮小重現了平安時代皇宮正廳「朝堂院」的樣貌，朱紅色的柱子與碧綠的瓦頂色彩鮮豔，展現了平安王朝的華麗風格。巨大的紅色鳥居矗立在神宮道上，氣勢非凡。' },
+            'loc_heian_jingu': { title: '平安神宮', description: '擁有巨大的紅色鳥居，紅白色的社殿非常壯觀。', hours: '06:00-17:00', note: '神苑門票 ¥600', googleMapLink: 'https://maps.app.goo.gl/jat4d7W1jPQNgTHq7', pokemon: { characters: '火球鼠、達摩狒狒', image: 'cyndaquil-pokemon-image.png', mapLink: 'https://maps.app.goo.gl/CRohzKrL62fNYe1u8' }, history: '平安神宮是為了紀念平安遷都1100週年，於1895年創建的。它祭祀著平安京的首位天皇（桓武天皇）和最後一位天皇（孝明天皇）。神社的建築是按原比例縮小重現了平安時代皇宮正廳「朝堂院」的樣貌，朱紅色的柱子與碧綠的瓦頂色彩鮮豔，展現了平安王朝的華麗風格。巨大的紅色鳥居矗立在神宮道上，氣勢非凡。' },
             'loc_nanzenji': { title: '南禪寺區域', description: '包含巨大的三門、著名的賞楓景點永觀堂，以及紅磚砌成的水路閣拱橋。', hours: '南禪寺 08:40-16:30', note: '各院參拜費另計', googleMapLink: 'https://maps.app.goo.gl/AkoiarETAgfaxqNcA', history: '南禪寺是臨濟宗南禪寺派的大本山，在日本禪宗寺院中擁有最高的地位（京都五山之上）。這裡原是龜山天皇的離宮，後來改為禪寺。著名的「三門」有「天下龍門」之稱，歌舞伎名劇中大盜石川五右衛門登上此門時曾讚嘆「絕景啊！絕景！」。境內還有一座明治時代建造的紅磚拱橋「水路閣」，是為了將琵琶湖水引至京都而建的水利設施，充滿了復古的歐式風情。' },
             'loc_105': { title: 'とよ寿司', rating: '4.3', priceLevel: '¥2,000-4,000', description: '新鮮美味的壽司店。', hours: '11:30-20:00 (週三休)', note: '', googleMapLink: 'https://maps.app.goo.gl/pHdZvGMgd6RUaeJi6' },
             'loc_106': { title: '味ま野', rating: '4.5', priceLevel: '¥5,000-8,000', description: '正統的京懷石料理。', hours: '11:30-19:00', note: '需預約', googleMapLink: 'https://maps.app.goo.gl/WU3V3XA4iReKaWwD8' },
