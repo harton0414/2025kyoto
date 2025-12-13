@@ -1649,7 +1649,8 @@
             '2026-01-02': [
                 { time: '09:00', title: '前往平安神宮', locationId: 'loc_bus_heian', note: '202公車' },
                 { time: '09:40', title: '參觀平安神宮', locationId: 'loc_heian_jingu', note: '超大鳥居' },
-                { time: '10:30', title: '散步：南禪寺區域', locationId: 'loc_nanzenji', note: '南禪寺三門、水路閣' },
+                { time: '10:30', title: '參觀南禪寺', locationId: 'loc_nanzenji', note: '南禪寺三門、水路閣' },
+                { time: '11:30', title: '參觀永觀堂', locationId: 'loc_eikando', note: '放生池、多寶塔、回頭阿密陀佛像' },
                 // ★★★ 修復：補上 locationId ★★★
                 { time: '12:00', title: '吃午餐 (とよ寿司)', type: 'food', meal: 'lunch', locationId: 'loc_105', note: '壽司' },
                 { 
@@ -2095,8 +2096,9 @@
             
             // 1/2
             'loc_bus_heian': { title: '前往平安神宮', transportRoute: '京都市營巴士 202', transportStart: '九条近鐵前', transportEnd: '東山仁王門', transportCost: '¥230', description: '', googleMapLink: 'https://maps.app.goo.gl/qaNBReH2MBTX6iAx8' },
-            'loc_heian_jingu': { title: '平安神宮', description: '擁有巨大的紅色鳥居，紅白色的社殿非常壯觀。', hours: '06:00-17:00', note: '神苑門票 ¥600', googleMapLink: 'https://maps.app.goo.gl/jat4d7W1jPQNgTHq7', pokemon: { characters: '火球鼠、達摩狒狒', image: 'cyndaquil-pokemon-image.png', mapLink: 'https://maps.app.goo.gl/CRohzKrL62fNYe1u8' }, history: '平安神宮是為了紀念平安遷都1100週年，於1895年創建的。它祭祀著平安京的首位天皇（桓武天皇）和最後一位天皇（孝明天皇）。神社的建築是按原比例縮小重現了平安時代皇宮正廳「朝堂院」的樣貌，朱紅色的柱子與碧綠的瓦頂色彩鮮豔，展現了平安王朝的華麗風格。巨大的紅色鳥居矗立在神宮道上，氣勢非凡。' },
-            'loc_nanzenji': { title: '南禪寺區域', description: '包含巨大的三門、著名的賞楓景點永觀堂，以及紅磚砌成的水路閣拱橋。', hours: '南禪寺 08:40-16:30', note: '各院參拜費另計', googleMapLink: 'https://maps.app.goo.gl/AkoiarETAgfaxqNcA', history: '南禪寺是臨濟宗南禪寺派的大本山，在日本禪宗寺院中擁有最高的地位（京都五山之上）。這裡原是龜山天皇的離宮，後來改為禪寺。著名的「三門」有「天下龍門」之稱，歌舞伎名劇中大盜石川五右衛門登上此門時曾讚嘆「絕景啊！絕景！」。境內還有一座明治時代建造的紅磚拱橋「水路閣」，是為了將琵琶湖水引至京都而建的水利設施，充滿了復古的歐式風情。' },
+            'loc_heian_jingu': { title: '平安神宮', description: '擁有巨大的紅色鳥居，紅白色的社殿非常壯觀，非櫻花祭不用進去神苑', hours: '06:00-17:00', note: '神苑門票 ¥600', image: 'heianjingu-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/jat4d7W1jPQNgTHq7', pokemon: { characters: '火球鼠、達摩狒狒', image: 'cyndaquil-pokemon-image.png', mapLink: 'https://maps.app.goo.gl/CRohzKrL62fNYe1u8' }, history: '平安神宮是為了紀念平安遷都1100週年，於1895年創建的。它祭祀著平安京的首位天皇（桓武天皇）和最後一位天皇（孝明天皇）。神社的建築是按原比例縮小重現了平安時代皇宮正廳「朝堂院」的樣貌，朱紅色的柱子與碧綠的瓦頂色彩鮮豔，展現了平安王朝的華麗風格。巨大的紅色鳥居矗立在神宮道上，氣勢非凡。' },
+            'loc_nanzenji': { title: '南禪寺', description: '¥600巨大的三門，¥600大方丈小方丈，¥500南禪寺，著名的賞楓景點永觀堂，以及紅磚砌成的水路閣拱橋', hours: '南禪寺 08:40-16:30', note: '', image: 'nanzenji-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/AkoiarETAgfaxqNcA', history: '南禪寺是臨濟宗南禪寺派的大本山，在日本禪宗寺院中擁有最高的地位（京都五山之上）。這裡原是龜山天皇的離宮，後來改為禪寺。著名的「三門」有「天下龍門」之稱，歌舞伎名劇中大盜石川五右衛門登上此門時曾讚嘆「絕景啊！絕景！」。境內還有一座明治時代建造的紅磚拱橋「水路閣」，是為了將琵琶湖水引至京都而建的水利設施，充滿了復古的歐式風情。' },
+            'loc_eikando': { title: '永觀堂', description: '放生池，多寶塔，回頭阿密陀佛像', hours: '09:00-16:00', note: '¥600', image: 'eikando-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/neWWUCE7j7CPE6PPA' },
             'loc_105': { title: 'とよ寿司', rating: '4.3', priceLevel: '¥2,000-4,000', description: '新鮮美味的壽司店。', hours: '11:30-20:00 (週三休)', note: '', googleMapLink: 'https://maps.app.goo.gl/pHdZvGMgd6RUaeJi6' },
             'loc_106': { title: '味ま野', rating: '4.5', priceLevel: '¥5,000-8,000', description: '正統的京懷石料理。', hours: '11:30-19:00', note: '需預約', googleMapLink: 'https://maps.app.goo.gl/WU3V3XA4iReKaWwD8' },
             'loc_107': { title: 'Tairikitei', rating: '3.8', priceLevel: '¥1,500-2,500', description: '提供烏龍麵和壽喜燒。', hours: '11:30-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/JYjQpVR8qvHzpQwH6' },
@@ -2105,7 +2107,12 @@
             
             // 修改：哲學之道 (改為母景點，包含子景點清單)
             'loc_philosophers_path': { 
-                title: '哲學之道散策', description: '沿著琵琶湖疏水渠的小徑，是京都最著名的散步道之一。沿途有許多可愛的小店、咖啡館。', hours: '24小時', note: '全程約2公里，慢慢走約需1小時', googleMapLink: 'https://maps.app.goo.gl/MvJBAacYnosE5UiQ8',
+                title: '哲學之道散策', 
+                description: '沿著琵琶湖疏水渠的小徑，是京都最著名的散步道之一，沿途有許多可愛的小店和咖啡館', 
+                hours: '24小時', 
+                note: '全程約2公里，慢慢走約需1小時', 
+                image: 'usagi-philosophers-attraction-image.jpg',
+                googleMapLink: 'https://maps.app.goo.gl/MvJBAacYnosE5UiQ8',
                 subLocations: [
                     { locationId: 'loc_kumano_nyakuoji', title: '熊野若王子神社', hours: '09:00-17:00', note: '哲學之道的南端起點' },
                     { locationId: 'loc_otoyo_shrine', title: '大豐神社 (狛鼠)', hours: '24小時', note: '以可愛的「狛鼠」聞名' }
@@ -2113,16 +2120,21 @@
                 history: '這條沿著琵琶湖疏水渠的小徑，長約2公里。因日本著名的哲學家西田幾多郎經常在此散步、沉思而得名「哲學之道」。春天時，沿岸種植的約450棵櫻花樹盛開，形成一條美麗的櫻花隧道，是京都首屈一指的賞櫻名所。秋天的紅葉、夏天的螢火蟲也各有風情，是條四季皆宜的散步路線。'
             },
             // 新增：子景點資料 (供哲學之道使用)
-            'loc_kumano_nyakuoji': { title: '熊野若王子神社', description: '哲學之道的南端起點，京都三熊野之一。環境清幽，是祈求學業與生意興隆的神社。', hours: '09:00-17:00', note: '', googleMapLink: 'https://goo.gl/maps/3g2kX9Y1Zgq', history: '這座神社是「京都三熊野」之一（另外兩座是新熊野神社、熊野神社），位於哲學之道的南端起點。它是由後白河法皇為了鎮守禪林寺（永觀堂）而從紀州熊野請來神靈所創建的。神社境內環境清幽，背靠東山，是自古以來著名的賞楓與賞櫻勝地。' },
-            'loc_otoyo_shrine': { title: '大豐神社 (狛鼠神社)', description: '以祈求結緣、治病、學業成就聞名。最大的特色是門口守護的不是狛犬，而是可愛的「狛鼠」(老鼠)。', hours: '24小時開放 (授與所約 09:00-17:00)', note: '境內還有狛猴、狛鳶等動物雕像', googleMapLink: 'https://goo.gl/maps/8jQkZ7Y1Zgq', history: '大豐神社是為了祈求治癒宇多天皇的病體而創建的。這座神社最特別的地方在於它的守護獸不是常見的狛犬，而是許多可愛的動物。其中最有名的是「狛鼠」，傳說大國主命在被大火圍困時，是一隻老鼠指引他逃生洞穴而獲救，因此老鼠成了神明的使者。這裡的狛鼠分別抱著象徵長壽的水玉和象徵學問的卷軸。此外，境內還有守護愛宕社的「狛鳶」和守護日吉社的「狛猴」。' },
+            'loc_kumano_nyakuoji': { title: '熊野若王子神社', description: '哲學之道的南端起點，京都三熊野之一，祈求學業與生意興隆的神社，八咫鳥', hours: '09:00-17:00', note: '', image: 'kumanonyakuoji-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/MvJBAacYnosE5UiQ8', history: '這座神社是「京都三熊野」之一（另外兩座是新熊野神社、熊野神社），位於哲學之道的南端起點。它是由後白河法皇為了鎮守禪林寺（永觀堂）而從紀州熊野請來神靈所創建的。神社境內環境清幽，背靠東山，是自古以來著名的賞楓與賞櫻勝地。' },
+            'loc_otoyo_shrine': { title: '大豐神社 (狛鼠神社)', description: '以祈求結緣-治病-學業成就聞名，可愛的「狛鼠」(老鼠)', hours: '24小時開放 (授與所約 09:00-17:00)', note: '境內還有狛猴、狛鳶等動物雕像', image: 'otoyoshrine-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/eyqknAY4mzdH42Dw9', history: '大豐神社是為了祈求治癒宇多天皇的病體而創建的。這座神社最特別的地方在於它的守護獸不是常見的狛犬，而是許多可愛的動物。其中最有名的是「狛鼠」，傳說大國主命在被大火圍困時，是一隻老鼠指引他逃生洞穴而獲救，因此老鼠成了神明的使者。這裡的狛鼠分別抱著象徵長壽的水玉和象徵學問的卷軸。此外，境內還有守護愛宕社的「狛鳶」和守護日吉社的「狛猴」。' },
 
-            'loc_ginkakuji': { title: '慈照寺(銀閣寺)', description: '世界文化遺產，展現了東山文化的侘寂之美。', hours: '08:30-17:00', note: '門票 ¥500', googleMapLink: 'googleusercontent.com/maps.google.com/32', history: '銀閣寺的正式名稱是「慈照寺」。它是室町幕府第八代將軍足利義政效仿祖父足利義滿的金閣寺所建造的山莊，在他死後改為禪寺。與金碧輝煌的金閣寺形成鮮明對比，銀閣寺（觀音殿）原本計畫貼上銀箔，但因財政困難等原因未能實現，最終展現出的是一種樸素、枯淡的木造建築之美，深刻體現了東山文化中「侘寂」（わびさび）的美學意識。' },
+            'loc_ginkakuji': { title: '慈照寺(銀閣寺)', description: '世界文化遺產，展現了東山文化的侘寂之美', hours: '08:30-17:00', note: '門票 ¥500', image: 'ginkakuji-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/ABka2RESKHY1g5xu5', history: '銀閣寺的正式名稱是「慈照寺」。它是室町幕府第八代將軍足利義政效仿祖父足利義滿的金閣寺所建造的山莊，在他死後改為禪寺。與金碧輝煌的金閣寺形成鮮明對比，銀閣寺（觀音殿）原本計畫貼上銀箔，但因財政困難等原因未能實現，最終展現出的是一種樸素、枯淡的木造建築之美，深刻體現了東山文化中「侘寂」（わびさび）的美學意識。' },
             // 修改：銀閣寺參道甜點 (加入 locationId 支援跳轉)
             'loc_ginkakuji_sweets': { 
-                title: '銀閣寺參道甜點', description: '參道上有許多抹茶甜點和伴手禮店。', hours: '約 09:00-17:00', note: '', googleMapLink: 'maps.google.com/32',
+                title: '銀閣寺參道甜點', 
+                description: '參道上有許多抹茶甜點和伴手禮店。', 
+                hours: '約 09:00-17:00', 
+                note: '',
+                image: 'usagi-ginkakujisweets-attraction-image.jpg', 
+                googleMapLink: 'https://maps.app.goo.gl/sKfEug4VNaFqNNXx5',
                 subLocations: [
-                    { title: 'Matsubaya (まつばや)', hours: '09:00-17:00', note: '手工泡芙和霜淇淋', mapLink: 'https://maps.app.goo.gl/ABka2RESKHY1g5xu5' },
-                    { title: '銀閣寺 喜み家', hours: '10:00-17:00', note: '傳統日式甜品，豆類製品好吃', mapLink: 'https://maps.app.goo.gl/ABka2RESKHY1g5xu5' }
+                    { title: 'Matsubaya (まつばや)', hours: '09:00-17:20', note: '手工泡芙和霜淇淋', mapLink: 'https://maps.app.goo.gl/sKfEug4VNaFqNNXx5' },
+                    { title: '氵庵 -sanzuian', hours: '08:00-17:30', note: '抹茶拿鐵、咖啡', mapLink: 'https://maps.app.goo.gl/5ox7g2BkkFw8aCAB6' }
                 ]
             },
             'loc_111': { title: '銀福', rating: '4.0', priceLevel: '¥1,500-2,500', description: '名物鯡魚蕎麥麵。', hours: '11:30-18:00', note: '只收現金', googleMapLink: 'maps.google.com/111' },
@@ -2134,8 +2146,8 @@
             'loc_bus_207_toji': { title: '轉乘207公車', transportRoute: '京都市營巴士 207', transportStart: '祇園', transportEnd: '九條近鐵前', transportCost: '¥230', description: '回程第二段，返回飯店。', googleMapLink: 'https://maps.app.goo.gl/Rf9RazXzNk3DfKwe8' },
             
             // 1/3
-            'loc_move_kix': { title: '前往機場', transportRoute: '關空特急 HARUKA', transportStart: '京都車站', transportEnd: '關西機場', transportCost: '約 ¥2,200', description: '記得提前預約座位。', googleMapLink: 'googleusercontent.com/maps.google.com/148' },
-            'loc_kix_return': { title: '關西國際機場 (KIX)', description: '第一航廈出境。好好休息，期待下次旅程！', hours: '', note: '', image: 'kansai-airport-image.jpg', googleMapLink: 'https://maps.app.goo.gl/dJmGxLg8AVg73Vcq7' },
+            'loc_move_kix': { title: '前往機場', transportRoute: '關空特急 HARUKA', transportStart: '京都車站', transportEnd: '關西機場', transportCost: '約 ¥2,200', description: '記得提前預約座位。', googleMapLink: 'https://maps.app.goo.gl/7GVi2xisEWxvMXdL7' },
+            'loc_kix_return': { title: '關西國際機場 (KIX)', description: '第一航廈出境，免稅店', hours: '', note: '', image: 'kansai-airport-image.jpg', googleMapLink: 'https://maps.app.goo.gl/dJmGxLg8AVg73Vcq7' },
             'default': { title: '地點資訊', description: '尚無詳細資訊。' },
 
             'loc_7-11': { title: '7-11', description: '隨處可見的7-11', hours: '00:00-23:59', note: ''},
