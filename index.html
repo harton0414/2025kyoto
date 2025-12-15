@@ -772,7 +772,7 @@
             color: #4caf50; /* 綠色 */
             font-weight: bold;
         }
-/* --- 新增：子店家列表樣式 --- */
+        /* --- 新增：子店家列表樣式 --- */
         .sub-location-list {
             display: flex;
             flex-direction: column;
@@ -1186,7 +1186,7 @@
             overflow: hidden;
         }
         /* --- 新增：購物清單頁面樣式 --- */
-.shop-shopping-card {
+        .shop-shopping-card {
             background: white;
             border-radius: 20px; /* 更圓潤的卡片 */
             margin-bottom: 20px;
@@ -1249,31 +1249,50 @@
             margin: 0;
         }
 
+        /* 每一項商品的容器：改為垂直排列 */
         .shopping-item-row {
             display: flex;
-            align-items: flex-start; /* 靠上對齊 */
-            padding: 20px 25px; /* 增加內部間距 */
+            flex-direction: column; /* 關鍵：由上往下排列 */
+            padding: 20px;
             border-bottom: 1px solid #eee;
+            background: white;
             transition: all 0.2s;
+        }
+        /* 第一列：勾選框 + 圖片 */
+        .item-top-section {
+            display: flex;
+            align-items: center; /* 垂直置中 */
+            width: 100%;
+            margin-bottom: 12px; /* 與下方標題保持距離 */
+        }
+        /* 勾選框容器 */
+        .checkbox-wrapper {
+            margin-right: 15px;
+            flex-shrink: 0;
         }
         .shopping-item-row:last-child {
             border-bottom: none;
         }
 
         /* ★★★ 新增：大尺寸圖片容器 ★★★ */
+        /* 圖片容器：稍微加大，更有存在感 */
         .item-image-box-large {
-            width: 100px;  /* 設定為 100px */
-            height: 100px; /* 設定為 100px */
-            border-radius: 12px; /* 較大的圓角 */
+            width: 120px;  /* 加大寬度 */
+            height: 120px; /* 加大高度 */
+            border-radius: 12px;
             overflow: hidden;
-            margin-right: 20px;
             flex-shrink: 0;
             border: 1px solid rgba(0,0,0,0.05);
             display: flex;
             align-items: center;
             justify-content: center;
             background: #f9f9f9;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* 圖片陰影 */
+        }
+        /* 商品資訊區塊 (標題、價格、連結) */
+        .item-info-vertical {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
         .item-image-box-large img {
             width: 100%;
@@ -1299,31 +1318,44 @@
             justify-content: center;
             min-height: 100px; /* 確保高度至少與圖片一樣 */
         }
+        /* 第二列：標題 */
         .item-name-large {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 12px;
+            font-size: 1.3rem; /* 字體加大 */
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
             line-height: 1.4;
         }
-        /* 來源連結按鈕化 */
+        /* 第三列：價格 (沿用之前的樣式，但稍微調整間距) */
+        .item-price-tag {
+            display: inline-block;
+            color: #d32f2f;
+            font-weight: 800;
+            font-size: 1.2rem;
+            background-color: #fff0f0;
+            padding: 4px 10px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ffcdd2;
+            align-self: flex-start; /* 靠左對齊 */
+        }
+        /* 第四列：來源連結按鈕 */
         .item-source-btn {
             display: inline-flex;
             align-items: center;
-            font-size: 0.9rem;
+            justify-content: center;
+            font-size: 0.95rem;
             color: #007bff;
             text-decoration: none;
             background: #eef6fc;
-            padding: 6px 12px;
-            border-radius: 20px;
-            align-self: flex-start; /* 靠左對齊 */
-            transition: all 0.2s;
-            font-weight: 500;
+            padding: 10px 0; /* 增加點擊範圍 */
+            width: 100%;     /* 按鈕寬度填滿，方便手機點擊 */
+            border-radius: 12px;
+            font-weight: 600;
+            transition: background 0.2s;
         }
         .item-source-btn:hover {
             background: #dceefb;
-            text-decoration: none;
-            transform: translateY(-2px);
         }
 
         /* 空狀態樣式 */
@@ -1355,6 +1387,39 @@
             padding-top: 0;
             padding-bottom: 0;
             overflow: hidden;
+        }
+        /* --- 購物清單底部進度條樣式 --- */
+        .progress-wrapper {
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            background: white; 
+            padding: 15px 20px 25px; /* 底部留一點空間給手機橫條 */
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.08); 
+            z-index: 100;
+        }
+
+        .progress-info {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-end; 
+            margin-bottom: 8px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 12px; /* 進度條高度 */
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #00e676); /* 漂亮的綠色漸層 */
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 滑順動畫 */
+            border-radius: 10px;
         }
         /* --- 新增：緊急資訊頁面樣式 --- */
         .emergency-section {
@@ -1467,6 +1532,73 @@
             font-size: 1.3rem;
             color: #d9534f;
             font-weight: bold;
+        }
+        /* --- 日文手札 Ruby (振假名) 樣式 --- */
+        ruby {
+            font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", serif; /* 使用日文字體會比較好看 */
+        }
+        rt {
+            font-size: 0.6em; /* 上方假名的大小 */
+            color: #d32f2f;   /* 讓假名顯示為紅色，方便辨識 */
+            user-select: none; /* 讓使用者複製文字時，不會複製到重覆的假名 (選用) */
+        }
+        /* --- 首頁天氣預報卡片樣式 --- */
+        .weather-scroll-container {
+            display: flex;
+            overflow-x: auto; /* 允許橫向捲動 */
+            gap: 10px;
+            padding-bottom: 10px; /* 預留捲動軸空間 */
+            -webkit-overflow-scrolling: touch; /* 讓 iOS 捲動更順暢 */
+        }
+
+        /* 隱藏醜醜的捲動軸 (Chrome/Safari) */
+        .weather-scroll-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        .weather-scroll-container::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        .weather-day-card {
+            min-width: 80px; /* 每一天的卡片寬度 */
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px 5px;
+            text-align: center;
+            flex-shrink: 0; /* 防止被壓縮 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .weather-date { font-size: 0.8rem; color: #666; font-weight: bold; }
+        .weather-day-week { font-size: 0.75rem; color: #999; margin-bottom: 5px; }
+        .weather-icon { font-size: 1.8rem; margin: 5px 0; }
+        .weather-temp-high { color: #d32f2f; font-weight: bold; font-size: 0.9rem; }
+        .weather-temp-low { color: #1976d2; font-weight: bold; font-size: 0.9rem; }
+        .weather-rain { 
+            font-size: 0.7rem; 
+            color: #555; 
+            margin-top: 5px; 
+            background: #e3f2fd; 
+            padding: 2px 6px; 
+            border-radius: 10px; 
+        }
+
+        /* 即時天氣按鈕 */
+        .weather-link-btn {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #f5f5f5;
+            color: #666;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid #ddd;
         }                                                                                            
     </style>    
 </head>
@@ -1481,7 +1613,7 @@
     </div>
 
 <script>
-    const { createApp, ref, reactive, computed, watch } = Vue;
+    const { createApp, ref, reactive, computed, watch, onMounted } = Vue;
     const { createRouter, createWebHashHistory, useRoute, useRouter } = VueRouter;
 
     // --- 1. 資料處理 (Data) ---
@@ -1502,6 +1634,18 @@
                 price: '¥158,800'
             }
         },
+        weatherForecast: [
+            { date: '12/25', day: '四', icon: '☁️', status: '陰天', high: '8°C', low: '2°C', rain: '30%' },
+            { date: '12/26', day: '五', icon: '☀️', status: '晴時多雲', high: '9°C', low: '1°C', rain: '10%' },
+            { date: '12/27', day: '六', icon: '☀️', status: '晴朗', high: '10°C', low: '0°C', rain: '0%' },
+            { date: '12/28', day: '日', icon: '🌧️', status: '短暫雨', high: '7°C', low: '3°C', rain: '60%' },
+            { date: '12/29', day: '一', icon: '☁️', status: '陰天', high: '8°C', low: '2°C', rain: '40%' },
+            { date: '12/30', day: '二', icon: '☃️', status: '小雪', high: '5°C', low: '-1°C', rain: '80%' },
+            { date: '12/31', day: '三', icon: '☃️', status: '降雪', high: '4°C', low: '-2°C', rain: '90%' },
+            { date: '01/01', day: '四', icon: '☀️', status: '晴朗', high: '6°C', low: '0°C', rain: '10%' },
+            { date: '01/02', day: '五', icon: '☀️', status: '晴朗', high: '7°C', low: '1°C', rain: '0%' },
+            { date: '01/03', day: '六', icon: '☁️', status: '多雲', high: '8°C', low: '2°C', rain: '20%' }
+        ],
         // 每日行程 (已修復：補齊所有用餐行程缺失的 locationId)
         itineraries: {
             '2025-12-25': [
@@ -1697,7 +1841,7 @@
             ],
             // 錦市場
             'loc_nishiki_market': [
-                { name: '史努比茶屋 抹茶巧克力', image: 'shopping-snoopy-matcha.jpg', link: '', checked: false },
+                { name: '史努比茶屋 抹茶巧克力', image: '', link: '', checked: false },
                 { name: '呼吸巧克力 (各種口味)', image: '', link: '', checked: false }
             ],
             // 7-11
@@ -1741,6 +1885,12 @@
                 { name: 'ヒレカツ', image: 'lawson-hirekatsu-shopping-image.jpg', link: 'https://www.instagram.com/reel/DQGzQgvEzbe/?igsh=MWJtZjRlZWlza3N2MA%3D%3D', checked: false },
                 { name: 'OHAYO ジャージー牛乳プリン', image: 'lawson-ohayozyazipurin-shopping-image.jpg', link: 'https://www.instagram.com/reel/DQGzQgvEzbe/?igsh=MWJtZjRlZWlza3N2MA%3D%3D', checked: false },
                 { name: 'pokka sapporo キレートレモン クエン酸2700', image: 'lawson-pokkasapporokiretoremon-shopping-image.jpg', link: 'https://www.threads.com/@ddnotebook/post/DCq_zyHPIie?hl=zh-tw', checked: false }
+            ],
+            // 3coins
+            'loc_3coins': [
+                { name: '自動圧縮バッグ', image: '3coins-zidouassyuku-shopping-image.jpg', link: 'https://www.instagram.com/p/DSHzNYlD2cb/', checked: false },
+                { name: '自動圧縮機', image: '3coins-zidouassyukuki-shopping-image.jpg', link: 'https://www.instagram.com/p/DSHzNYlD2cb/', checked: false },
+                { name: '微波爐料理盒', image: '3coins-denshibox-shopping-image.jpg', link: 'https://www.instagram.com/p/DPVyaK-jeGb/', checked: false }
             ],
             // 下鴨神社
             'loc_shimogamo': [
@@ -2192,7 +2342,8 @@
 
             'loc_7-11': { title: '7-11', description: '隨處可見的7-11', hours: '00:00-23:59', note: ''},
             'loc_family': { title: '全家', description: '隨處可見的全家', hours: '00:00-23:59', note: ''},
-            'loc_lawson': { title: 'Lawson', description: '隨處可見的7Lawson', hours: '00:00-23:59', note: ''}
+            'loc_lawson': { title: 'Lawson', description: '隨處可見的7Lawson', hours: '00:00-23:59', note: ''},
+            'loc_3coins': { title: '3coins', description: '特地要找的3coins', hours: '11:00-20:30', note: ''}
         },
 
         // ★★★ 新增：行李清單資料 ★★★
@@ -2323,6 +2474,30 @@
                     <h3>{{ tripInfo.title }}</h3>
                     <p>📅 {{ tripInfo.dates }}</p>
                     <p>ℹ️ {{ tripInfo.description }}</p>
+                </div>
+
+                <div class="card" style="background: white;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <h3 style="margin: 0; color: #1976d2;">🌤️ 一週預報</h3>
+                    </div>
+                    
+                    <div class="weather-scroll-container">
+                        <div v-for="(day, index) in weatherData" :key="index" class="weather-day-card">
+                            <div class="weather-date">{{ day.date }}</div>
+                            <div class="weather-day-week">({{ day.day }})</div>
+                            <div class="weather-icon">{{ day.icon }}</div>
+                            <div style="margin-top: 2px;">
+                                <span class="weather-temp-high">{{ day.high }}</span>
+                                <span style="color:#ddd">/</span>
+                                <span class="weather-temp-low">{{ day.low }}</span>
+                            </div>
+                            <div class="weather-rain" v-if="day.rain !== '0%'">☂️ {{ day.rain }}</div>
+                        </div>
+                    </div>
+
+                    <a href="https://weather.yahoo.co.jp/weather/jp/26/6110.html" target="_blank" class="weather-link-btn">
+                        🔴 查看京都即時天氣 (Yahoo! JP)
+                    </a>
                 </div>
 
                 <div class="card" @click="$router.push('/packing')" style="background: linear-gradient(135deg, #009688, #4db6ac); color: white; display: flex; justify-content: space-between; align-items: center;">
@@ -2483,6 +2658,78 @@
             const router = useRouter();
             const { tripInfo } = tripData;
             const itineraries = processedItineraries;
+
+            // 建立一個響應式的天氣變數，預設為空陣列
+            const weatherData = ref([]);
+
+            // 天氣代碼轉換表 (Open-Meteo 回傳的是數字，要轉成圖示)
+            const getWeatherIcon = (code) => {
+                const map = {
+                    0: { icon: '☀️', status: '晴朗' },
+                    1: { icon: '🌤️', status: '多雲' },
+                    2: { icon: '⛅', status: '多雲' },
+                    3: { icon: '☁️', status: '陰天' },
+                    45: { icon: '🌫️', status: '霧' },
+                    48: { icon: '🌫️', status: '霧' },
+                    51: { icon: '🌧️', status: '毛毛雨' },
+                    53: { icon: '🌧️', status: '毛毛雨' },
+                    55: { icon: '🌧️', status: '毛毛雨' },
+                    61: { icon: '☔', status: '小雨' },
+                    63: { icon: '☔', status: '中雨' },
+                    65: { icon: '☔', status: '大雨' },
+                    71: { icon: '☃️', status: '小雪' },
+                    73: { icon: '☃️', status: '中雪' },
+                    75: { icon: '☃️', status: '大雪' },
+                    80: { icon: '🌦️', status: '陣雨' },
+                    81: { icon: '🌦️', status: '陣雨' },
+                    82: { icon: '⛈️', status: '雷雨' },
+                    95: { icon: '⚡', status: '雷雨' }
+                };
+                // 如果代碼不在表內，回傳預設值
+                return map[code] || { icon: '❓', status: '未知' };
+            };
+
+            // 抓取天氣的函式
+            const fetchWeather = async () => {
+                try {
+                    // 京都的經緯度 (35.0116, 135.7681)
+                    // 參數說明： daily (每日資料), temperature_2m_max (最高溫), min (最低溫), precipitation_probability (降雨機率), weather_code (天氣狀態)
+                    const url = "https://api.open-meteo.com/v1/forecast?latitude=35.0116&longitude=135.7681&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&forecast_days=7";
+                    
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    // 整理資料格式以符合我們的卡片設計
+                    const daily = data.daily;
+                    const formattedData = daily.time.map((time, index) => {
+                        const dateObj = new Date(time);
+                        const weekDay = ['日', '一', '二', '三', '四', '五', '六'][dateObj.getDay()];
+                        const codeInfo = getWeatherIcon(daily.weather_code[index]);
+
+                        return {
+                            date: `${dateObj.getMonth() + 1}/${dateObj.getDate()}`, // 格式：12/25
+                            day: weekDay,
+                            icon: codeInfo.icon,
+                            status: codeInfo.status,
+                            high: Math.round(daily.temperature_2m_max[index]) + '°C',
+                            low: Math.round(daily.temperature_2m_min[index]) + '°C',
+                            rain: daily.precipitation_probability_max[index] + '%'
+                        };
+                    });
+
+                    weatherData.value = formattedData;
+
+                } catch (error) {
+                    console.error("天氣抓取失敗:", error);
+                    // 失敗時可以顯示一個假資料或錯誤訊息
+                    weatherData.value = [{ date: 'Error', day: '-', icon: '⚠️', status: '連線失敗', high: '-', low: '-', rain: '-' }];
+                }
+            };
+
+            // 當組件掛載完成時，執行抓取
+            onMounted(() => {
+                fetchWeather();
+            });
             
             const dailyTitles = {
                 '2025-12-25': '✈️ 出發京都 & 東寺居酒屋',
@@ -2543,7 +2790,7 @@
                 return { zh: title, en: '' };
             };
 
-            return { tripInfo, itineraries, goToItinerary, formatDate, parseFlight, dailyTitles, splitTitle, goToShopping, goToEmergency };
+            return { tripInfo, weatherData, itineraries, goToItinerary, formatDate, parseFlight, dailyTitles, splitTitle, goToShopping, goToEmergency };
         }
     };
 
@@ -2970,224 +3217,350 @@
     };
 
     // 5. 實用日文組件
-    const JapanesePhrasebook = {
-        template: `
-            <div>
-                <a @click="$router.back()" class="back-btn">← 返回首頁</a>
-                
-                <div class="card" style="background: #d32f2f; color: white;">
-                    <h3 style="color: white; margin: 0;">🗣️ 旅遊實用日文</h3>
-                    <p style="color: #ffcdd2; margin: 5px 0 0;">手指給店員看也能通！</p>
-                </div>
+const JapanesePhrasebook = {
+    template: `
+        <div>
+            <a @click="$router.back()" class="back-btn">← 返回首頁</a>
+            
+            <div class="card" style="background: #d32f2f; color: white;">
+                <h3 style="color: white; margin: 0;">🗣️ 旅遊實用日文</h3>
+                <p style="color: #ffcdd2; margin: 5px 0 0;">點擊文字可播放 (未來功能) / 手指給店員看</p>
+            </div>
 
-                <div v-for="(category, index) in phrases" :key="index" class="phrase-category">
-                    <h3>{{ category.title }}</h3>
-                    <div class="phrase-list">
-                        <div v-for="(item, idx) in category.items" :key="idx" class="phrase-item">
-                            <div class="phrase-content">
-                                <span class="phrase-jp">{{ item.jp }}</span>
-                                <span class="phrase-kana">{{ item.pronounce }}</span>
-                                <span class="phrase-cn">{{ item.cn }}</span>
-                            </div>
+            <div v-for="(category, index) in phrases" :key="index" class="phrase-category">
+                <h3>{{ category.title }}</h3>
+                <div class="phrase-list">
+                    <div v-for="(item, idx) in category.items" :key="idx" class="phrase-item">
+                        <div class="phrase-content">
+                            <span class="phrase-jp" v-html="item.jp"></span>
+                            <span class="phrase-kana">{{ item.pronounce }}</span>
+                            <span class="phrase-cn">{{ item.cn }}</span>
                         </div>
                     </div>
                 </div>
             </div>
-        `,
-        setup() {
-            const phrases = [
-                {
-                    title: '👋 基本問候',
-                    items: [
-                        { jp: 'こんにちは', pronounce: 'Konnichiwa', cn: '你好 (白天)' },
-                        { jp: 'ありがとうございます', pronounce: 'Arigatou gozaimasu', cn: '謝謝' },
-                        { jp: 'すみません', pronounce: 'Sumimasen', cn: '不好意思 / 借過' },
-                        { jp: 'はい / いいえ', pronounce: 'Hai / Iie', cn: '是 / 不是' },
-                        { jp: '大丈夫です', pronounce: 'Daijoubu desu', cn: '沒關係 / 不用了' }
-                    ]
-                },
-                {
-                    title: '🍽️ 餐廳點餐',
-                    items: [
-                        { jp: 'メニューをください', pronounce: 'Menyu wo kudasai', cn: '請給我菜單' },
-                        { jp: 'これをお願いします', pronounce: 'Kore wo onegaishimasu', cn: '我要點這個 (指著菜單)' },
-                        { jp: 'お水ください', pronounce: 'Omizu kudasai', cn: '請給我冰水' },
-                        { jp: 'お会計お願いします', pronounce: 'Okaikei onegaishimasu', cn: '麻煩結帳' },
-                        { jp: 'トイレはどこですか？', pronounce: 'Toire wa doko desu ka?', cn: '請問廁所在哪裡？' }
-                    ]
-                },
-                {
-                    title: '🛍️ 購物結帳',
-                    items: [
-                        { jp: 'いくらですか？', pronounce: 'Ikura desu ka?', cn: '請問多少錢？' },
-                        { jp: 'カードは使えますか？', pronounce: 'Kaado wa tsukaemasu ka?', cn: '可以刷卡嗎？' },
-                        { jp: '袋はいりません', pronounce: 'Fukuro wa irimasen', cn: '我不需要袋子' },
-                        { jp: '免税できますか？', pronounce: 'Menzei dekimasu ka?', cn: '可以退稅嗎？' },
-                        { jp: 'これにします', pronounce: 'Kore ni shimasu', cn: '我要買這個' }
-                    ]
-                },
-                {
-                    title: '🏨 住宿與交通',
-                    items: [
-                        { jp: 'チェックインお願いします', pronounce: 'Chekku-in onegaishimasu', cn: '我要辦理入住' },
-                        { jp: '荷物を預かってもらえますか？', pronounce: 'Nimotsu wo azukatte moraemasu ka?', cn: '可以寄放行李嗎？' },
-                        { jp: '駅はどこですか？', pronounce: 'Eki wa doko desu ka?', cn: '請問車站在哪裡？' },
-                        { jp: '切符売り場', pronounce: 'Kippu uriba', cn: '售票處' }
-                    ]
-                }
-            ];
-            return { phrases };
-        }
-    };
+        </div>
+    `,
+    setup() {
+        const phrases = [
+            {
+                title: '👋 基本問候',
+                items: [
+                    { jp: 'こんにちは', pronounce: 'Konnichiwa', cn: '你好 (白天)' },
+                    { jp: 'ありがとうございます', pronounce: 'Arigatou gozaimasu', cn: '謝謝' },
+                    { jp: 'すみません', pronounce: 'Sumimasen', cn: '不好意思 / 借過' },
+                    { jp: 'はい / いいえ', pronounce: 'Hai / Iie', cn: '是 / 不是' },
+                    { jp: '<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です', pronounce: 'Daijoubu desu', cn: '沒關係 / 不用了' }
+                ]
+            },
+            {
+                title: '🍽️ 餐廳點餐',
+                items: [
+                    { jp: 'メニューをください', pronounce: 'Menyu wo kudasai', cn: '請給我菜單' },
+                    { jp: 'これをお<ruby>願<rt>ねが</rt></ruby>いします', pronounce: 'Kore wo onegaishimasu', cn: '我要點這個 (指著菜單)' },
+                    { jp: 'お<ruby>水<rt>みず</rt></ruby>ください', pronounce: 'Omizu kudasai', cn: '請給我冰水' },
+                    { jp: 'お<ruby>会計<rt>かいけい</rt></ruby>お<ruby>願<rt>ねが</rt></ruby>いします', pronounce: 'Okaikei onegaishimasu', cn: '麻煩結帳' },
+                    { jp: 'トイレはどこですか？', pronounce: 'Toire wa doko desu ka?', cn: '請問廁所在哪裡？' }
+                ]
+            },
+            {
+                title: '🛍️ 購物結帳',
+                items: [
+                    { jp: 'いくらですか？', pronounce: 'Ikura desu ka?', cn: '請問多少錢？' },
+                    { jp: 'カードは<ruby>使<rt>つか</rt></ruby>えますか？', pronounce: 'Kaado wa tsukaemasu ka?', cn: '可以刷卡嗎？' },
+                    { jp: '<ruby>袋<rt>ふくろ</rt></ruby>はいりません', pronounce: 'Fukuro wa irimasen', cn: '我不需要袋子' },
+                    { jp: '<ruby>免税<rt>めんぜい</rt></ruby>できますか？', pronounce: 'Menzei dekimasu ka?', cn: '可以退稅嗎？' },
+                    { jp: 'これにします', pronounce: 'Kore ni shimasu', cn: '我要買這個' }
+                ]
+            },
+            {
+                title: '🏨 住宿與交通',
+                items: [
+                    { jp: 'チェックインお<ruby>願<rt>ねが</rt></ruby>いします', pronounce: 'Chekku-in onegaishimasu', cn: '我要辦理入住' },
+                    { jp: '<ruby>荷物<rt>にもつ</rt></ruby>を<ruby>預<rt>あず</rt></ruby>かってもらえますか？', pronounce: 'Nimotsu wo azukatte moraemasu ka?', cn: '可以寄放行李嗎？' },
+                    { jp: '<ruby>駅<rt>えき</rt></ruby>はどこですか？', pronounce: 'Eki wa doko desu ka?', cn: '請問車站在哪裡？' },
+                    { jp: '<ruby>切符<rt>きっぷ</rt></ruby><ruby>売<rt>う</rt></ruby>り<ruby>場<rt>ば</rt></ruby>', pronounce: 'Kippu uriba', cn: '售票處' }
+                ]
+            }
+        ];
+        return { phrases };
+    }
+};
 
-    // 6. ★★★ 新增：行李打包清單組件 ★★★
+    // 6. 行李打包清單組件 (已新增：LocalStorage 儲存功能)
     const PackingListPage = {
-        template: `
-            <div class="detail-page" style="background-color: #f4f4f9;">
-                <a @click="$router.back()" class="back-btn">← 返回首頁</a>
-                
-                <div class="card" style="background: linear-gradient(135deg, #009688, #4db6ac); color: white;">
-                    <h2 style="color: white; margin: 0;">🧳 行李打包檢查表</h2>
-                    <p style="color: #e0f2f1; margin: 5px 0 0;">京都冬季雙寶行・必備與建議清單</p>
-                </div>
-
-                <div v-for="(category, index) in packingList" :key="index" class="packing-category">
-                    <h3>
-                        <span>{{ category.category }}</span>
-                    </h3>
-                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 10px; padding-left: 5px;">
-                        💡 {{ category.note }}
-                    </p>
-                    <ul class="packing-list">
-                        <li v-for="(item, idx) in category.items" :key="idx" class="packing-item">
-                            <input 
-                                type="checkbox" 
-                                :id="'item-' + index + '-' + idx" 
-                                class="packing-checkbox"
-                                v-model="checkedItems[category.category + '-' + item.name]"
-                            >
-                            <label :for="'item-' + index + '-' + idx" class="checkbox-label">
-                                <div class="checkmark"></div>
-                                <div class="item-content">
-                                    <span class="item-text">
-                                        <span class="item-name">{{ item.name }}</span>
-                                        <span class="item-note" v-if="item.note">{{ item.note }}</span>
-                                    </span>
-                                </div>
-                                <span 
-                                    class="priority-badge"
-                                    :class="item.type === 'must' ? 'badge-must' : 'badge-recommended'"
-                                >
-                                    {{ item.type === 'must' ? '必定攜帶' : '建議攜帶' }}
-                                </span>
-                            </label>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="card" style="margin-top: 30px; background: #fff3e0; border-left: 5px solid #ff9800;">
-                    <h3 style="color: #e65100;">最後檢查小提醒</h3>
-                    <ul class="description-list" style="color: #5d4037;">
-                        <li>出發前一晚，再次確認護照、手機、錢包是否在隨身包中。</li>
-                        <li>確認家中電器電源、瓦斯是否關閉。</li>
-                        <li>垃圾是否已清理。</li>
-                        <li>把家裡鑰匙放在回國後容易拿到的地方。</li>
-                        <li>帶著一顆愉快放鬆的心情出發吧！✈️</li>
-                    </ul>
-                </div>
+    template: `
+        <div class="detail-page" style="background-color: #f4f4f9;">
+            <a @click="$router.back()" class="back-btn">← 返回首頁</a>
+            
+            <div class="card" style="background: linear-gradient(135deg, #009688, #4db6ac); color: white;">
+                <h2 style="margin: 0; color: white;">🧳 行李打包檢查表</h2>
+                <p style="color: #e0f2f1; margin: 5px 0 0;">京都冬季雙寶行・必備與建議清單</p>
+                <p style="margin-top: 10px; font-weight: bold; font-size: 0.9rem;">
+                    目前進度：{{ progressText }}
+                </p>
             </div>
-        `,
-        setup() {
-            const packingList = tripData.packingList;
-            // 使用 reactive 來儲存勾選狀態，key 是 "分類-項目名稱" 的組合
-            const checkedItems = reactive({});
 
-            // 初始化勾選狀態 (從 localStorage 讀取，如果有的話 - 這裡先做簡單版，不存 localStorage)
-            // 如果想要重新整理後保留勾選狀態，需要實作 localStorage 的存取
+            <div v-for="(category, index) in packingList" :key="index" class="packing-category">
+                <h3>
+                    <span>{{ category.category }}</span>
+                </h3>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 10px; padding-left: 5px;">
+                    💡 {{ category.note }}
+                </p>
+                <ul class="packing-list">
+                    <li v-for="(item, idx) in category.items" :key="idx" class="packing-item">
+                        <input 
+                            type="checkbox" 
+                            :id="'item-' + index + '-' + idx" 
+                            class="packing-checkbox"
+                            v-model="checkedItems[category.category + '-' + item.name]"
+                        >
+                        <label :for="'item-' + index + '-' + idx" class="checkbox-label">
+                            <div class="checkmark"></div>
+                            <div class="item-content">
+                                <span class="item-text">
+                                    <span class="item-name">{{ item.name }}</span>
+                                    <span class="item-note" v-if="item.note">{{ item.note }}</span>
+                                </span>
+                            </div>
+                            <span 
+                                class="priority-badge"
+                                :class="item.type === 'must' ? 'badge-must' : 'badge-recommended'"
+                            >
+                                {{ item.type === 'must' ? '必定攜帶' : '建議攜帶' }}
+                            </span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
 
-            return { packingList, checkedItems };
+            <div class="card" style="margin-top: 30px; background: #fff3e0; border-left: 5px solid #ff9800;">
+                <h3 style="color: #e65100;">最後檢查小提醒</h3>
+                <ul class="description-list" style="color: #5d4037;">
+                    <li>出發前一晚，再次確認護照、手機、錢包是否在隨身包中。</li>
+                    <li>確認家中電器電源、瓦斯是否關閉。</li>
+                    <li>垃圾是否已清理。</li>
+                    <li>把家裡鑰匙放在回國後容易拿到的地方。</li>
+                    <li>帶著一顆愉快放鬆的心情出發吧！✈️</li>
+                </ul>
+            </div>
+        </div>
+    `,
+    setup() {
+        const packingList = tripData.packingList;
+        // 使用 reactive 來儲存勾選狀態，key 是 "分類-項目名稱" 的組合
+        const checkedItems = reactive({});
+
+        // ★★★ 1. 初始化：嘗試從 localStorage 讀取紀錄 ★★★
+        const savedStatus = localStorage.getItem('packing-status');
+        if (savedStatus) {
+            try {
+                const parsedStatus = JSON.parse(savedStatus);
+                // 將讀取到的狀態合併進 reactive 物件
+                Object.assign(checkedItems, parsedStatus);
+            } catch (e) {
+                console.error('讀取行李紀錄失敗', e);
+            }
         }
-    };
+
+        // ★★★ 2. 監聽並存檔：當 checkedItems 有變動時，自動寫入 localStorage ★★★
+        watch(checkedItems, (newVal) => {
+            localStorage.setItem('packing-status', JSON.stringify(newVal));
+        }, { deep: true });
+
+        // 計算進度 (選用功能)
+        const progressText = computed(() => {
+            let total = 0;
+            let checked = 0;
+            
+            packingList.forEach(cat => {
+                cat.items.forEach(item => {
+                    total++;
+                    const key = cat.category + '-' + item.name;
+                    if (checkedItems[key]) checked++;
+                });
+            });
+
+            if (total === 0) return '0%';
+            const percentage = Math.round((checked / total) * 100);
+            return `${checked} / ${total} (${percentage}%)`;
+        });
+
+        return { packingList, checkedItems, progressText };
+    }
+};
 
     // 5. 購物清單頁面組件
     // 5. 購物清單頁面組件 (樣式優化版：移除 checkbox，加大圖片)
-    const ShoppingList = {
-        template: `
-            <div class="detail-page" style="background-color: #f0f2f5;">
-                <a @click="$router.back()" class="back-btn">← 返回首頁</a>
-                
-                <div class="header-banner" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); padding: 30px 20px; border-radius: 0 0 25px 25px; margin-bottom: 30px; color: white; box-shadow: 0 4px 15px rgba(255, 126, 95, 0.3);">
-                    <h2 style="margin: 0; font-size: 2rem; font-weight: 700; letter-spacing: 1px;">🛒 必買戰利品清單</h2>
-                    <p style="margin: 10px 0 0; opacity: 0.95; font-size: 1.05rem;">到達店家時，點開卡片確認要買什麼！</p>
-                </div>
+const ShoppingList = {
+    template: `
+        <div class="detail-page" style="background-color: #f0f2f5; padding-bottom: 120px;"> <a @click="$router.back()" class="back-btn">← 返回首頁</a>
+            
+            <div class="header-banner" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); padding: 30px 20px; border-radius: 0 0 25px 25px; margin-bottom: 30px; color: white; box-shadow: 0 4px 15px rgba(255, 126, 95, 0.3);">
+                <h2 style="margin: 0; font-size: 2rem; font-weight: 700; letter-spacing: 1px;">🛒 必買戰利品</h2>
+            </div>
 
-                <div style="padding: 0 20px 50px;">
-                    
-                    <div v-for="(items, locationId) in shoppingData" :key="locationId" class="shop-shopping-card">
-                        
-                        <div class="shop-card-header" @click="toggleStore(locationId)" :class="{ 'is-active': expandedStoreId === locationId }">
-                            <div class="shop-header-info">
-                                <h3 class="shop-title">
-                                    <span style="margin-right: 8px;">🏪</span>
-                                    {{ getStoreName(locationId) }}
-                                </h3>
-                                <span class="shop-item-count">{{ items.length }} 個待買商品</span>
-                            </div>
-                            <span class="toggle-icon">{{ expandedStoreId === locationId ? '▼' : '▶' }}</span>
+            <div style="padding: 0 20px;">
+                <div v-for="(items, locationId) in shoppingData" :key="locationId" class="shop-shopping-card">
+                    <div class="shop-card-header" @click="toggleStore(locationId)" :class="{ 'is-active': expandedStoreId === locationId }">
+                        <div class="shop-header-info">
+                            <h3 class="shop-title"><span style="margin-right: 8px;">🏪</span>{{ getStoreName(locationId) }}</h3>
+                            <span class="shop-item-count">{{ items.length }} 個商品</span>
                         </div>
+                        <span class="toggle-icon">{{ expandedStoreId === locationId ? '▼' : '▶' }}</span>
+                    </div>
 
-                        <transition name="slide-fade">
-                            <div v-if="expandedStoreId === locationId" class="shop-card-body">
-                                <ul class="shopping-items-list">
-                                    <li v-for="(item, index) in items" :key="index" class="shopping-item-row">
-                                        
-                                        <div class="item-image-box-large" v-if="item.image">
+                    <transition name="slide-fade">
+                        <div v-if="expandedStoreId === locationId" class="shop-card-body">
+                            <ul class="shopping-items-list">
+                                <li v-for="(item, index) in items" :key="index" class="shopping-item-row" 
+                                    @click="toggleCheck(item)" 
+                                    :style="item.checked ? 'background-color: #f0fff4;' : ''">
+                                    
+                                    <div class="item-top-section">
+                                        <div class="checkbox-wrapper">
+                                            <div style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; background: white; transition: all 0.2s;"
+                                                 :style="item.checked ? 'background: #4caf50; border-color: #4caf50;' : ''">
+                                                <span v-if="item.checked" style="color: white; font-size: 16px; font-weight: bold;">✓</span>
+                                            </div>
+                                        </div>
+                                        <div class="item-image-box-large" v-if="item.image" :style="item.checked ? 'opacity: 0.6;' : ''">
                                             <img :src="item.image" alt="商品圖">
                                         </div>
-                                        <div class="item-image-box-large placeholder" v-else>
-                                            <span>🛍️</span>
-                                        </div>
-                                        
-                                        <div class="item-info-large">
-                                            <div class="item-name-large">{{ item.name }}</div>
-                                            <a v-if="item.link" :href="item.link" target="_blank" class="item-source-btn">
-                                                🔗 查看來源
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </transition>
-                    </div>
+                                        <div class="item-image-box-large placeholder" v-else><span>🛍️</span></div>
+                                    </div>
 
-                    <div v-if="Object.keys(shoppingData).length === 0" class="empty-state">
-                        <div class="empty-icon">📝</div>
-                        <p>目前還沒有購物清單喔！<br>請在程式碼的 shoppingLists 中新增。</p>
-                    </div>
-
+                                    <div class="item-info-vertical" :style="item.checked ? 'opacity: 0.6;' : ''">
+                                        <div class="item-name-large" :style="item.checked ? 'text-decoration: line-through; color: #999;' : ''">
+                                            {{ item.name }}
+                                        </div>
+                                        <div v-if="item.price" class="item-price-tag">
+                                            {{ item.price }}
+                                        </div>
+                                        <a v-if="item.link" :href="item.link" target="_blank" class="item-source-btn" @click.stop>
+                                            🔗 查看商品來源 / 介紹
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </transition>
                 </div>
             </div>
-        `,
-        // ... setup() 部分保持不變 ...
-        setup() {
-            const router = useRouter();
-            const expandedStoreId = ref(null);
-            const shoppingData = computed(() => tripData.shoppingLists || {});
-            const getStoreName = (locId) => {
-                if (locId === 'default') return '隨處可見 / 通用';
-                const loc = tripData.locations[locId];
-                return loc ? loc.title : '未知店家';
-            };
-            const toggleStore = (locId) => {
-                if (expandedStoreId.value === locId) {
-                    expandedStoreId.value = null;
-                } else {
-                    expandedStoreId.value = locId;
+
+            <div class="progress-wrapper">
+                <div class="progress-info">
+                    <div>
+                        <span style="font-weight: 700; color: #333; font-size: 1rem;">購物進度</span>
+                        <span style="font-size: 0.85rem; color: #888; margin-left: 5px;">({{ checkedCount }} / {{ totalCount }})</span>
+                    </div>
+                    <span style="font-weight: 800; color: #4caf50; font-size: 1.2rem;">{{ progressPercentage }}%</span>
+                </div>
+                
+                <div class="progress-track">
+                    <div class="progress-fill" :style="{ width: progressPercentage + '%' }"></div>
+                </div>
+                
+                <div v-if="progressPercentage === 100" style="text-align: center; margin-top: 5px; color: #4caf50; font-weight: bold; font-size: 0.9rem;">
+                    🎉 恭喜！戰利品全數收集完成！
+                </div>
+            </div>
+            </div>
+    `,
+    setup() {
+        const router = useRouter();
+        const expandedStoreId = ref(null);
+        const shoppingData = reactive(tripData.shoppingLists || {}); 
+
+        const savedStatus = localStorage.getItem('shopping-status');
+        if (savedStatus) {
+            try {
+                const parsedStatus = JSON.parse(savedStatus);
+                for (const locId in shoppingData) {
+                    shoppingData[locId].forEach((item) => {
+                        const key = `${locId}-${item.name}`;
+                        if (parsedStatus[key]) item.checked = true;
+                    });
                 }
-            };
-            return { shoppingData, expandedStoreId, getStoreName, toggleStore };
+            } catch (e) { console.error('讀取紀錄失敗', e); }
         }
-    };
+
+        watch(shoppingData, () => {
+            const statusToSave = {};
+            for (const locId in shoppingData) {
+                shoppingData[locId].forEach(item => {
+                    if (item.checked) {
+                        const key = `${locId}-${item.name}`;
+                        statusToSave[key] = true;
+                    }
+                });
+            }
+            localStorage.setItem('shopping-status', JSON.stringify(statusToSave));
+        }, { deep: true });
+
+        const getStoreName = (locId) => {
+            if (locId === 'default') return '隨處可見 / 通用';
+            const loc = tripData.locations[locId];
+            return loc ? loc.title : '未知店家';
+        };
+
+        const toggleStore = (locId) => {
+            expandedStoreId.value = expandedStoreId.value === locId ? null : locId;
+        };
+
+        const toggleCheck = (item) => {
+            item.checked = !item.checked;
+        };
+
+        const parsePrice = (priceStr) => {
+            if (!priceStr) return 0;
+            return parseInt(priceStr.replace(/[^0-9]/g, '')) || 0;
+        };
+
+        const totalPrice = computed(() => {
+            let sum = 0;
+            for (const locId in shoppingData) {
+                shoppingData[locId].forEach(item => { sum += parsePrice(item.price); });
+            }
+            return sum;
+        });
+
+        // 雖然底部不顯示了，但保留這個計算也無妨
+        const purchasedTotal = computed(() => {
+            let sum = 0;
+            for (const locId in shoppingData) {
+                shoppingData[locId].forEach(item => { if (item.checked) sum += parsePrice(item.price); });
+            }
+            return sum;
+        });
+
+        const totalCount = computed(() => {
+            let count = 0;
+            for (const locId in shoppingData) count += shoppingData[locId].length;
+            return count;
+        });
+
+        const checkedCount = computed(() => {
+            let count = 0;
+            for (const locId in shoppingData) {
+                shoppingData[locId].forEach(item => { if(item.checked) count++; });
+            }
+            return count;
+        });
+
+        // ★★★ 新增：計算百分比 ★★★
+        const progressPercentage = computed(() => {
+            if (totalCount.value === 0) return 0;
+            return Math.round((checkedCount.value / totalCount.value) * 100);
+        });
+
+        return { 
+            shoppingData, expandedStoreId, getStoreName, toggleStore, toggleCheck,
+            totalPrice, purchasedTotal, totalCount, checkedCount, progressPercentage
+        };
+    }
+};
 
     // 6. (新) 緊急資訊頁面組件
     const EmergencyPage = {
