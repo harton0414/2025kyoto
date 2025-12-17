@@ -985,6 +985,9 @@
             flex-wrap: wrap;
             gap: 12px;
             justify-content: center; /* 置中對齊 */
+            /* ★★★ 加入這兩行 ★★★ */
+            flex-direction: column; /* 讓內容變成垂直堆疊 */
+            align-items: center; /* 讓標籤靠左對齊 (不加的話可能會被拉寬) */
         }
 
         /* 通用大標籤樣式 (用於評價、預算、交通) */
@@ -1599,6 +1602,157 @@
             border-radius: 8px;
             font-size: 0.9rem;
             border: 1px solid #ddd;
+        }
+        /* --- 行程內的預約資訊小卡樣式 --- */
+        .booking-ticket {
+            margin-top: 8px;
+            background-color: #e3f2fd; /* 淺藍色背景 */
+            border: 1px dashed #2196f3; /* 藍色虛線邊框 */
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: #0d47a1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .booking-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .booking-label {
+            font-weight: bold;
+            margin-right: 6px;
+            min-width: 65px; /* 讓標籤對齊 */
+        }
+
+        /* 點擊複製按鈕 (選用) */
+        .copy-btn {
+            margin-left: auto;
+            font-size: 0.75rem;
+            background: #fff;
+            border: 1px solid #2196f3;
+            color: #2196f3;
+            border-radius: 4px;
+            padding: 1px 6px;
+            cursor: pointer;
+        }
+        /* --- 地點詳情頁的預約憑證樣式 --- */
+        .booking-ticket-large {
+            background-color: #f1f8e9; /* 淡淡的綠色背景 */
+            border: 2px dashed #66bb6a; /* 綠色虛線邊框 */
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* 票券上方的裝飾圓孔 (模擬實體票券) */
+        .booking-ticket-large::before, .booking-ticket-large::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background-color: #f4f4f9; /* 跟背景色一樣 */
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+        .booking-ticket-large::before { left: -12px; border-right: 2px dashed #66bb6a; }
+        .booking-ticket-large::after { right: -12px; border-left: 2px dashed #66bb6a; }
+
+        .ticket-header {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(102, 187, 106, 0.3);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .ticket-title {
+            font-weight: 800;
+            color: #2e7d32;
+            font-size: 1.1rem;
+            margin-left: 8px;
+        }
+
+        .ticket-row {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: flex-start; /* 內容多行時靠上對齊 */
+        }
+
+        .ticket-row:last-child { margin-bottom: 0; }
+
+        .ticket-label {
+            color: #558b2f;
+            font-weight: bold;
+            min-width: 80px;
+            font-size: 0.95rem;
+        }
+
+        .ticket-value {
+            color: #333;
+            font-size: 1rem;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        /* 預約代號特別強調 */
+        .ticket-code {
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: #d32f2f;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        /* --- 行程表上的「已預訂」標籤 --- */
+        .tag-booked {
+            display: inline-block;
+            background-color: #e8f5e9; /* 淺綠底 */
+            color: #2e7d32;            /* 深綠字 */
+            border: 1px solid #c8e6c9; /* 綠色邊框 */
+            font-size: 0.75rem;        /* 字體小一點 */
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: 8px;          /* 與標題保持距離 */
+            font-weight: bold;
+            vertical-align: text-bottom; /* 對齊文字 */
+        }
+        /* --- 預約憑證內的 PDF 按鈕樣式 --- */
+        .ticket-pdf-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;           /* 填滿寬度 */
+            margin-top: 15px;      /* 與上方文字保持距離 */
+            padding: 10px 0;
+            background-color: #fff;
+            color: #d32f2f;        /* PDF 紅色 */
+            border: 2px solid #d32f2f;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+
+        .ticket-pdf-btn:active {
+            background-color: #ffebee; /* 點擊時變淺紅 */
+            transform: translateY(2px);
+        }
+
+        .pdf-icon {
+            margin-right: 8px;
+            font-size: 1.2rem;
         }                                                                                            
     </style>    
 </head>
@@ -1742,7 +1896,12 @@
             ],
             '2025-12-30': [
                 { time: '09:29', title: '前往奈良', locationId: 'loc_move_nara', note: '近鐵京都線' },
-                { time: '10:11', title: '租腳踏車', locationId: 'loc_nara_bike', note: 'NARA Rent-A-Cycle' },
+                { 
+                    time: '10:11', 
+                    title: '租腳踏車', 
+                    locationId: 'loc_nara_bike', 
+                    note: 'NARA Rent-A-Cycle'
+                },
                 { time: '10:30', title: '參觀春日大社', locationId: 'loc_kasuga_taisha', note: '萬燈籠、鹿苑' },
                 // ★★★ 修復：補上 locationId (這裡假設是用柿葉壽司本舖田中) ★★★
                 { time: '11:30', title: '吃午餐 (柿葉壽司)', type: 'food', meal: 'lunch', locationId: 'loc_85', note: '柿葉壽司' },
@@ -1841,8 +2000,7 @@
             ],
             // 錦市場
             'loc_nishiki_market': [
-                { name: '史努比茶屋 抹茶巧克力', image: '', link: '', checked: false },
-                { name: '呼吸巧克力 (各種口味)', image: '', link: '', checked: false }
+                { name: '舞妓咖哩仙貝', image: 'nishikimarket-ocyanokosaisai-shopping-image.jpg', link: 'https://bobbyfun.tw/2024-01-09-2714/', checked: false }
             ],
             // 7-11
             'loc_7-11': [
@@ -1894,7 +2052,8 @@
             ],
             // 下鴨神社
             'loc_shimogamo': [
-                { name: '四季御守', image: 'shimogamo-season-shopping-image.jpg', link: 'https://www.instagram.com/p/C-Y6uShyAUZ/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==', checked: false }
+                { name: '四季御守', image: 'shimogamo-season-shopping-image.jpg', link: 'https://www.instagram.com/p/C-Y6uShyAUZ/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==', checked: false },
+                { name: '相生社戒指御守', image: 'shimogamo-ring-shopping-image.jpg', link: 'https://www.instagram.com/p/DQBL6LFiZ0s/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==', checked: false }
             ],
             // 平等寺
             'loc_inabado': [
@@ -1925,11 +2084,11 @@
             },
             // 3. 個人保險與醫療資訊 (請自行填寫您的資訊)
             personalInfo: {
-                insuranceCompany: '某某產物保險 (範例)',
-                policyNumber: 'Policy-123456789 (請填寫您的保單號碼)',
-                sosPhone: '+886-2-xxxx-xxxx (請填寫保險公司海外救援專線)',
-                medicalNotes: '例如：對盤尼西林過敏、有氣喘史、目前服用藥物...', // 如果沒有可留空
-                bloodType: '例如：A型 Rh陽性' // 選填
+                insuranceCompany: '國泰產險 Cathay Century Insurance Co., Ltd.',
+                policyNumber: '150114TDK386453',
+                sosPhone: '+886-2-2755-1299',
+                medicalNotes: '', // 如果沒有可留空
+                bloodType: 'O型' // 選填
             },
             // 4. 附近醫院 (可事先查詢飯店附近的)
             nearbyHospital: {
@@ -2003,20 +2162,38 @@
             'loc_kodaiji': { title: '高台寺', description: '豐臣秀吉正室寧寧晚年居住的寺院，庭園與竹林非常美麗', hours: '09:00-17:30', note: '拜觀料 ¥600', image: 'kodaiji-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/Umh2Xcn17cBVrEq57', history: '高台寺是豐臣秀吉的正室「北政所」（寧寧），為了替亡夫秀吉祈求冥福，並安度晚年而建立的寺院。在德川家康的資助下，建造了壯麗的殿堂與庭園。寺內大量使用華麗的「高台寺蒔繪」漆器工藝，展現了桃山時代的美術巔峰。寧寧死後也長眠於此。' },
             'loc_gion_walk': { title: '祇園/鴨川散策', description: '寧寧之道，石塀小路，傍晚時分的花見小路有機會巧遇藝妓，鴨川河畔吹風', hours: '24小時', note: '花見小路私有道路禁止拍照', image: 'usagi-gionwalk-image.jpg', googleMapLink: 'https://maps.app.goo.gl/9yv7UGPsFMyPeTuD7', history: '祇園在江戶時代是圍繞著八坂神社發展起來的門前町，後來逐漸演變成日本最大的花街（藝妓區）。花見小路兩側保留了許多江戶時代末期的「町家」茶屋建築，格子窗與竹簾充滿歷史風情。每當黃昏時分，或許能瞥見趕著前往茶屋工作的藝妓或舞妓的優雅身影。' },
             'loc_panel_cafe': { title: 'Panel Cafe Kyoto', rating: '3.6', priceLevel: '¥1,000-2,000', description: '口感蓬鬆的舒芙雷鬆餅，常需排隊', hours: '10:00-17:00', note: '', image: 'panelcafe-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/PFok58hLTnhKRT1QA' },
-            'loc_44': { title: '京燒肉 弘 祇園山名庵', rating: '4.6', priceLevel: '¥6,000-8,000', description: '在傳統町家建築中享用高品質的京丹波平井牛燒肉。', hours: '17:00-23:00', note: '已訂位', googleMapLink: 'maps.google.com/44' },
+            'loc_44': { 
+                title: '京燒肉 弘 祇園山名庵', 
+                rating: '4.2', 
+                priceLevel: '¥6,000-8,000', 
+                description: '在傳統町家建築中享用高品質的京丹波平井牛燒肉', 
+                hours: '17:00-23:00', 
+                note: '已訂位',
+                image: 'kyoyakinickumei-food-image.jpg', 
+                googleMapLink: 'https://maps.app.goo.gl/nwaQWq5x8goMEgC19',
+                booking: {
+                    id: '103808',
+                    date: '2025/12/26',
+                    time: '17:30-20:00',
+                    name: '傅威皓(FU WEI HAO)', // 建議寫上護照拼音
+                    detail: '2 People',
+                    note: '',
+                    pdf: '1226_kyoyakinikumeian-reservation.jpg'
+                } 
+            },
             'loc_bus_back': { title: '搭公車回家', transportRoute: '京都市營巴士 207', transportStart: '四条京阪前', transportEnd: '九条近鐵前', transportCost: '¥230', description: '返回東寺飯店休息。' },
             
             // 12/27
             'loc_bus_to_kinkakuji': { title: '前往金閣寺', transportRoute: '京都市營巴士 205', transportStart: '九条車庫前', transportEnd: '金閣寺道', transportCost: '¥230', description: '車程較長，請預留時間。', googleMapLink: 'https://maps.app.goo.gl/QAKHBhqwzMLFd3ph8' },
-            'loc_kinkakuji': { title: '金閣寺 (鹿苑寺)', description: '金碧輝煌的舍利殿倒映在鏡湖池中，是京都最經典的畫面。', hours: '09:00-17:00', note: '拜觀料 ¥500', image: 'kinkakuji-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/gbJNLyifD33vG6mi6', history: '正式名稱為「鹿苑寺」。這裡原是鎌倉時代貴族的別墅，後來室町幕府第三代將軍足利義滿將其改建為別莊「北山殿」，在他死後依照遺願改為禪寺。著名的「金閣」（舍利殿）外牆貼滿了金箔，完美融合了貴族、武士與禪宗的建築風格。1950年曾遭一名見習僧人縱火焚毀，震驚全日本，作家三島由紀夫以此事件為題材寫成了名作《金閣寺》。現存建築於1955年重建。' },
+            'loc_kinkakuji': { title: '金閣寺 (鹿苑寺)', description: '金碧輝煌的舍利殿倒映在鏡湖池中，是京都最經典的畫面', hours: '09:00-17:00', note: '拜觀料 ¥500', image: 'kinkakuji-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/gbJNLyifD33vG6mi6', history: '正式名稱為「鹿苑寺」。這裡原是鎌倉時代貴族的別墅，後來室町幕府第三代將軍足利義滿將其改建為別莊「北山殿」，在他死後依照遺願改為禪寺。著名的「金閣」（舍利殿）外牆貼滿了金箔，完美融合了貴族、武士與禪宗的建築風格。1950年曾遭一名見習僧人縱火焚毀，震驚全日本，作家三島由紀夫以此事件為題材寫成了名作《金閣寺》。現存建築於1955年重建。' },
             'loc_move_arashiyama_bus': { title: '移動至嵐山 (公車)', transportRoute: '公車 204/205', transportStart: '金閣寺道', transportEnd: '西之京圓町', transportCost: '¥230', description: '轉乘 JR 山陰本線。' },
             'loc_move_arashiyama_jr': { title: '移動至嵐山 (JR)', transportRoute: 'JR 山陰本線', transportStart: '圓町', transportEnd: '嵯峨嵐山', transportCost: '¥190', description: '' },
-            'loc_45': { title: '湯豆腐 嵯峨野', rating: '3.9', priceLevel: '¥3,000-4,000', description: '在日式庭園中享用著名的嵐山湯豆腐料理。', hours: '11:00-17:30', note: '只收現金', googleMapLink: 'googleusercontent.com/maps.google.com/45' },
-            'loc_46': { title: '松籟庵', rating: '4.5', priceLevel: '¥5,000-8,000', description: '位於桂川畔的高級豆腐懷石料理，景色絕佳。', hours: '11:00-15:00', note: '需預約', googleMapLink: 'https://maps.app.goo.gl/hRK9kxamkk926va37' },
-            'loc_47': { title: '嵐山よしむら', rating: '4.2', priceLevel: '¥1,500-2,500', description: '渡月橋旁的人氣蕎麥麵店，窗邊座位景觀好。', hours: '10:30-17:00', note: '', googleMapLink: 'https://maps.app.goo.gl/zJGSLrp4YXNwn66z8' },
-            'loc_48': { title: '自家製麵 嵐山烏龍麵 Ozuru', rating: '4.3', priceLevel: '¥1,500-2,000', description: '麵條Q彈的手打烏龍麵，冷麵/沾麵很受歡迎。', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/PUxizx2cJYdHLbiK8' },
-            'loc_49': { title: '嵐山咖哩', rating: '4.4', priceLevel: '¥1,000-2,000', description: '使用在地食材的家庭風咖哩。', hours: '11:00-21:00', note: '只收現金', googleMapLink: 'https://maps.app.goo.gl/1DAitSqXfUE6DVkz8' },
-            'loc_togetsukyo': { title: '渡月橋/天龍寺', description: '嵐山的地標渡月橋，以及世界文化遺產天龍寺的曹源池庭園。', hours: '天龍寺 08:30-17:00', note: '天龍寺庭園拜觀料 ¥500', image: 'togetsukyo-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/rTshygKMyYfAAbZh7', history: '橫跨桂川的渡月橋是嵐山的象徵。據說龜山上皇在一個明月之夜泛舟賞景時，看到月亮彷彿在渡橋一般緩緩移動，因而詠嘆出「似滿月過橋般」的詩句，從此得名「渡月橋」。現今的橋墩雖是鋼筋水泥重建，但欄杆部分仍採用木材，保留了古樸的風貌，與背後的嵐山景色融為一體。' },
+            'loc_45': { title: '湯豆腐 嵯峨野', rating: '4.3', priceLevel: '¥4,000-5,000', description: '在日式庭園中享用著名的嵐山湯豆腐料理', hours: '11:00-17:30', note: '只收現金', image: 'arashiyama-souptofu-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/5ejwfGyhCsuQYJry5' },
+            'loc_46': { title: '松籟庵', rating: '4.6', priceLevel: '¥5,000-8,000', description: '位於桂川畔的高級豆腐懷石料理，景色絕佳', hours: '11:00-15:00', note: '需預約', image: 'arashiyama-soraian-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/hRK9kxamkk926va37' },
+            'loc_47': { title: '嵐山よしむら', rating: '4.2', priceLevel: '¥2,000-3,000', description: '渡月橋旁的人氣蕎麥麵店，窗邊座位景觀好', hours: '11:00-16:00', note: '', image: 'arashiyama-yoshimura-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/zJGSLrp4YXNwn66z8' },
+            'loc_48': { title: '自家製麵 嵐山烏龍麵 Ozuru', rating: '4.1', priceLevel: '¥1,000-2,000', description: '麵條Q彈的手打烏龍麵，冷麵/沾麵很受歡迎', hours: '11:00-20:00', note: '', image: 'arashiyama-ozuru-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/PUxizx2cJYdHLbiK8' },
+            'loc_49': { title: '嵐山咖哩', rating: '4.7', priceLevel: '¥1,000-2,000', description: '使用在地食材的家庭風咖哩', hours: '11:00-21:00', note: '只收現金', image: 'arashiyama-arashiyamakare-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/1DAitSqXfUE6DVkz8' },
+            'loc_togetsukyo': { title: '渡月橋/天龍寺', description: '嵐山的地標渡月橋，以及世界文化遺產天龍寺的曹源池庭園', hours: '天龍寺 08:30-17:00', note: '天龍寺庭園拜觀料 ¥500', image: 'togetsukyo-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/rTshygKMyYfAAbZh7', history: '橫跨桂川的渡月橋是嵐山的象徵。據說龜山上皇在一個明月之夜泛舟賞景時，看到月亮彷彿在渡橋一般緩緩移動，因而詠嘆出「似滿月過橋般」的詩句，從此得名「渡月橋」。現今的橋墩雖是鋼筋水泥重建，但欄杆部分仍採用木材，保留了古樸的風貌，與背後的嵐山景色融為一體。' },
             
             // 母景點：嵐山神社參拜
             'loc_arashiyama_shrines_parent': {
@@ -2042,16 +2219,34 @@
                     { title: '新八茶屋', hours: '10:00-17:30', note: '獲獎無數的義式冰淇淋', mapLink: 'googleusercontent.com/maps.google.com/154' }
                 ]
             },
-            'loc_sagano_train': { title: '嵯峨野觀光小火車', transportRoute: '觀光小火車', transportStart: '嵐山站', transportEnd: '龜岡站', transportCost: '¥880', description: '沿著保津川峽谷行駛，欣賞沿途風景。建議提前上網預約座位。', googleMapLink: 'maps.google.com/122', history: '嵯峨野觀光小火車利用了這條已經廢棄的舊JR山陰本線鐵軌，改造成觀光路線。復古的車廂沿著保津川峽谷行駛，單程約25分鐘。春天有山櫻、夏天聽蟬鳴與溪流聲、秋天賞滿山紅葉、冬天則是一片銀白世界，四季皆有不同的絕景。特別是沒有窗戶的第5節車廂「富貴號」，能最直接感受峽谷的風光。' },
+            'loc_sagano_train': { 
+                title: '嵯峨野觀光小火車', 
+                transportRoute: '觀光小火車', 
+                transportStart: '嵐山站', 
+                transportEnd: '龜岡站', 
+                transportCost: '¥880', 
+                description: '沿著保津川峽谷行駛，欣賞沿途風景', 
+                googleMapLink: 'maps.google.com/122', 
+                booking: {
+                    id: 'ARS_SAGANO_KANKO-20251202-D6XF',
+                    date: '2025/12/27',
+                    time: '14:05-14:25',
+                    name: '傅威皓(FU WEI HAO)', // 建議寫上護照拼音
+                    detail: '1号車-10C, 10D',
+                    note: 'トロッコ嵐山 - トロッコ亀岡',
+                    pdf: 'arashi-train-ticket.pdf'
+                },
+                history: '嵯峨野觀光小火車利用了這條已經廢棄的舊JR山陰本線鐵軌，改造成觀光路線。復古的車廂沿著保津川峽谷行駛，單程約25分鐘。春天有山櫻、夏天聽蟬鳴與溪流聲、秋天賞滿山紅葉、冬天則是一片銀白世界，四季皆有不同的絕景。特別是沒有窗戶的第5節車廂「富貴號」，能最直接感受峽谷的風光。' 
+            },
             'loc_jr_back_saga': { title: '返回嵐山', transportRoute: 'JR 山陰本線', transportStart: '馬堀駅', transportEnd: '嵯峨嵐山站', transportCost: '¥200', description: '從小火車龜岡站步行約 10 分鐘至 JR 馬堀站轉乘。', googleMapLink: 'maps.google.com/134' },
             'loc_arashiyama_park': { 
                 title: '嵐山公園 (龜山地區)', description: '爬上龜山公園展望台，可以俯瞰保津川和嵐山全景', hours: '24小時', note: '', image: 'arashiyamapark-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/Kei82e9UzBcd7RSN7',
                 pokemon: { characters: '鳳王 (Ho-Oh)', image: './hooh-pokemon-image.png', mapLink: 'https://maps.app.goo.gl/unwr2Bpco8vXZKDe7' },
                 history: '嵐山公園的龜山地區曾是龜山天皇的離宮所在地。公園內有許多小徑，通往高處的展望台。從展望台可以俯瞰保津川在峽谷中蜿蜒流過，以及遠處渡月橋與京都市區的景色。這裡也是周恩來總理留下詩碑「雨中嵐山」的地方。'
             },
-            'loc_51': { title: '嵐山 喜重郎', rating: '4.3', priceLevel: '¥2,000-4,000', description: '在能欣賞庭園的環境中享用和牛便當。', hours: '11:00-20:30', note: '', googleMapLink: 'https://maps.app.goo.gl/5EMr14dzgdEGm7BEA' },
-            'loc_52': { title: 'Upit\'s Burger', rating: '4.2', priceLevel: '¥1,500-2,500', description: '起司像熔岩般流下的視覺系漢堡。', hours: '11:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/eAivCLwpLpY6VdXv7' },
-            'loc_53': { title: 'さがのや', rating: '3.8', priceLevel: '¥1,000-2,000', description: '提供定食、生魚片、蕎麥麵等日式料理。', hours: '17:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/bAp43NZTtaJqjGhr7' },
+            'loc_51': { title: '嵐山 喜重郎', rating: '4.5', priceLevel: '¥3,000-5,000', description: '在能欣賞庭園的環境中享用和牛便當', hours: '11:00-20:30', note: '', image: 'arashiyama-kijurou-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/5EMr14dzgdEGm7BEA' },
+            'loc_52': { title: 'Upit\'s Burger', rating: '4.5', priceLevel: '¥1,000-2,000', description: '起司像熔岩般流下的視覺系漢堡', hours: '11:00-20:00', note: '', image: 'arashiyama-upitsburger-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/eAivCLwpLpY6VdXv7' },
+            'loc_53': { title: 'さがのや', rating: '4.4', priceLevel: '¥1,000-2,000', description: '提供定食、生魚片、蕎麥麵等日式料理', hours: '11:30-14:30, 17:00-22:00', note: '', image: 'arashiyama-saganoya-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/bAp43NZTtaJqjGhr7' },
             'loc_jr_saga_kyoto': { title: '搭JR回京都', transportRoute: 'JR 山陰本線', transportStart: '嵯峨嵐山', transportEnd: '京都車站', transportCost: '¥240', description: '回到京都車站後，再轉乘近鐵回東寺。', googleMapLink: 'maps.google.com/124' },
             
             // 12/28
@@ -2157,7 +2352,7 @@
             'loc_sake_museum': { 
                 title: '清酒體驗', description: '參觀酒造博物館並品嚐新鮮清酒。', hours: '09:30-16:30', note: '', image: 'usagi-sakemuseum-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/XzGNALRvdSCZijJj9',
                 subLocations: [
-                    { title: '月桂冠大倉紀念館', hours: '09:30-16:30', note: '門票¥600 (含試飲及紀念品)', mapLink: 'https://maps.app.goo.gl/6adAepLBzedQGtC19' },
+                    { title: '月桂冠大倉紀念館', hours: '09:30-16:30 12/28-1/4休息', note: '門票¥600 (含試飲及紀念品) ', mapLink: 'https://maps.app.goo.gl/6adAepLBzedQGtC19' },
                     { title: '伏見夢百衆', hours: '10:30-17:00', note: '大正時代建築改建的咖啡廳與伴手禮店', mapLink: 'https://maps.app.goo.gl/XzGNALRvdSCZijJj9' }
                 ]
             },
@@ -2168,7 +2363,24 @@
             
             // 12/30
             'loc_move_nara': { title: '前往奈良', transportRoute: '近鐵京都線 (急行)', transportStart: '東寺站', transportEnd: '近鐵奈良站', transportCost: '¥760', description: '車程約 45-50 分鐘。', googleMapLink: 'https://maps.app.goo.gl/NKT52nTiHCMXZ11SA' },
-            'loc_nara_bike': { title: 'NARA Rent-A-Cycle', description: '租借腳踏車遊覽奈良公園更輕鬆。', hours: '09:00-17:00', note: '普通車¥1000 / 電動車¥2000', image: './narabicycle-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/6P5YGgsdXQKSUGXM7' },
+            'loc_nara_bike': { 
+                title: 'NARA Rent-A-Cycle', 
+                description: '租借腳踏車遊覽奈良公園更輕鬆。', 
+                hours: '09:00-17:00', 
+                note: '普通車¥1000 / 電動車¥2000 / 預約代碼：2R1WdH3dc', 
+                image: './narabicycle-attraction-image.jpg', 
+                googleMapLink: 'https://maps.app.goo.gl/6P5YGgsdXQKSUGXM7',
+                // ★★★ 新增這個 booking 物件 ★★★
+                booking: {
+                    id: '2R1WdH3dc',
+                    date: '2025/12/30',
+                    time: '10:00-11:00',
+                    name: '傅威皓(FU WEI HAO)', // 建議寫上護照拼音
+                    detail: '自行車 x 2',
+                    note: '最慢11點前要到',
+                    pdf: '1230-narabike-reservation.jpg'
+                }
+             },
             'loc_kasuga_taisha': { title: '春日大社', description: '世界文化遺產，夫婦大國社祈求戀愛順利，以參道兩旁的萬燈籠和朱紅色建築聞名', hours: '07:00-17:00', note: '本殿參拜費 ¥700', image: './kasugataisha-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/5pwSYnfaPEvYRmXL9', history: '為了守護平城京（奈良的古都），當時最有權勢的藤原家族於西元768年創建了春日大社。傳說主祭神「武甕槌命」是騎著一頭白鹿從茨城縣的鹿島神宮遠道而來，因此鹿在奈良被視為神的使者而受到保護。神社內掛滿了信徒捐贈的約三千盞燈籠（包含石燈籠與吊燈籠），每年節分與中元節的「萬燈籠」點燈儀式，氣氛夢幻。' },
             'loc_85': { title: '柿葉壽司本舖田中 奈良店', rating: '3.8', priceLevel: '¥1,000-1,500', description: '奈良名產柿葉壽司外帶店。', hours: '08:00-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/8nxYhKMDFndBv2Ds6' },
             'loc_83': { title: '志津香 公園店', rating: '3.8', priceLevel: '¥1,500-2,500', description: '知名釜飯老店，通常需要排隊。', hours: '11:00-15:00', note: '', googleMapLink: 'https://maps.app.goo.gl/sscyYiJhahawiiMo9' },
@@ -2289,11 +2501,11 @@
             'loc_heian_jingu': { title: '平安神宮', description: '擁有巨大的紅色鳥居，紅白色的社殿非常壯觀，非櫻花祭不用進去神苑', hours: '06:00-17:00', note: '神苑門票 ¥600', image: 'heianjingu-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/jat4d7W1jPQNgTHq7', pokemon: { characters: '火球鼠、達摩狒狒', image: 'cyndaquil-pokemon-image.png', mapLink: 'https://maps.app.goo.gl/CRohzKrL62fNYe1u8' }, history: '平安神宮是為了紀念平安遷都1100週年，於1895年創建的。它祭祀著平安京的首位天皇（桓武天皇）和最後一位天皇（孝明天皇）。神社的建築是按原比例縮小重現了平安時代皇宮正廳「朝堂院」的樣貌，朱紅色的柱子與碧綠的瓦頂色彩鮮豔，展現了平安王朝的華麗風格。巨大的紅色鳥居矗立在神宮道上，氣勢非凡。' },
             'loc_nanzenji': { title: '南禪寺', description: '¥600巨大的三門，¥600大方丈小方丈，¥500南禪寺，著名的賞楓景點永觀堂，以及紅磚砌成的水路閣拱橋', hours: '南禪寺 08:40-16:30', note: '', image: 'nanzenji-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/AkoiarETAgfaxqNcA', history: '南禪寺是臨濟宗南禪寺派的大本山，在日本禪宗寺院中擁有最高的地位（京都五山之上）。這裡原是龜山天皇的離宮，後來改為禪寺。著名的「三門」有「天下龍門」之稱，歌舞伎名劇中大盜石川五右衛門登上此門時曾讚嘆「絕景啊！絕景！」。境內還有一座明治時代建造的紅磚拱橋「水路閣」，是為了將琵琶湖水引至京都而建的水利設施，充滿了復古的歐式風情。' },
             'loc_eikando': { title: '永觀堂', description: '放生池，多寶塔，回頭阿密陀佛像', hours: '09:00-16:00', note: '¥600', image: 'eikando-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/neWWUCE7j7CPE6PPA' },
-            'loc_105': { title: 'とよ寿司', rating: '4.3', priceLevel: '¥2,000-4,000', description: '新鮮美味的壽司店。', hours: '11:30-20:00 (週三休)', note: '', googleMapLink: 'https://maps.app.goo.gl/pHdZvGMgd6RUaeJi6' },
-            'loc_106': { title: '味ま野', rating: '4.5', priceLevel: '¥5,000-8,000', description: '正統的京懷石料理。', hours: '11:30-19:00', note: '需預約', googleMapLink: 'https://maps.app.goo.gl/WU3V3XA4iReKaWwD8' },
-            'loc_107': { title: 'Tairikitei', rating: '3.8', priceLevel: '¥1,500-2,500', description: '提供烏龍麵和壽喜燒。', hours: '11:30-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/JYjQpVR8qvHzpQwH6' },
-            'loc_108': { title: 'Gonta', rating: '4.2', priceLevel: '¥1,000-1,500', description: '受歡迎的烏龍麵店。', hours: '11:00-17:30', note: '', googleMapLink: 'https://maps.app.goo.gl/uBsRHaRgLJTgwVRD8' },
-            'loc_109': { title: '京料理 六盛', rating: '4.4', priceLevel: '¥3,000-6,000', description: '老字號的京都料理店，以手桶便當聞名。', hours: '11:30-14:00, 16:00-20:00', note: '', googleMapLink: 'https://maps.app.goo.gl/TcDzttVhWyvkWg2y7' },
+            'loc_105': { title: 'とよ寿司', rating: '4.7', priceLevel: '¥1,000-2,000', description: '新鮮美味的壽司店', hours: '11:30-20:00 (週四、五休)', note: '', image: 'toyosushi-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/pHdZvGMgd6RUaeJi6' },
+            'loc_106': { title: '味ま野', rating: '4.1', priceLevel: '¥1,000-2,000', description: '正統的京懷石料理', hours: '11:30-19:00', note: '需預約', image: 'mizima-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/WU3V3XA4iReKaWwD8' },
+            'loc_107': { title: 'Tairikitei', rating: '4.1', priceLevel: '¥1,000-2,000', description: '提供烏龍麵和壽喜燒', hours: '11:30-20:00', note: '', image: 'tairikitei-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/JYjQpVR8qvHzpQwH6' },
+            'loc_108': { title: 'Gonta', rating: '4.6', priceLevel: '¥1,000-2,000', description: '受歡迎的烏龍麵店', hours: '11:00-18:00', note: '12/31-1/6休息', image: 'gonta-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/uBsRHaRgLJTgwVRD8' },
+            'loc_109': { title: '京料理 六盛', rating: '4.2', priceLevel: '¥3,000-6,000', description: '老字號的京都料理店，以手桶便當聞名', hours: '11:30-14:00, 17:00-21:00', note: '', image: 'kyoryori-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/TcDzttVhWyvkWg2y7' },
             
             // 修改：哲學之道 (改為母景點，包含子景點清單)
             'loc_philosophers_path': { 
@@ -2317,7 +2529,7 @@
             // 修改：銀閣寺參道甜點 (加入 locationId 支援跳轉)
             'loc_ginkakuji_sweets': { 
                 title: '銀閣寺參道甜點', 
-                description: '參道上有許多抹茶甜點和伴手禮店。', 
+                description: '參道上有許多抹茶甜點和伴手禮店', 
                 hours: '約 09:00-17:00', 
                 note: '',
                 image: 'usagi-ginkakujisweets-attraction-image.jpg', 
@@ -2327,11 +2539,11 @@
                     { title: '氵庵 -sanzuian', hours: '08:00-17:30', note: '抹茶拿鐵、咖啡', mapLink: 'https://maps.app.goo.gl/5ox7g2BkkFw8aCAB6' }
                 ]
             },
-            'loc_111': { title: '銀福', rating: '4.0', priceLevel: '¥1,500-2,500', description: '名物鯡魚蕎麥麵。', hours: '11:30-18:00', note: '只收現金', googleMapLink: 'maps.google.com/111' },
-            'loc_112': { title: '義式料理 NOANOA', rating: '4.1', priceLevel: '¥1,500-3,000', description: '哲學之道旁的義式餐廳，有戶外座位。', hours: '11:00-21:00', note: '', googleMapLink: 'googleusercontent.com/maps.google.com/112' },
-            'loc_113': { title: '名代おめん 銀閣寺本店', rating: '4.2', priceLevel: '¥1,500-2,000', description: '著名的烏龍麵老店，特色是搭配大量藥味蔬菜。', hours: '10:30-18:00', note: '', googleMapLink: 'https://maps.app.goo.gl/g6M4Lfw4fD6Az7Qm9' },
-            'loc_114': { title: '京 銀閣寺 八よし', rating: '4.3', priceLevel: '¥2,500-4,000', description: '精緻的京都風定食。', hours: '17:30-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/aLjdos6sjvQ8hJEi7' },
-            'loc_115': { title: '燒肉 花山', rating: '4.0', priceLevel: '¥4,000-6,000', description: '提供優質肉品的燒肉店。', hours: '17:00-22:00', note: '', googleMapLink: 'https://maps.app.goo.gl/Rog8WB9mxz9zHvqT8' },
+            'loc_111': { title: '銀福', rating: '4.7', priceLevel: '¥1,000-2,000', description: '鯡魚飯，鯡魚蕎麥麵', hours: '11:30-18:00', note: '只收現金', image: 'ginfu-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/noeWYxc9xyRed8D16' },
+            'loc_112': { title: '義式料理 NOANOA', rating: '4.1', priceLevel: '¥1,000-3,000', description: '哲學之道旁的義式餐廳，有戶外座位', hours: '11:00-21:00', note: '', image: 'noanoa-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/G6TEZQx9XnrFznZXA' },
+            'loc_113': { title: '名代おめん 銀閣寺本店', rating: '4.3', priceLevel: '¥1,000-2,000', description: '著名的烏龍麵老店，特色是搭配大量藥味蔬菜', hours: '10:30-17:00', note: '', image: 'omenginkakuji-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/g6M4Lfw4fD6Az7Qm9' },
+            'loc_114': { title: '京 銀閣寺 八よし', rating: '4.5', priceLevel: '¥2,000-3,000', description: '精緻的京都風定食', hours: '17:30-22:00 (1/2休息)', note: '', image: 'hachiyoshi-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/aLjdos6sjvQ8hJEi7' },
+            'loc_115': { title: '燒肉 花山', rating: '4.7', priceLevel: '¥4,000-6,000', description: '提供優質肉品的燒肉店', hours: '17:00-22:00', note: '', image: 'yakinickuflowerzen-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/Rog8WB9mxz9zHvqT8' },
             'loc_bus_203_gion': { title: '搭203公車', transportRoute: '京都市營巴士 203', transportStart: '銀閣寺道', transportEnd: '祇園', transportCost: '¥230', description: '回程第一段，前往祇園轉車。', googleMapLink: 'https://maps.app.goo.gl/Rf9RazXzNk3DfKwe8' },
             'loc_bus_207_toji': { title: '轉乘207公車', transportRoute: '京都市營巴士 207', transportStart: '祇園', transportEnd: '九條近鐵前', transportCost: '¥230', description: '回程第二段，返回飯店。', googleMapLink: 'https://maps.app.goo.gl/Rf9RazXzNk3DfKwe8' },
             
@@ -2814,10 +3026,10 @@
                             </div>
 
                             <div v-else 
-                                 class="activity-item" 
-                                 :class="getItemClass(act)"
-                                 @click="goToLocation(act.locationId)">
-                                 
+                                class="activity-item" 
+                                :class="getItemClass(act)"
+                                @click="goToLocation(act.locationId)">
+                                
                                 <div class="activity-time">{{ act.time }}</div>
                                 
                                 <div class="activity-icon">
@@ -2825,13 +3037,17 @@
                                 </div>
 
                                 <div class="activity-info">
-                                    <div class="activity-title">{{ act.title }}</div>
+                                    <div class="activity-title">
+                                        {{ act.title }}
+                                        
+                                        <span v-if="checkIsBooked(act)" class="tag-booked">✓ 已預訂</span>
+                                        </div>
+                                    
                                     <div class="activity-note" v-if="act.note">{{ act.note }}</div>
 
                                     <div v-if="act.subActivities" class="sub-activity-links">
-                                        <div 
-                                            v-for="(sub, subIdx) in act.subActivities" 
-                                            :key="subIdx"
+                                        <div v-for="(sub, subIdx) in act.subActivities" 
+                                            :key="subIdx" 
                                             class="sub-activity-btn"
                                             @click.stop="goToLocation(sub.locationId)">
                                             {{ sub.title }}
@@ -2864,15 +3080,10 @@
             };
 
             const getCategory = (act) => {
-                // 這裡的判斷邏輯可以再優化，但目前先維持原樣
                 const text = (act.title + (act.note || '')).toLowerCase();
-                if (text.includes('寶可夢') || text.includes('人孔蓋') || text.includes('皮卡丘')) {
-                    return 'pokemon';
-                }
+                if (text.includes('寶可夢') || text.includes('人孔蓋') || text.includes('皮卡丘')) return 'pokemon';
                 const transportKeywords = /搭|轉乘|移動|前往|返回|回家|退房|入住|抵達/;
-                if (transportKeywords.test(act.title)) {
-                    return 'transport';
-                }
+                if (transportKeywords.test(act.title)) return 'transport';
                 return 'attraction';
             };
 
@@ -2890,7 +3101,26 @@
                 return '📷';
             };
 
-            return { date, dailyItinerary, goToLocation, goToFood, formatDate, getItemClass, getIcon };
+            // ★★★ 新增：檢查是否有預約的函式 ★★★
+            const checkIsBooked = (act) => {
+                // 1. 如果該行程有 locationId
+                if (act.locationId) {
+                    const locationData = tripData.locations[act.locationId];
+                    // 2. 檢查該地點資料裡是否有 'booking' 物件
+                    if (locationData && locationData.booking) {
+                        return true;
+                    }
+                }
+                // (選用) 如果你在 itineraries 裡直接寫了 booking，也算有
+                if (act.booking) return true;
+                
+                return false;
+            };
+
+            return { 
+                date, dailyItinerary, goToLocation, goToFood, formatDate, 
+                getItemClass, getIcon, checkIsBooked // 記得把 checkIsBooked 傳出去
+            };
         }
     };
 
@@ -3018,15 +3248,54 @@
 
                     <div class="top-tags-container">
                          <span v-if="location.rating" class="big-tag rating-tag">
-                             <span class="big-tag-icon">⭐</span>{{ location.rating }} 評價
+                             <span class="big-tag-icon">⭐</span>{{ location.rating }}
                          </span>
                          <span v-if="location.priceLevel" class="big-tag price-tag">
-                             <span class="big-tag-icon">💰</span>{{ location.priceLevel }} 預算
+                             <span class="big-tag-icon">💰</span>{{ location.priceLevel }}
                          </span>
                          <span v-if="location.transportRoute" class="big-tag transport-tag">
                              <span class="big-tag-icon">{{ location.transportRoute.includes('線') || location.transportRoute.includes('HARUKA') || location.transportRoute.includes('電鐵') ? '🚆' : '🚌' }}</span>
                              {{ location.transportRoute }}
                          </span>
+                    </div>
+
+                    <div v-if="location.booking" class="booking-ticket-large">
+                        <div class="ticket-header">
+                            <span style="font-size: 1.5rem;">🎫</span>
+                            <span class="ticket-title">預約憑證 / 訂位資訊</span>
+                        </div>
+                        <div class="ticket-content">
+                            <div class="ticket-row">
+                                <span class="ticket-label">預約代號</span>
+                                <span class="ticket-value ticket-code">{{ location.booking.id }}</span>
+                            </div>
+                            <div class="ticket-row" v-if="location.booking.date || location.booking.time">
+                                <span class="ticket-label">日期時間</span>
+                                <span class="ticket-value">
+                                    {{ location.booking.date }} {{ location.booking.time }}
+                                </span>
+                            </div>
+                            <div class="ticket-row" v-if="location.booking.name">
+                                <span class="ticket-label">預約姓名</span>
+                                <span class="ticket-value">{{ location.booking.name }}</span>
+                            </div>
+                            <div class="ticket-row" v-if="location.booking.detail">
+                                <span class="ticket-label">預約內容</span>
+                                <span class="ticket-value">{{ location.booking.detail }}</span>
+                            </div>
+                            <div class="ticket-row" v-if="location.booking.note">
+                                <span class="ticket-label">備註事項</span>
+                                <span class="ticket-value" style="color: #d32f2f;">{{ location.booking.note }}</span>
+                            </div>
+                            <div class="ticket-content">
+                                <a v-if="location.booking.pdf" 
+                                :href="location.booking.pdf" 
+                                target="_blank" 
+                                class="ticket-pdf-btn">
+                                    <span class="pdf-icon">📄</span> 開啟預約確認單
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="info-section" style="background: none; padding: 0; margin-top: 10px;">
