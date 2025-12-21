@@ -1847,8 +1847,9 @@
             '2025-12-25': [
                 { time: '14:20', title: '搭飛機出發', locationId: 'loc_kix_go', note: 'CI172 TPE(2)-KIX(1)' },
                 { time: '18:50', title: '前往京都', locationId: 'loc_kyoto_haruka', note: 'HARUKA 關西機場-京都車站' },
-                { time: '20:00', title: '前往東寺', locationId: 'loc_toji_station', note: '京都線 京都車站-東寺站' },
-                { time: '20:30', title: '飯店入住', locationId: 'loc_hotel_toji', note: '京都東寺Era舒適酒店' },
+                { time: '20:10', title: '逛Uniqlo', locationId: 'loc_uniqlo_hachimoru', note: '要買發熱衣' },
+                { time: '20:45', title: '前往東寺', locationId: 'loc_toji_station', note: '京都線 京都車站-東寺站' },
+                { time: '20:50', title: '飯店入住', locationId: 'loc_hotel_toji', note: '京都東寺Era舒適酒店' },
                 // ★★★ 修復：補上 locationId ★★★
                 { time: '20:30', title: '吃晚餐 (馳どり屋)', type: 'food', meal: 'dinner', locationId: 'loc_33', note: '便宜好吃居酒屋' }
             ],
@@ -1996,7 +1997,8 @@
                 // ★★★ 修復：補上 locationId ★★★
                 { time: '17:30', title: '吃晚餐 (Tsukumo)', type: 'food', meal: 'dinner', locationId: 'loc_100', note: '烏龍麵' },
                 { time: '18:30', title: '京都塔', locationId: 'loc_kyoto_tower', note: '欣賞夜景' },
-                { time: '19:30', title: '搭車回家', locationId: 'loc_back_toji_final', note: '京都線 京都車站-東寺站' }
+                { time: '19:30', title: '逛京都車站', locationId: 'loc_kyoto_station', note: '採買各種東西' },
+                { time: '20:30', title: '搭車回家', locationId: 'loc_back_toji_final', note: '京都線 京都車站-東寺站' }
             ],
             '2026-01-02': [
                 { time: '09:00', title: '前往平安神宮', locationId: 'loc_bus_heian', note: '202 九条近鐵前-東山仁王門' },
@@ -2067,7 +2069,8 @@
                 { name: '明治 保加利亞優格', image: '711-meijiborugariayoguruto-shopping-image.jpg', link: 'https://www.instagram.com/reel/DQY5AQGExww/', checked: false },
                 { name: 'YBC 奶油脆餅', image: '711-ybcbatakuranchi-shopping-image.jpg', link: 'https://www.instagram.com/reel/DQY5AQGExww/', checked: false },
                 { name: '7-11 砂糖樹焦糖布蕾', image: '711-mepuruburyure-shopping-image.jpg', link: 'https://www.instagram.com/reel/DQY5AQGExww/', checked: false },
-                { name: '砂糖奶油樹 冰淇淋', image: '711-subarbuttersandtreeice-shopping-image.jpg', link: 'https://www.instagram.com/p/DQy3ICJEyGn/', checked: false }
+                { name: '砂糖奶油樹 冰淇淋', image: '711-subarbuttersandtreeice-shopping-image.jpg', link: 'https://www.instagram.com/p/DQy3ICJEyGn/', checked: false },
+                { name: '吉伊卡哇草莓奶昔', image: '711-chiikawastrawberrysmoothie-food-image.jpg', link: 'https://www.threads.com/@daisy223223/post/DSfWIGXiXhp?xmt=AQF0Fi_h4QJUqtmuFUP3X1tyagyIqJmHpHhhGKrJIDv2Wh973tRWxbnsW56bGHRc8FtE-6iE&slof=1', checked: false }
             ],
             // 全家
             'loc_family': [
@@ -2080,7 +2083,8 @@
                 { name: '閃電泡芙', image: 'family-eclair-shopping-image.jpg', link: 'https://www.instagram.com/reel/DRE8UU5EwrJ/?igsh=MXF4Zmp3dG11YWlqYw%3D%3D', checked: false },
                 { name: '完熟果實美味乾燥蜜柑', image: 'family-kanzyukuzitsu-shopping-image.jpg', link: 'https://www.instagram.com/reel/DRE8UU5EwrJ/?igsh=MXF4Zmp3dG11YWlqYw%3D%3D', checked: false },
                 { name: '贅沢バタークッキー ', image: 'family-zentakubatakukki-shopping-image.jpg', link: 'https://www.instagram.com/reel/DRE8UU5EwrJ/?igsh=MXF4Zmp3dG11YWlqYw%3D%3D', checked: false },
-                { name: '全家炸雞', image: 'family-friedchicken-shopping-image.jpg', link: 'https://www.instagram.com/reel/DRE8UU5EwrJ/?igsh=MXF4Zmp3dG11YWlqYw%3D%3D', checked: false }
+                { name: '全家炸雞', image: 'family-friedchicken-shopping-image.jpg', link: 'https://www.instagram.com/reel/DRE8UU5EwrJ/?igsh=MXF4Zmp3dG11YWlqYw%3D%3D', checked: false },
+                { name: '全家舒芙蕾布丁', image: 'family-sufurepurin-shopping-image.jpg', link: 'https://www.threads.com/@izumiizoe/post/DSeuD87EbAT?xmt=AQF0BizJRwOZikFLTNQ-GMvuMwvMMWkYI8mupboPOYvXvA', checked: false }
             ],
             // Lawson
             'loc_lawson': [
@@ -2092,7 +2096,8 @@
                 { name: 'Suntory 麦茶', image: 'lawson-suntorymugicya-shopping-image.jpg', link: 'https://www.instagram.com/reel/DQGzQgvEzbe/?igsh=MWJtZjRlZWlza3N2MA%3D%3D', checked: false },
                 { name: 'ヒレカツ', image: 'lawson-hirekatsu-shopping-image.jpg', link: 'https://www.instagram.com/reel/DQGzQgvEzbe/?igsh=MWJtZjRlZWlza3N2MA%3D%3D', checked: false },
                 { name: 'OHAYO ジャージー牛乳プリン', image: 'lawson-ohayozyazipurin-shopping-image.jpg', link: 'https://www.instagram.com/reel/DQGzQgvEzbe/?igsh=MWJtZjRlZWlza3N2MA%3D%3D', checked: false },
-                { name: 'pokka sapporo キレートレモン クエン酸2700', image: 'lawson-pokkasapporokiretoremon-shopping-image.jpg', link: 'https://www.threads.com/@ddnotebook/post/DCq_zyHPIie?hl=zh-tw', checked: false }
+                { name: 'pokka sapporo キレートレモン クエン酸2700', image: 'lawson-pokkasapporokiretoremon-shopping-image.jpg', link: 'https://www.threads.com/@ddnotebook/post/DCq_zyHPIie?hl=zh-tw', checked: false },
+                { name: 'Lawson 可麗露', image: 'lawson-coliru-shopping-image.jpg', link: 'https://www.instagram.com/p/DSKhF7lD3C7/', checked: false }
             ],
             // 3coins
             'loc_3coins': [
@@ -2120,7 +2125,8 @@
                 { name: '葛根感冒藥', image: 'default-kurashienohanhoka-shopping-image.jpg', link: 'https://www.instagram.com/p/DSFCRE5kgWY/', checked: false },
                 { name: 'BUFFERIN 頭痛止痛藥', image: 'default-bufferin-shopping-image.jpg', link: 'https://www.instagram.com/p/DSFCRE5kgWY/', checked: false },
                 { name: 'LOXONIN 頭痛止痛藥', image: 'default-loxonin-shopping-image.jpg', link: 'https://www.instagram.com/p/DSFCRE5kgWY/', checked: false },
-                { name: '維他命C', image: 'default-vitaminc-shopping-image.jpg', link: 'https://www.instagram.com/p/DSFCRE5kgWY/', checked: false }
+                { name: '維他命C', image: 'default-vitaminc-shopping-image.jpg', link: 'https://www.instagram.com/p/DSFCRE5kgWY/', checked: false },
+                { name: 'QBB Cheese Dessert', image: 'default-cheesedessert-shopping-image.jpg', link: 'https://kaikk.tw/qbb-cheese/', checked: false }
             ]
         },
 
@@ -2225,10 +2231,11 @@
                     pdf: 'erahotel-reservation.jpg'
                 }
             },
-            'loc_33': { title: '馳どり屋東寺店', rating: '4.1', priceLevel: '¥2,000-3,000', description: '便宜好吃居酒屋', hours: '17:00-00:00', note: '', image: './ekidori-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/GXBMCdt6uD8hjSH17' },
-            'loc_34': { title: '一寸法師', rating: '4.0', priceLevel: '¥2,000-3,000', description: '關東煮', hours: '18:00-23:00', note: '', image: './issunboushi-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/M9evEDVmtbKF3RAC9' },
-            'loc_35': { title: 'てれ屋', rating: '4.3', priceLevel: '¥2,000-3,000', description: '烤串店', hours: '17:30-00:30', note: '只收現金', image: './tereya-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/M1J5B45NpAY4UjeNA' },
-            'loc_36': { title: 'わくわく 東寺店', rating: '4.1', priceLevel: '¥1,000-2,000', description: '家常料理', hours: '17:00-21:00', note: '只收現金', image: './wakuwakutoji-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/c5UGGpHCCunEyxMN7' },
+            'loc_uniqlo_hachimoru': { title: 'UNIQLO 京都站八條口店', rating: '3.9', priceLevel: '¥2,000-3,000', description: '就是Uniqlo', hours: '09:00-21:00', note: '要記得買發熱衣', image: 'uniqlo-hachikyoto-image.jpg', googleMapLink: 'https://maps.app.goo.gl/yUcTC848stBigruN6' },
+            'loc_33': { title: '馳どり屋東寺店', rating: '4.1', priceLevel: '¥2,000-3,000', description: '便宜好吃居酒屋', hours: '17:00-00:00', note: '', image: 'ekidori-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/GXBMCdt6uD8hjSH17' },
+            'loc_34': { title: '一寸法師', rating: '4.0', priceLevel: '¥2,000-3,000', description: '關東煮', hours: '18:00-23:00', note: '', image: 'issunboushi-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/M9evEDVmtbKF3RAC9' },
+            'loc_35': { title: 'てれ屋', rating: '4.3', priceLevel: '¥2,000-3,000', description: '烤串店', hours: '17:30-00:30', note: '只收現金', image: 'tereya-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/M1J5B45NpAY4UjeNA' },
+            'loc_36': { title: 'わくわく 東寺店', rating: '4.1', priceLevel: '¥1,000-2,000', description: '家常料理', hours: '17:00-21:00', note: '只收現金', image: 'wakuwakutoji-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/c5UGGpHCCunEyxMN7' },
             'loc_37': { title: 'サムラト', rating: '4.9', priceLevel: '¥1,000-2,000', description: '印度料理', hours: '17:00-22:30', note: '', image: 'samrat-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/t25iafRsUnLSQxyg9' },
             
             // 12/26
@@ -2635,8 +2642,12 @@
                 title: '四条河原町逛街', description: '京都最熱鬧的購物區，百貨公司與品牌店林立', hours: '百貨約 10:00-20:00', note: '', image: 'usagi-shijoshopping-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/Hv7YNNhLP8u1u7Mo8',
                 subLocations: [
                     { title: 'Kiddy Land (京都四條河原町店)', hours: '11:00-21:00', note: '有吉伊卡哇、寶可夢等角色周邊', mapLink: 'https://maps.app.goo.gl/SMveNS3oXqCep3aD9' },
+                    { title: '京都高島屋 S.C.', hours: '10:00-20:00', note: '大型百貨公司(12/31營業至18:00)', mapLink: 'https://maps.app.goo.gl/Hv7YNNhLP8u1u7Mo8' },
                     { title: 'Nintendo Kyoto (高島屋S.C.)', hours: '10:00-20:00', note: '7F，任天堂直營旗艦店', mapLink: 'https://maps.app.goo.gl/Hv7YNNhLP8u1u7Mo8' },
-                    { title: '京都高島屋 S.C.', hours: '10:00-20:00', note: '大型百貨公司(12/31營業至18:00)', mapLink: 'https://maps.app.goo.gl/Hv7YNNhLP8u1u7Mo8' }
+                    { title: '小倉山莊 京都高島屋店', hours: '10:00-20:00', note: 'B1，好吃的仙貝', mapLink: 'https://maps.app.goo.gl/TW2PG5pot51J9RUo9' },
+                    { title: '寶可夢中心京都店', hours: '10:00-20:00', note: '新品買起來', mapLink: 'https://maps.app.goo.gl/RCxGku85Cx6LXBbF8' },
+                    { title: '寺町京極商店街', hours: '10:00-20:00', note: '老街', mapLink: 'https://maps.app.goo.gl/UhRiCBp2vp8fZbyq7' },
+                    { title: '錦天滿宮', hours: '08:00-20:00', note: '祈求學業的神社', mapLink: 'https://maps.app.goo.gl/fPdotw1sQHo4VQoM6' }
                 ]
             },
             'loc_inabado': { title: '平等寺 (因幡堂)', description: '以祈求健康和可愛的「貓咪御守」聞名，愛貓人士必訪', hours: '06:00-17:00', note: '', image: 'inabado-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/FHohmQ8v2HdBA6wV6', history: '這座寺院正式名稱為「平等寺」，因位於因幡藥師通而通稱「因幡堂」。創建於平安時代，主祀藥師如來，以祈求治療癌症和其他疑難雜症聞名。近年來，這裡因為推出了上面繡著可愛貓咪圖案的「無病守」（祈求無病息災）而爆紅，成為愛貓人士的聖地。' },
@@ -2697,6 +2708,25 @@
             'loc_102': { title: '壽司・和食 Ganko 京都車站大樓店', rating: '3.7', priceLevel: '¥1,500-3,000', description: '方便美味的日式料理連鎖店', hours: '11:00-23:00', note: '', image: 'sushigankokyotostation-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/N463h4ntdKtwPqZr6' },
             'loc_103': { title: 'Pub & Grill 7 TAPS TAVERN', rating: '4.4', priceLevel: '¥2,000-3,000', description: '提供精釀啤酒和燒烤料理的餐酒館', hours: '11:00-00:00', note: '', image: 'pubgrill7taps-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/hRMrNHbgXPUtfjbE6' },
             'loc_104': { title: '原始炭焼き 濱いち 京都駅前店', rating: '4.5', priceLevel: '¥4,000-6,000', description: '主打海鮮炭火燒烤的居酒屋', hours: '17:00-00:00', note: '', image: 'sukiyakiichi-food-image.jpg', googleMapLink: 'https://maps.app.goo.gl/DcbweGQapgSy9FKo8' },
+            'loc_kyoto_station': { 
+                title: '京都車站', 
+                description: '京都車站，週遭很多商店', 
+                hours: '各家商店不一樣', 
+                note: '', 
+                image: 'kyotostation-attraction-image.jpg', 
+                googleMapLink: 'https://maps.app.goo.gl/B3Giw5XEhjnyXMyJ7',
+                subLocations: [
+                    { title: 'UNIQLO 京都站八條口店', hours: '09:00-21:00', note: '平價服飾', mapLink: 'https://maps.app.goo.gl/eQGPULzu1yitKjjF8' },
+                    { title: 'UNIQLO 京都Yodobashi店', hours: '10:00-22:00', note: '平價服飾', mapLink: 'https://maps.app.goo.gl/6WePD5qj3XYiywycA' },
+                    { title: '3COINS - Kyoto Porta', hours: '11:00-20:30', note: '各種小物', mapLink: 'https://maps.app.goo.gl/WnhAKUkbfCcgu4jf6' },
+                    { title: '3COINS+plus イオンモールKYOTO店', hours: '10:00-21:00', note: '各種小物', mapLink: 'https://maps.app.goo.gl/fYTazsP4xiUKFfzw6' },
+                    { title: '小倉山莊 JR京都伊勢丹店', hours: '10:00-20:00', note: '好吃仙貝', mapLink: 'https://maps.app.goo.gl/jL7V6pn4xC7hNdBJA' },
+                    { title: '京都Porta', hours: '10:00-20:30', note: '地下購物中心', mapLink: 'https://maps.app.goo.gl/7uicw7weBYZdKYug7' },
+                    { title: 'AEON MALL KYOTO', hours: '10:00-21:00', note: '百貨公司', mapLink: 'https://maps.app.goo.gl/v3D9uSHT2TvyvNGN7' },
+                    { title: '京都yodobashi', hours: '10:00-21:00', note: '知名的友都八喜', mapLink: 'https://maps.app.goo.gl/FqEzDJZRxcZ7FZ1z7' },
+                    { title: '京都AVANTI', hours: '10:00-21:00', note: '購物中心，有唐吉軻德', mapLink: 'https://maps.app.goo.gl/wX1nh9ZNZyTdkmUbA' },
+                ]
+            },
             'loc_kyoto_tower': { title: '京都塔', description: '京都地標，可上展望台欣賞夜景，樓下有商場和美食街', hours: '展望台 10:00-21:00', note: '入場費 ¥900', image: 'kyototower-attraction-image.jpg', googleMapLink: 'https://maps.app.goo.gl/8zjomrjWcjr5qAYLA', history: '京都塔為了配合1964年東京奧運的舉辦，並作為京都車站前的地標而建造。它的造型獨特，設計靈感來自於照亮京都盆地這座沒有海的城市的「燈塔」。塔高131公尺，是京都市內最高的建築物。雖然在古都建造現代化高塔曾引起爭議，但如今它已成為京都車站前不可或缺的象徵性景觀。' },
             'loc_back_toji_final': { title: '搭車回家', transportRoute: '近鐵京都線', transportStart: '京都車站', transportEnd: '東寺站', transportCost: '¥180', description: '結束新年第一天的行程。', googleMapLink: 'https://maps.app.goo.gl/VmxLWyzRD5ykKpbp9' },
             
